@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RÖST — People are more than pictures</title>
+
+    <meta
+      name="description"
+      content="A voice-first social platform. Hear people before you see them. Launching in London."
+    />
+    <meta name="theme-color" content="#081E1E" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+
+    <!-- Sharing. A link to a holding page still gets pasted into a group chat,
+         and the preview is the first impression most people get. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="RÖST" />
+    <meta property="og:description" content="People are more than pictures. Launching in London." />
+    <meta property="og:image" content="/assets/icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* The brand board's palette, verbatim. */
+      :root {
+        --deep-teal: #081e1e;
+        --near-black: #101817;
+        --acid: #e6ff4d;
+        --mint: #9fe3d3;
+        --ivory: #f7f7f1;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: var(--deep-teal);
+        color: var(--ivory);
+        font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(28px, 6vh, 56px);
+        padding: 32px 24px;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      /* A glow behind everything, the same near-black to deep-teal wash the
+         app's artwork sits on. Flat black made the wordmark look pasted on. */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(60% 50% at 50% 42%, rgba(159, 227, 211, 0.1), transparent 70%),
+          radial-gradient(90% 60% at 50% 100%, rgba(8, 30, 30, 0.9), var(--near-black));
+        z-index: -1;
+      }
+
+      .wordmark {
+        width: min(440px, 76vw);
+        height: auto;
+        display: block;
+      }
+
+      .tagline {
+        margin: 0;
+        font-size: clamp(11px, 2.6vw, 14px);
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ivory);
+        opacity: 0.86;
+      }
+
+      /* The signature. Every waveform in the product is a measured recording
+         rather than decoration, so this one is at least honest about being a
+         pattern: it never claims to be anybody's voice. */
+      .wave {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 72px;
+        width: min(520px, 84vw);
+      }
+
+      /* Each bar keeps its own height and is only ever scaled around it, so
+         the shape stays an envelope rather than becoming a pattern. The first
+         attempt gave every bar the same height and mirrored the delays, which
+         drew a bow tie. */
+      .wave span {
+        flex: 1;
+        max-width: 5px;
+        height: var(--h);
+        border-radius: 3px;
+        background: linear-gradient(180deg, var(--acid), var(--mint));
+        transform-origin: center;
+        animation: speak 2400ms ease-in-out infinite;
+        animation-delay: var(--d);
+      }
+
+      @keyframes speak {
+        0%,
+        100% {
+          transform: scaleY(0.72);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      .status {
+        margin: 0;
+        font-size: clamp(16px, 3.4vw, 20px);
+        font-weight: 700;
+        color: var(--acid);
+        letter-spacing: 0.01em;
+      }
+
+      .note {
+        margin: 10px 0 0;
+        font-size: clamp(13px, 2.8vw, 15px);
+        font-weight: 500;
+        color: var(--mint);
+        opacity: 0.8;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--ivory);
+        opacity: 0.4;
+      }
+
+      /* Somebody who has asked their system to stop animations has asked for
+         a reason, and a holding page is not worth overriding that for. */
+      @media (prefers-reduced-motion: reduce) {
+        .wave span {
+          animation: none;
+          opacity: 0.9;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <img class="wordmark" src="/assets/wordmark.png" alt="RÖST" />
+
+    <p class="tagline">People are more than pictures.</p>
+
+    <!-- Decorative, and said so: a screen reader announcing twenty-one empty
+         elements is worse than silence. -->
+    <div class="wave" aria-hidden="true">
+      <span style="--h: 8%; --d: 0ms"></span>
+      <span style="--h: 14%; --d: 70ms"></span>
+      <span style="--h: 11%; --d: 140ms"></span>
+      <span style="--h: 22%; --d: 210ms"></span>
+      <span style="--h: 34%; --d: 280ms"></span>
+      <span style="--h: 27%; --d: 350ms"></span>
+      <span style="--h: 46%; --d: 420ms"></span>
+      <span style="--h: 62%; --d: 490ms"></span>
+      <span style="--h: 51%; --d: 560ms"></span>
+      <span style="--h: 73%; --d: 630ms"></span>
+      <span style="--h: 88%; --d: 700ms"></span>
+      <span style="--h: 69%; --d: 770ms"></span>
+      <span style="--h: 96%; --d: 840ms"></span>
+      <span style="--h: 78%; --d: 910ms"></span>
+      <span style="--h: 100%; --d: 980ms"></span>
+      <span style="--h: 84%; --d: 1050ms"></span>
+      <span style="--h: 92%; --d: 1120ms"></span>
+      <span style="--h: 66%; --d: 1190ms"></span>
+      <span style="--h: 80%; --d: 1260ms"></span>
+      <span style="--h: 57%; --d: 1330ms"></span>
+      <span style="--h: 71%; --d: 1400ms"></span>
+      <span style="--h: 44%; --d: 1470ms"></span>
+      <span style="--h: 58%; --d: 1540ms"></span>
+      <span style="--h: 36%; --d: 1610ms"></span>
+      <span style="--h: 49%; --d: 1680ms"></span>
+      <span style="--h: 28%; --d: 1750ms"></span>
+      <span style="--h: 38%; --d: 1820ms"></span>
+      <span style="--h: 20%; --d: 1890ms"></span>
+      <span style="--h: 29%; --d: 1960ms"></span>
+      <span style="--h: 15%; --d: 2030ms"></span>
+      <span style="--h: 19%; --d: 2100ms"></span>
+      <span style="--h: 10%; --d: 2170ms"></span>
+    </div>
+
+    <div>
+      <p class="status">Coming soon</p>
+      <p class="note">Launching in London.</p>
+    </div>
+
+    <footer>&copy; RÖST</footer>
+  </body>
+</html>
