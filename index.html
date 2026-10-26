@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RÖST — People are more than pictures</title>
+    <title>RÖST. Less scrolling. More listening.</title>
 
     <meta
       name="description"
       content="A voice-first social platform. Hear people before you see them. Launching in London."
     />
-    <meta name="theme-color" content="#081E1E" />
+    <meta name="theme-color" content="#040B0A" />
     <link rel="icon" href="/assets/icon.png" />
     <link rel="apple-touch-icon" href="/assets/icon.png" />
 
@@ -17,203 +17,603 @@
          and the preview is the first impression most people get. -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="RÖST" />
-    <meta property="og:description" content="People are more than pictures. Launching in London." />
+    <meta property="og:description" content="Less scrolling. More listening. A voice-first social platform, launching in London." />
     <meta property="og:image" content="/assets/icon.png" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
 
     <style>
-      /* The brand board's palette, verbatim. */
-      :root {
-        --deep-teal: #081e1e;
-        --near-black: #101817;
-        --acid: #e6ff4d;
-        --mint: #9fe3d3;
-        --ivory: #f7f7f1;
+      :root{
+        --ground:#040B0A;
+        --surface:#0A1311;
+        --edge:#1B2724;
+        --lime:#E6FF4D;
+        --aqua:#37DCCB;
+        --ink:#101817;
+        --text:#F7F7F1;
+        --muted:#A9BDB8;
+        --dim:#78837F;
+        --pad:clamp(22px,5vw,72px);
+        --util:0.6875rem;
+        --maxw:1320px;
+      }
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+      body{
+        margin:0;background:var(--ground);color:var(--text);
+        font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+        font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+        overflow-x:hidden;
+      }
+      img{display:block;max-width:100%}
+      ::selection{background:var(--lime);color:var(--ink)}
+      :focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+      [hidden]{display:none!important}
+
+      .util{font-size:var(--util);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;line-height:1.4}
+      .shell{max-width:var(--maxw);margin:0 auto;width:100%}
+      h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;margin:0}
+
+      /* ===================== hero ===================== */
+      .hero{
+        position:relative;overflow:hidden;
+        min-height:min(78vh,780px);
+        display:flex;flex-direction:column;
+        padding:clamp(20px,2.6vw,34px) var(--pad) clamp(34px,3.6vw,52px);
+        border-bottom:1px solid var(--edge);
+      }
+      .hero .shell{display:flex;flex-direction:column;flex:1}
+      .brand{display:flex;flex-direction:column;gap:12px;position:relative;z-index:3}
+      .wordmark{width:clamp(180px,17vw,260px);height:auto}
+      .brand .tagline{margin:0;color:var(--text);opacity:0.9}
+
+      .hero-copy{
+        position:relative;z-index:3;
+        margin-top:clamp(28px,5vw,74px);
+      }
+      .hero-copy h1{
+        font-size:clamp(2.6rem,5.4vw,4.5rem);
+        line-height:0.98;letter-spacing:-0.035em;
+        margin:0 0 clamp(18px,2vw,26px);max-width:11ch;
+        /* No background. The ribbon runs behind the words and out of them. */
+      }
+      .hero-copy p{
+        margin:0 0 clamp(26px,3vw,38px);
+        color:var(--muted);font-size:clamp(1rem,1.2vw,1.125rem);
+        max-width:36ch;
+      }
+      .btn-ghost{
+        display:inline-flex;align-items:center;gap:13px;
+        appearance:none;background:none;border:1px solid var(--lime);border-radius:6px;
+        color:var(--lime);font-family:Inter,sans-serif;
+        font-size:var(--util);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+        padding:17px 28px;cursor:pointer;
+      }
+      .btn-ghost:hover{background:rgba(230,255,77,0.08)}
+      .btn-ghost svg{width:12px;height:12px;flex:none}
+
+      /* The hero artwork is the recording ribbon, ported from the app's
+         src/components/recording-wave.tsx. The app's video backdrop is parked
+         just below, commented out rather than removed.
+
+         It is a layer rather than a grid cell: hard to the right edge of the
+         window, running behind the headline and out of it, and masked away
+         before it reaches the left margin. It is still 40% opaque at 18%
+         across, which is about the middle of the word "social", and gone by
+         5%. The ramp ends at 32% so the sweep's lime, which sits at 36%, is
+         not dimmed by the fade it is supposed to be clear of. */
+      .hero-art{
+        position:absolute;z-index:1;pointer-events:none;
+        left:0;right:0;top:16%;bottom:-8%;
+        -webkit-mask-image:linear-gradient(to right,
+          rgba(0,0,0,0) 5%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,1) 32%, rgba(0,0,0,1) 100%);
+        mask-image:linear-gradient(to right,
+          rgba(0,0,0,0) 5%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,1) 32%, rgba(0,0,0,1) 100%);
+      }
+      .hero-art canvas{
+        position:absolute;inset:0;width:100%;height:100%;display:block;
+        pointer-events:none;
       }
 
-      * {
-        box-sizing: border-box;
+      /* Parked with the video above. The backdrop is portrait, 712 by 1536,
+         and its bright band sits about 29 per cent down, so a centred crop
+         finds only the dark middle and the window has to be pulled up to
+         meet the wave. With the video back, the ribbon fades in over it only
+         while a voice is playing.
+
+      .hero-art video{
+        position:absolute;inset:0;width:100%;height:100%;display:block;
+        object-fit:cover;object-position:center 20%;
+      }
+      .hero-art canvas{opacity:0;transition:opacity 320ms ease;mix-blend-mode:screen}
+      .hero-art[data-speaking="true"] canvas{opacity:1}
+      */
+      .scroll-cue{
+        display:flex;flex-direction:column;align-items:center;gap:7px;
+        margin:clamp(28px,3.4vw,44px) auto 0;width:fit-content;
+        position:relative;z-index:3;
+      }
+      .hero .scroll-cue{margin-top:auto}
+      .scroll-cue .mouse{
+        width:22px;height:34px;border:1px solid var(--dim);border-radius:11px;
+        display:flex;justify-content:center;padding-top:6px;
+      }
+      .scroll-cue .dot{width:2px;height:6px;border-radius:1px;background:var(--muted)}
+      .scroll-cue .tail{width:1px;height:14px;background:linear-gradient(var(--dim),transparent)}
+
+      /* ===================== three parts ===================== */
+      .parts{padding:clamp(56px,7vw,104px) var(--pad);border-bottom:1px solid var(--edge)}
+      .parts .eyebrow{color:var(--dim);margin:0 0 clamp(14px,1.6vw,20px)}
+      .parts h2{
+        font-size:clamp(1.9rem,4vw,3.3rem);line-height:1.02;letter-spacing:-0.035em;
+        margin:0 0 10px;
+      }
+      .parts .sub{margin:0 0 clamp(32px,4vw,56px);color:var(--dim);font-size:clamp(1.1rem,1.8vw,1.5rem);font-family:"Space Grotesk",Inter,sans-serif;font-weight:500}
+
+      .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,1.8vw,28px)}
+      .card{
+        display:flex;flex-direction:column;
+        background:var(--surface);border:1px solid var(--edge);border-radius:12px;
+        padding:clamp(22px,2vw,30px) clamp(22px,2vw,30px) 0;
+        overflow:hidden;
+      }
+      .badge{
+        width:54px;height:54px;border-radius:50%;
+        background:rgba(230,255,77,0.09);
+        display:flex;align-items:center;justify-content:center;
+        margin-bottom:clamp(20px,2vw,28px);
+      }
+      .badge svg{width:24px;height:24px;stroke:var(--lime);fill:none;stroke-width:1.7;
+                 stroke-linecap:round;stroke-linejoin:round}
+      .card h3{font-size:clamp(1.25rem,1.7vw,1.5rem);letter-spacing:-0.02em;margin:0 0 7px}
+      .card .lede{
+        margin:0 0 12px;color:var(--text);font-family:"Space Grotesk",Inter,sans-serif;
+        font-weight:500;font-size:1.0625rem;line-height:1.3;
+      }
+      .card p.body{margin:0;color:var(--muted);font-size:0.9375rem;line-height:1.6}
+      .card .cardwave{
+        display:block;width:calc(100% + 2 * clamp(22px,2vw,30px));
+        height:clamp(96px,8vw,116px);object-fit:cover;
+        margin:clamp(22px,2.4vw,32px) calc(-1 * clamp(22px,2vw,30px)) 0;
       }
 
-      html,
-      body {
-        height: 100%;
-      }
-
-      body {
-        margin: 0;
-        background: var(--deep-teal);
-        color: var(--ivory);
-        font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: clamp(28px, 6vh, 56px);
-        padding: 32px 24px;
-        text-align: center;
-        overflow: hidden;
-      }
-
-      /* A glow behind everything, the same near-black to deep-teal wash the
-         app's artwork sits on. Flat black made the wordmark look pasted on. */
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
+      /* ===================== waitlist ===================== */
+      .waitlist{position:relative;overflow:hidden;padding:clamp(56px,7vw,104px) var(--pad)}
+      .waitlist::before{
+        content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
         background:
-          radial-gradient(60% 50% at 50% 42%, rgba(159, 227, 211, 0.1), transparent 70%),
-          radial-gradient(90% 60% at 50% 100%, rgba(8, 30, 30, 0.9), var(--near-black));
-        z-index: -1;
+          radial-gradient(70% 120% at 88% 108%, rgba(230,255,77,0.20), transparent 62%),
+          radial-gradient(90% 140% at 70% 120%, rgba(55,220,203,0.10), transparent 70%);
       }
+      .waitlist .shell{position:relative;z-index:1}
+      .waitlist .eyebrow{color:var(--dim);margin:0 0 clamp(12px,1.4vw,18px)}
+      .waitlist h2{font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.02;letter-spacing:-0.035em;margin:0 0 14px}
+      .waitlist p{margin:0 0 clamp(24px,2.8vw,34px);color:var(--muted);max-width:44ch}
 
-      .wordmark {
-        width: min(440px, 76vw);
-        height: auto;
-        display: block;
+      form{display:flex;gap:12px;flex-wrap:wrap;max-width:640px}
+      input[type=email]{
+        flex:1 1 280px;min-width:0;
+        background:rgba(4,11,10,0.72);border:1px solid var(--edge);border-radius:6px;
+        color:var(--text);font:inherit;font-size:1rem;padding:17px 18px;
       }
-
-      .tagline {
-        margin: 0;
-        font-size: clamp(11px, 2.6vw, 14px);
-        font-weight: 500;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--ivory);
-        opacity: 0.86;
+      input[type=email]::placeholder{color:var(--dim)}
+      input[type=email]:focus{outline:none;border-color:var(--lime)}
+      .btn-solid{
+        appearance:none;border:0;border-radius:6px;background:var(--lime);color:var(--ink);
+        font-family:Inter,sans-serif;font-size:var(--util);font-weight:700;
+        letter-spacing:0.2em;text-transform:uppercase;padding:17px 32px;cursor:pointer;
       }
+      .btn-solid:hover{background:#fff}
+      .said{margin:16px 0 0;color:var(--lime);font-size:0.9375rem}
+      .said:empty{margin:0}
 
-      /* The signature. Every waveform in the product is a measured recording
-         rather than decoration, so this one is at least honest about being a
-         pattern: it never claims to be anybody's voice. */
-      .wave {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        height: 72px;
-        width: min(520px, 84vw);
+      /* ===================== footer ===================== */
+      footer{padding:clamp(30px,3.4vw,46px) var(--pad);border-top:1px solid var(--edge)}
+      .foot-top{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;align-items:flex-start}
+      .links{display:flex;gap:24px;flex-wrap:wrap}
+      .links a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--edge);padding-bottom:3px}
+      .links a:hover{color:var(--lime);border-bottom-color:var(--lime)}
+      .foot-rule{height:1px;background:var(--edge);margin:clamp(22px,2.6vw,32px) 0 18px}
+      .foot-note{color:var(--dim);font-size:0.8125rem;max-width:70ch;margin:0}
+      .foot-note + .foot-note{margin-top:8px}
+      code{font-size:0.9em;color:var(--muted)}
+
+      /* ===================== responsive ===================== */
+      @media (max-width:1040px){
+        .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
       }
-
-      /* Each bar keeps its own height and is only ever scaled around it, so
-         the shape stays an envelope rather than becoming a pattern. The first
-         attempt gave every bar the same height and mirrored the delays, which
-         drew a bow tie. */
-      .wave span {
-        flex: 1;
-        max-width: 5px;
-        height: var(--h);
-        border-radius: 3px;
-        background: linear-gradient(180deg, var(--acid), var(--mint));
-        transform-origin: center;
-        animation: speak 2400ms ease-in-out infinite;
-        animation-delay: var(--d);
+      @media (max-width:760px){
+        .cards{grid-template-columns:1fr;gap:16px}
+        .card .cardwave{height:clamp(90px,16vw,120px)}
       }
-
-      @keyframes speak {
-        0%,
-        100% {
-          transform: scaleY(0.72);
-          opacity: 0.7;
-        }
-        50% {
-          transform: scaleY(1);
-          opacity: 1;
-        }
+      @media (max-width:900px){
+        .hero{min-height:auto}
+        .hero-copy{margin-top:clamp(26px,7vw,48px)}
+        .hero-copy h1{max-width:14ch;font-size:clamp(2.4rem,9vw,3.4rem)}
+        .hero-copy p{max-width:46ch}
+        /* Narrow enough that the words sit over the band rather than beside
+           it, so the band steps back to keep them readable. */
+        .hero-art{top:28%;bottom:-4%;opacity:0.5}
+        .scroll-cue{display:none}
       }
-
-      .status {
-        margin: 0;
-        font-size: clamp(16px, 3.4vw, 20px);
-        font-weight: 700;
-        color: var(--acid);
-        letter-spacing: 0.01em;
-      }
-
-      .note {
-        margin: 10px 0 0;
-        font-size: clamp(13px, 2.8vw, 15px);
-        font-weight: 500;
-        color: var(--mint);
-        opacity: 0.8;
-      }
-
-      footer {
-        position: fixed;
-        bottom: 20px;
-        left: 0;
-        right: 0;
-        font-size: 12px;
-        letter-spacing: 0.08em;
-        color: var(--ivory);
-        opacity: 0.4;
-      }
-
-      /* Somebody who has asked their system to stop animations has asked for
-         a reason, and a holding page is not worth overriding that for. */
-      @media (prefers-reduced-motion: reduce) {
-        .wave span {
-          animation: none;
-          opacity: 0.9;
-        }
+      @media (max-width:520px){
+        .btn-ghost,.btn-solid{width:100%;justify-content:center}
+        form{flex-direction:column}
       }
     </style>
   </head>
 
   <body>
-    <img class="wordmark" src="/assets/wordmark.png" alt="RÖST" />
+    <section class="hero">
+      <div class="hero-art">
+        <!-- Parked, not deleted. The app's own backdrop, BACKDROP.dark in
+             src/design/artwork.ts. Uncomment this and the two matching
+             rules in the stylesheet to bring it back.
 
-    <p class="tagline">People are more than pictures.</p>
+        <video id="backdrop" poster="/assets/discover_header.png" muted loop playsinline
+               preload="metadata" aria-hidden="true">
+          <source src="/assets/bg_wave.mp4" type="video/mp4">
+        </video>
+        -->
+        <canvas id="ribbon" aria-hidden="true"></canvas>
+      </div>
 
-    <!-- Decorative, and said so: a screen reader announcing twenty-one empty
-         elements is worse than silence. -->
-    <div class="wave" aria-hidden="true">
-      <span style="--h: 8%; --d: 0ms"></span>
-      <span style="--h: 14%; --d: 70ms"></span>
-      <span style="--h: 11%; --d: 140ms"></span>
-      <span style="--h: 22%; --d: 210ms"></span>
-      <span style="--h: 34%; --d: 280ms"></span>
-      <span style="--h: 27%; --d: 350ms"></span>
-      <span style="--h: 46%; --d: 420ms"></span>
-      <span style="--h: 62%; --d: 490ms"></span>
-      <span style="--h: 51%; --d: 560ms"></span>
-      <span style="--h: 73%; --d: 630ms"></span>
-      <span style="--h: 88%; --d: 700ms"></span>
-      <span style="--h: 69%; --d: 770ms"></span>
-      <span style="--h: 96%; --d: 840ms"></span>
-      <span style="--h: 78%; --d: 910ms"></span>
-      <span style="--h: 100%; --d: 980ms"></span>
-      <span style="--h: 84%; --d: 1050ms"></span>
-      <span style="--h: 92%; --d: 1120ms"></span>
-      <span style="--h: 66%; --d: 1190ms"></span>
-      <span style="--h: 80%; --d: 1260ms"></span>
-      <span style="--h: 57%; --d: 1330ms"></span>
-      <span style="--h: 71%; --d: 1400ms"></span>
-      <span style="--h: 44%; --d: 1470ms"></span>
-      <span style="--h: 58%; --d: 1540ms"></span>
-      <span style="--h: 36%; --d: 1610ms"></span>
-      <span style="--h: 49%; --d: 1680ms"></span>
-      <span style="--h: 28%; --d: 1750ms"></span>
-      <span style="--h: 38%; --d: 1820ms"></span>
-      <span style="--h: 20%; --d: 1890ms"></span>
-      <span style="--h: 29%; --d: 1960ms"></span>
-      <span style="--h: 15%; --d: 2030ms"></span>
-      <span style="--h: 19%; --d: 2100ms"></span>
-      <span style="--h: 10%; --d: 2170ms"></span>
-    </div>
+      <div class="shell">
+        <div class="brand">
+          <img class="wordmark" src="/assets/wordmark.png" alt="RÖST" width="420" height="111">
+          <p class="tagline util">Less scrolling. More listening.</p>
+        </div>
 
-    <div>
-      <p class="status">Coming soon</p>
-      <p class="note">Launching in London.</p>
-    </div>
+        <div class="hero-copy">
+          <h1>A new way to be social.</h1>
+          <p>A voice-first platform to discover, connect and create. Real people, real conversations, without the noise of endless scrolling.</p>
+          <button type="button" class="btn-ghost" id="play">
+            <svg viewBox="0 0 12 12" aria-hidden="true" id="playglyph"><polygon points="1,0 12,6 1,12" fill="currentColor"/></svg>
+            <span id="playlabel">Hear RÖST</span>
+          </button>
+        </div>
 
-    <footer>&copy; RÖST</footer>
+        <div class="scroll-cue" aria-hidden="true">
+          <div class="mouse"><div class="dot"></div></div>
+          <div class="tail"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="parts">
+      <div class="shell">
+        <p class="eyebrow util">Three parts, one app</p>
+        <h2>Discover. Connect. Create.</h2>
+        <p class="sub">All built around voices.</p>
+
+        <div class="cards">
+          <article class="card">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none" style="fill:#E6FF4D"/></svg>
+            </span>
+            <h3>Discover</h3>
+            <p class="lede">A social feed made for listening.</p>
+            <p class="body">Stories, opinions, jokes and conversations from real people around the world. Explore different topics and communities that match your interests.</p>
+            <img class="cardwave" src="/assets/discover_header.png" alt="" style="object-position:12% 50%">
+          </article>
+
+          <article class="card">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3.3"/><path d="M3.2 19c0-3.2 2.6-5.3 5.8-5.3s5.8 2.1 5.8 5.3"/><path d="M16.4 6.2a3 3 0 0 1 0 5.6"/><path d="M17.6 13.9c2 .6 3.2 2.3 3.2 5.1"/></svg>
+            </span>
+            <h3>Connect</h3>
+            <p class="lede">Meet people through their voice.</p>
+            <p class="body">Get to know someone's personality before you see their photo. Real conversations, not just swipes.</p>
+            <img class="cardwave" src="/assets/discover_header.png" alt="" style="object-position:50% 50%">
+          </article>
+
+          <article class="card">
+            <span class="badge">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l1.9 4.9 4.9 1.9-4.9 1.9L12 16.8l-1.9-4.9L5.2 10l4.9-1.9z"/><path d="M18.4 15.4l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
+            </span>
+            <h3>Create</h3>
+            <p class="lede">Your voice, your thing.</p>
+            <p class="body">Share your voice, get discovered and take requests. Turn your recordings into opportunities.</p>
+            <img class="cardwave" src="/assets/discover_header.png" alt="" style="object-position:86% 50%">
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="waitlist" id="waitlist">
+      <div class="shell">
+        <p class="eyebrow util">Be the first to know</p>
+        <h2>RÖST is coming soon.</h2>
+        <p>Join the waitlist to get early access. No spam, just one email when it's ready.</p>
+        <form id="form" novalidate>
+          <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+          <button type="submit" class="btn-solid">Notify me</button>
+        </form>
+        <p class="said" id="said" role="status"></p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="shell">
+        <div class="foot-top">
+          <span class="util" style="color:var(--dim)">RÖST, London. 18 and over.</span>
+          <nav class="links util" aria-label="Policies">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/child-safety">Child safety</a>
+            <a href="/delete">Delete your account</a>
+          </nav>
+        </div>
+        <div class="foot-rule"></div>
+        <p class="foot-note">Build notes, not page copy. The hero artwork is the app's own ribbon from <code>src/components/recording-wave.tsx</code>, standing in until the finished background image lands. Swap the canvas inside <code>.hero-art</code> for it.</p>
+        <p class="foot-note">The four policy links are the paths <code>src/lib/policies.ts</code> expects and none resolve yet. The waitlist field keeps nothing until it is wired to a list.</p>
+      </div>
+    </footer>
+
+    <script>
+      /* The recording ribbon, ported from src/components/recording-wave.tsx:
+         same constants, same envelope, same sweep. Skia's BlurMask is not
+         ported; as ctx.filter it is a full surface blur per strand per frame
+         and it melts a laptop. The halo here is a second unblurred pass of
+         wider, dimmer dots. */
+      var STRANDS = 7, GUIDES = 30, RISE = 60, DROP = 110;
+      var QUIET = 16, LOUD = 74, NOISE_GATE = 0.1;
+      var FPS = 30, MAX_DPR = 1.25;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function makeRibbon(canvas, opts){
+        opts = opts || {};
+        var ctx = canvas.getContext('2d');
+        var w = 0, h = 0, cols = 120, moteCount = 70, scale = 1;
+        var sweep = null, guideFill = null, moteU = [], moteV = [];
+        var px = [], py = [];
+        var r = { level: 0, phase: opts.phase || 0, smoothed: opts.smoothed || 0 };
+
+        function size(){
+          var dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+          w = canvas.clientWidth; h = canvas.clientHeight;
+          if (!w || !h) return false;
+          canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          cols = Math.max(80, Math.min(190, Math.round(w / 9)));
+          moteCount = Math.max(30, Math.min(110, Math.round(w / 16)));
+          /* The app draws this at scale 1 in a 260pt panel. As a full width
+             hero layer it gets a lot more room, so the cap is raised rather
+             than leaving a phone sized band floating in it. */
+          scale = Math.max(0.42, Math.min(2.4, h / 300));
+
+          /* The app's sweep runs transparent, lime, mint, aqua, transparent
+             across the whole band. Here the left of the band is masked away
+             by CSS and the right runs off the window, so the stops are
+             remapped onto what is actually visible: the lime lands clear of
+             the fade instead of inside it, and the aqua holds all the way to
+             the right edge rather than fading before it. */
+          sweep = ctx.createLinearGradient(0, 0, w, 0);
+          sweep.addColorStop(0, 'rgba(230,255,77,0)');
+          sweep.addColorStop(0.36, '#E6FF4D');
+          sweep.addColorStop(0.60, '#9FE3D3');
+          sweep.addColorStop(0.82, '#37DCCB');
+          sweep.addColorStop(1, '#37DCCB');
+
+          var mid = h / 2;
+          guideFill = ctx.createLinearGradient(0, mid - RISE * scale, 0, mid + DROP * scale);
+          guideFill.addColorStop(0, 'rgba(55,220,203,0)');
+          guideFill.addColorStop(0.3, '#37DCCB');
+          guideFill.addColorStop(0.7, '#37DCCB');
+          guideFill.addColorStop(1, 'rgba(55,220,203,0)');
+
+          moteU.length = 0; moteV.length = 0;
+          for (var m = 0; m < moteCount; m++){
+            var hash = Math.sin(m * 127.1) * 43758.5453;
+            moteU.push(hash - Math.floor(hash));
+            moteV.push(Math.sin(m * 311.7) * 0.5 + 0.5);
+          }
+          return true;
+        }
+
+        function dots(n, radius, alpha){
+          ctx.globalAlpha = alpha;
+          ctx.beginPath();
+          for (var i = 0; i < n; i++){
+            ctx.moveTo(px[i] + radius, py[i]);
+            ctx.arc(px[i], py[i], radius, 0, 6.283185);
+          }
+          ctx.fill();
+        }
+
+        function draw(){
+          if (!w || !h) return;
+          ctx.clearRect(0, 0, w, h);
+          var mid = h / 2;
+          /* QUIET is the phone's resting swell, sized for a 260pt panel.
+             A full width hero has far more room, so the hero passes a bigger
+             one. This is presentation, not a claim: silence still reads as
+             listening, it just does it at the scale of the page. */
+          var quiet = opts.quiet != null ? opts.quiet : QUIET;
+          var amplitude = (quiet + r.smoothed * LOUD) * scale;
+
+          if (opts.guides !== false){
+            ctx.globalAlpha = 0.26; ctx.strokeStyle = guideFill; ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            for (var i = 1; i <= GUIDES; i++){
+              var gx = (i * w) / (GUIDES + 1);
+              ctx.moveTo(gx, mid - RISE * scale); ctx.lineTo(gx, mid + DROP * scale);
+            }
+            ctx.stroke();
+          }
+
+          ctx.fillStyle = sweep;
+          for (var m = 0; m < moteCount; m++){
+            var mu = (moteU[m] + r.phase * 0.012) % 1;
+            var menv = Math.pow(Math.sin(Math.PI * mu), 0.7);
+            px[m] = mu * w;
+            py[m] = mid + (moteV[m] - 0.5) * (150 + 90 * r.smoothed) * (0.35 + menv) * scale
+                        + Math.sin(r.phase * 0.7 + m) * 4 * scale;
+          }
+          dots(moteCount, 1.1, 0.36);
+
+          for (var s = 0; s < STRANDS; s++){
+            var offset = s - (STRANDS - 1) / 2;
+            for (var c = 0; c < cols; c++){
+              var u = c / (cols - 1);
+              var env = Math.pow(Math.sin(Math.PI * u), 0.7);
+              var primary = Math.sin(u * 11 - r.phase + s * 0.18);
+              var secondary = 0.3 * Math.sin(u * 21 + r.phase * 0.55 + s * 0.4);
+              var third = 0.16 * Math.sin(u * 37 - r.phase * 0.33 + s);
+              var fan = offset * (2.6 + 5.5 * env * (0.5 + r.smoothed)) * scale;
+              px[c] = u * w;
+              py[c] = mid + (primary + secondary + third) * amplitude * env + fan;
+            }
+            var depth = Math.abs(s - (STRANDS - 1) / 2) / ((STRANDS - 1) / 2);
+            var core = 1.5 - depth * 0.55 + r.smoothed * 0.5;
+            dots(cols, core * 1.6, 0.2);
+            dots(cols, core * 0.66, 1);
+          }
+          ctx.globalAlpha = 1;
+        }
+
+        r.size = size; r.draw = draw;
+        return r;
+      }
+
+      /* --- the hero ribbon: the only animated one on the page --- */
+      var heroArt = document.querySelector('.hero-art');
+      var backdrop = document.getElementById('backdrop');
+      var hero = makeRibbon(document.getElementById('ribbon'), { quiet: 30 });
+      var frame = 0, last = null, lastDraw = 0, onScreen = true, visible = true, speaking = false;
+
+      function tick(now){
+        frame = requestAnimationFrame(tick);
+        if (now - lastDraw < 1000 / FPS) return;
+        var elapsed = last === null ? 0.033 : Math.min(0.1, (now - last) / 1000);
+        last = now; lastDraw = now;
+        var level = hero.level < NOISE_GATE ? 0 : Math.min(Math.max(hero.level, 0), 1);
+        var tau = level > hero.smoothed ? 0.09 : 0.28;
+        hero.smoothed += (level - hero.smoothed) * (1 - Math.exp(-elapsed / tau));
+        if (!reduce) hero.phase += elapsed * 1.35;
+        hero.draw();
+      }
+
+      /* The ribbon is the hero artwork again, so it animates whenever it is
+         on screen rather than only while a voice plays. The guards still
+         stand: 30fps, a capped backing store, no blur, and nothing drawn at
+         all when the hero is scrolled past or the tab is in the background.
+         `backdrop` is null while the video is commented out. */
+      function run(){
+        var seen = onScreen && visible;
+
+        if (backdrop){
+          if (seen && !reduce){ var q = backdrop.play(); if (q && q.catch) q.catch(function(){}); }
+          else backdrop.pause();
+        }
+
+        var should = seen && !reduce;
+        if (should && !frame){ last = null; frame = requestAnimationFrame(tick); }
+        if (!should && frame){ cancelAnimationFrame(frame); frame = 0; }
+        heroArt.dataset.speaking = speaking ? 'true' : 'false';
+      }
+
+      if (hero.size()) hero.draw();
+      if (window.IntersectionObserver){
+        new IntersectionObserver(function(e){ onScreen = e[0].isIntersecting; run(); },
+          { threshold: 0 }).observe(heroArt);
+      }
+      document.addEventListener('visibilitychange', function(){
+        visible = document.visibilityState === 'visible'; run();
+      });
+      run();
+
+      var resizeTimer = 0;
+      window.addEventListener('resize', function(){
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function(){ if (hero.size()) hero.draw(); }, 150);
+      });
+
+      /* --- a real voice under the hero ribbon ---
+         Drop a clip next to this page named voice.m4a, .mp3, .wav or .ogg.
+         Needs the page served over http: Web Audio treats a file:// media
+         element as cross-origin, so the analyser would read only silence.
+
+         Phone recordings sit well below full scale. Measured across the whole
+         of voice.m4a in 50ms windows: peak 0.216, p95 0.085, median 0.018. At
+         a gain of 3.2 only 37% of the clip cleared NOISE_GATE and the band
+         rested through most of the speech. Remeasure if the clip changes. */
+      var VOICE_GAIN = 9.5;
+      var SOURCES = ['/voice.m4a', '/voice.mp3', '/voice.wav', '/voice.ogg'];
+      var sourceIndex = 0;
+      var audio = new Audio();
+      audio.preload = 'metadata';
+      audio.crossOrigin = 'anonymous';
+      audio.src = SOURCES[0];
+      audio.addEventListener('error', function(){
+        sourceIndex += 1;
+        if (sourceIndex < SOURCES.length) audio.src = SOURCES[sourceIndex];
+        else { playBtn.disabled = true; playBtn.title = 'No clip loaded yet'; }
+      });
+
+      var playBtn = document.getElementById('play');
+      var playGlyph = document.getElementById('playglyph');
+      var playLabel = document.getElementById('playlabel');
+      var actx = null, analyser = null, buf = null, meter = 0;
+
+      function measure(){
+        if (audio.paused){ hero.level = 0; return; }
+        analyser.getByteTimeDomainData(buf);
+        var sum = 0;
+        for (var i = 0; i < buf.length; i++){ var v = (buf[i] - 128) / 128; sum += v * v; }
+        hero.level = Math.min(1, Math.sqrt(sum / buf.length) * VOICE_GAIN);
+        meter = requestAnimationFrame(measure);
+      }
+
+      playBtn.addEventListener('click', function(){
+        if (!audio.paused){ audio.pause(); return; }
+        if (!actx){
+          actx = new (window.AudioContext || window.webkitAudioContext)();
+          analyser = actx.createAnalyser();
+          analyser.fftSize = 1024;
+          buf = new Uint8Array(analyser.fftSize);
+          actx.createMediaElementSource(audio).connect(analyser);
+          analyser.connect(actx.destination);
+        }
+        actx.resume();
+        audio.play();
+      });
+
+      audio.addEventListener('play', function(){
+        playGlyph.innerHTML = '<rect x="1" y="1" width="10" height="10" fill="currentColor"/>';
+        playLabel.textContent = 'Stop';
+        speaking = true; run();
+        measure();
+      });
+      ['pause','ended'].forEach(function(e){
+        audio.addEventListener(e, function(){
+          playGlyph.innerHTML = '<polygon points="1,0 12,6 1,12" fill="currentColor"/>';
+          playLabel.textContent = 'Hear RÖST';
+          cancelAnimationFrame(meter);
+          hero.level = 0; hero.smoothed = 0; hero.draw();
+          speaking = false; run();
+        });
+      });
+
+      document.getElementById('form').addEventListener('submit', function(e){
+        e.preventDefault();
+        var field = document.getElementById('email'), said = document.getElementById('said');
+        if (!field.value || field.value.indexOf('@') < 1){
+          said.textContent = 'That needs to be an email address we can reach you on.';
+          field.focus();
+          return;
+        }
+        said.textContent = 'Noted. Nothing is stored yet, this field still needs wiring to a list.';
+        field.value = '';
+      });
+    </script>
   </body>
 </html>
