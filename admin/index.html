@@ -65,8 +65,14 @@
             <button type="button" class="quiet" id="signout-btn">Sign out</button>
             <button type="button" class="quiet" id="refresh-btn">Refresh</button></p>
 
+          <div class="seg" id="tabs" style="margin-top:18px">
+            <button type="button" data-tab="stats" class="on">Stats</button>
+            <button type="button" data-tab="reports">Reports</button>
+          </div>
+
           <div class="notice bad" id="dash-error" role="alert"></div>
 
+          <div id="tab-stats">
           <div class="tiles" id="tiles"></div>
 
           <div class="panel">
@@ -99,12 +105,23 @@
             <div class="funnel" id="capacity"></div>
           </div>
 
-          <div class="panel">
-            <h2>Still to build</h2>
-            <p><strong>The report queue.</strong> Five kinds of thing can be
-            reported and every report writes a row. The count above is the
-            only part of it any screen shows. That is the gap that matters
-            most, and it is a different build from this dashboard.</p>
+          </div>
+
+          <div id="tab-reports" hidden>
+          <div class="panel" id="reports-panel">
+            <h2>Reports</h2>
+            <p>Critical first, then oldest. Acting on somebody writes an
+            audit row with your reason against it, which is the only way an
+            action can be made here.</p>
+            <div class="seg" id="report-filter">
+              <button type="button" data-state="open" class="on">Open</button>
+              <button type="button" data-state="triaging">Triaging</button>
+              <button type="button" data-state="">All</button>
+            </div>
+            <div class="notice bad" id="reports-error" role="alert"></div>
+            <div id="reports"></div>
+          </div>
+
           </div>
         </div>
       </div>
@@ -269,6 +286,167 @@
         }));
       }
 
+      /* Reports carry free text somebody else wrote. None of it goes near
+         innerHTML without passing through here. */
+      function esc(v) {
+        return String(v == null ? '' : v).replace(/[&<>"']/g, function (ch) {
+          return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch];
+        });
+      }
+      function when(iso) {
+        var d = new Date(iso), mins = Math.round((Date.now() - d) / 60000);
+        if (mins < 60) return mins + 'm ago';
+        if (mins < 1440) return Math.round(mins / 60) + 'h ago';
+        return Math.round(mins / 1440) + 'd ago';
+      }
+      var WORDS = {
+        harassment:'Harassment', hate_speech:'Hate speech', sexual_content:'Sexual content',
+        csae:'CSAE', underage_user:'Underage', self_harm:'Self harm',
+        violence_threat:'Threat of violence', impersonation:'Impersonation',
+        spam_or_scam:'Spam or scam', other:'Other',
+      };
+      var ACTIONS = [
+        ['no_action','No action, and close it'], ['warning','Warn them'],
+        ['content_removed','Take the content down'], ['suspended','Suspend the account'],
+        ['banned','Ban the account'], ['reinstated','Reinstate them'],
+      ];
+
+      var reportState = 'open';
+
+      function drawReports(rows) {
+        if (!rows.length) {
+          el('reports').innerHTML = '<p class="empty">Nothing here. ' +
+            (reportState ? 'No reports in that state.' : 'No reports at all.') + '</p>';
+          return;
+        }
+        el('reports').innerHTML = rows.map(function (r) {
+          var gone = !r.reported_user_id;
+          return '<article class="report' + (r.is_critical ? ' critical' : '') +
+                 '" data-id="' + esc(r.id) + '">' +
+            '<div class="report-head">' +
+              (r.is_critical ? '<span class="chip critical">Critical</span>' : '') +
+              '<span class="chip reason">' + esc(WORDS[r.reason] || r.reason) + '</span>' +
+              '<span class="chip">' + esc(r.subject_type) + '</span>' +
+              '<span class="chip state">' + esc(r.state) + '</span>' +
+              (r.target_suspended ? '<span class="chip suspended">Suspended</span>' : '') +
+              '<time>' + when(r.created_at) + '</time>' +
+            '</div>' +
+            '<dl>' +
+              '<dt>About</dt><dd>' +
+                (gone ? 'Account deleted'
+                      : esc(r.reported_name || 'No name') +
+                        (r.reported_handle ? ' @' + esc(r.reported_handle) : '')) +
+                (r.prior_actions ? ' <span class="pct">' + r.prior_actions +
+                   ' prior action' + (r.prior_actions === 1 ? '' : 's') + '</span>' : '') +
+              '</dd>' +
+              '<dt>From</dt><dd>' +
+                (r.reporter_handle ? '@' + esc(r.reporter_handle) : 'Deleted account') + '</dd>' +
+            '</dl>' +
+            (r.details ? '<p class="said">' + esc(r.details) + '</p>' : '') +
+            '<div class="acts">' +
+              (r.state === 'open'
+                ? '<button type="button" data-do="triaging">Pick up</button>' : '') +
+              (r.state === 'open' || r.state === 'triaging'
+                ? '<button type="button" data-do="dismissed">Dismiss</button>' : '') +
+              (gone ? '' : '<button type="button" class="danger" data-do="act">Act</button>') +
+            '</div>' +
+            '<div class="act-form" hidden>' +
+              '<div class="row">' +
+                '<div><label>What are you doing</label><select data-field="action">' +
+                  ACTIONS.map(function (a) {
+                    return '<option value="' + a[0] + '">' + a[1] + '</option>';
+                  }).join('') +
+                '</select></div>' +
+                '<div><label>Until (suspensions only)</label>' +
+                  '<input type="date" data-field="expires"></div>' +
+              '</div>' +
+              '<label>Why. This is kept, and it is what a review would read</label>' +
+              '<textarea data-field="rationale" maxlength="2000" ' +
+                'placeholder="What you saw, and why this is the right response."></textarea>' +
+              '<p class="count" data-field="count">3 characters minimum</p>' +
+              '<div class="acts" style="margin-top:12px">' +
+                '<button type="button" class="danger" data-do="commit">Record it</button>' +
+                '<button type="button" data-do="cancel">Cancel</button>' +
+              '</div>' +
+            '</div>' +
+          '</article>';
+        }).join('');
+      }
+
+      el('tabs').addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-tab]');
+        if (!b) return;
+        [].forEach.call(el('tabs').children, function (c) {
+          c.classList.toggle('on', c === b);
+        });
+        el('tab-stats').hidden = b.dataset.tab !== 'stats';
+        el('tab-reports').hidden = b.dataset.tab !== 'reports';
+      });
+
+      el('report-filter').addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-state]');
+        if (!b) return;
+        reportState = b.dataset.state;
+        [].forEach.call(el('report-filter').children, function (c) {
+          c.classList.toggle('on', c === b);
+        });
+        loadReports();
+      });
+
+      el('reports').addEventListener('input', function (e) {
+        if (e.target.dataset.field !== 'rationale') return;
+        var card = e.target.closest('.report');
+        var n = e.target.value.trim().length;
+        card.querySelector('[data-field="count"]').textContent =
+          n < 3 ? '3 characters minimum' : n + ' of 2000';
+      });
+
+      el('reports').addEventListener('click', async function (e) {
+        var btn = e.target.closest('button[data-do]');
+        if (!btn) return;
+        var card = btn.closest('.report');
+        var id = card.dataset.id;
+        var form = card.querySelector('.act-form');
+        var todo = btn.dataset.do;
+
+        if (todo === 'act') { form.hidden = false; form.querySelector('textarea').focus(); return; }
+        if (todo === 'cancel') { form.hidden = true; return; }
+
+        say(el('reports-error'), '');
+        btn.disabled = true;
+
+        var out;
+        if (todo === 'commit') {
+          var rationale = form.querySelector('[data-field="rationale"]').value.trim();
+          if (rationale.length < 3) {
+            say(el('reports-error'), 'The reason is what makes the decision reviewable. Write one.');
+            btn.disabled = false; return;
+          }
+          var expires = form.querySelector('[data-field="expires"]').value;
+          out = await db.rpc('act_on_report', {
+            p_report_id: id,
+            p_action: form.querySelector('[data-field="action"]').value,
+            p_rationale: rationale,
+            p_expires_at: expires ? new Date(expires).toISOString() : null,
+          });
+        } else {
+          out = await db.rpc('set_report_state', { p_report_id: id, p_state: todo });
+        }
+
+        btn.disabled = false;
+        if (out.error) { say(el('reports-error'), out.error.message); return; }
+        loadReports();
+        load();
+      });
+
+      async function loadReports() {
+        say(el('reports-error'), '');
+        var out = await db.rpc('get_report_queue',
+          reportState ? { p_state: reportState } : {});
+        if (out.error) { say(el('reports-error'), out.error.message); return; }
+        drawReports(out.data || []);
+      }
+
       async function load() {
         say(el('dash-error'), '');
         var out = await Promise.all([
@@ -305,6 +483,7 @@
         el('who-email').textContent = session.user.email;
         show('dash');
         load();
+        loadReports();
       }
 
       el('signin-form').addEventListener('submit', async function (e) {
@@ -326,7 +505,7 @@
           await db.auth.signOut(); refresh();
         });
       });
-      el('refresh-btn').addEventListener('click', load);
+      el('refresh-btn').addEventListener('click', function () { load(); loadReports(); });
 
       refresh();
     </script>

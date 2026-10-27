@@ -251,3 +251,63 @@ button:disabled{opacity:0.38;cursor:not-allowed}
 .tile .v{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;
          font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;font-variant-numeric:tabular-nums}
 .tile .n{color:var(--dim);font-size:0.8125rem;margin-top:7px;display:block}
+
+/* ===================== the report queue ===================== */
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}
+.seg button{
+  appearance:none;background:none;border:1px solid var(--edge);border-radius:999px;
+  color:var(--muted);font-family:Inter,sans-serif;font-size:var(--util);font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;padding:9px 16px;cursor:pointer;
+}
+.seg button:hover{border-color:var(--muted);color:var(--text)}
+.seg button.on{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+
+.report{
+  border:1px solid var(--edge);border-radius:10px;background:var(--ground);
+  padding:clamp(16px,1.6vw,22px);margin:0 0 12px;
+}
+.report.critical{border-color:var(--danger)}
+.report-head{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.chip{
+  font-size:var(--util);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  border-radius:4px;padding:5px 9px;border:1px solid var(--edge);color:var(--muted);
+}
+.chip.reason{border-color:var(--bar);color:var(--text)}
+.chip.critical{background:var(--danger);border-color:var(--danger);color:#1A0B08}
+.chip.state{color:var(--dim)}
+.chip.suspended{border-color:var(--danger);color:var(--danger)}
+.report-head time{color:var(--dim);font-size:0.875rem;margin-left:auto}
+
+.report dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0 0 12px;font-size:0.9375rem}
+.report dt{color:var(--dim)}
+.report dd{margin:0;color:var(--text);overflow-wrap:anywhere}
+.report .said{
+  color:var(--muted);font-size:0.9375rem;margin:0 0 14px;
+  border-left:2px solid var(--edge);padding-left:12px;overflow-wrap:anywhere;
+}
+.report .acts{display:flex;gap:9px;flex-wrap:wrap}
+.report .acts button{
+  appearance:none;background:none;border:1px solid var(--edge);border-radius:6px;
+  color:var(--muted);font-family:Inter,sans-serif;font-size:var(--util);font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;padding:11px 16px;cursor:pointer;
+}
+.report .acts button:hover{border-color:var(--muted);color:var(--text)}
+.report .acts button.danger{border-color:var(--danger);color:var(--danger)}
+.report .acts button.danger:hover{background:var(--danger);color:#1A0B08}
+
+.act-form{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--edge)}
+.act-form select,.act-form textarea,.act-form input[type=date]{
+  background:var(--surface);border:1px solid var(--edge);border-radius:6px;
+  color:var(--text);font:inherit;font-size:0.9375rem;padding:11px 12px;width:100%;
+}
+.act-form textarea{min-height:84px;resize:vertical;line-height:1.5}
+.act-form select:focus,.act-form textarea:focus,.act-form input:focus{outline:none;border-color:var(--lime)}
+.act-form .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 12px}
+.act-form label{display:block;color:var(--dim);font-size:var(--util);font-weight:700;
+                letter-spacing:0.16em;text-transform:uppercase;margin-bottom:7px}
+.act-form .count{color:var(--dim);font-size:0.8125rem;margin-top:7px}
+.empty{color:var(--dim);margin:0}
+@media (max-width:620px){
+  .act-form .row{grid-template-columns:1fr}
+  .report-head time{margin-left:0;width:100%}
+}
