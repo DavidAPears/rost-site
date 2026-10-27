@@ -1,8 +1,7 @@
 # Privacy policy: publication checklist
 
-Lifted out of `ROST_Privacy_Policy_Draft.md` so it cannot be published by
-accident. Every item here is still open. The page at `/privacy` carries
-`noindex` until they are closed.
+Lifted out of the draft so it cannot be published by accident.
+Every item here is still open.
 
 1. Identify the actual legal controller, registered address and privacy contact; assess UK/EU representative and DPO obligations.
 2. Verify all statements about Discover/Connect separation, three-message gate, mutual reveal, original-photo access controls and message privacy against the deployed code and database policies.
