@@ -326,3 +326,16 @@ button:disabled{opacity:0.38;cursor:not-allowed}
   .act-form .row{grid-template-columns:1fr}
   .report-head time{margin-left:0;width:100%}
 }
+
+/* ===================== show what you are typing ===================== */
+.pw{position:relative;display:block}
+.pw input{padding-right:48px}
+.pw button{
+  position:absolute;right:5px;top:50%;transform:translateY(-50%);
+  appearance:none;background:none;border:0;color:var(--dim);
+  cursor:pointer;padding:9px;display:flex;border-radius:6px;
+}
+.pw button:hover{color:var(--text)}
+.pw button:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
+.pw svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;
+        stroke-linecap:round;stroke-linejoin:round}
