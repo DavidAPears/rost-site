@@ -210,45 +210,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
     <script src="/assets/supabase.js"></script>
+    <script src="/assets/reveal.js" defer></script>
     <script>
       var db = window.supabase.createClient(window.ROST.supabaseUrl, window.ROST.supabaseAnonKey);
       var el = function (id) { return document.getElementById(id); };
 
-      /* Every password field on this page gets an eye. A phrase you cannot
-         see is a phrase you mistype, and the keyboard is not always
-         trustworthy. */
-      var EYE_OPEN = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-        '<path d="M2 12s3.7-6.6 10-6.6S22 12 22 12s-3.7 6.6-10 6.6S2 12 2 12Z"/>' +
-        '<circle cx="12" cy="12" r="3"/></svg>';
-      var EYE_SHUT = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-        '<path d="M3 3l18 18"/>' +
-        '<path d="M10.7 6.1A11 11 0 0 1 12 6c6.3 0 10 6 10 6a18.4 18.4 0 0 1-3.3 4"/>' +
-        '<path d="M6.4 7.9A18.4 18.4 0 0 0 2 12s3.7 6.6 10 6.6a11 11 0 0 0 3.5-.6"/>' +
-        '<path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
-
-      [].forEach.call(document.querySelectorAll('input[type="password"]'), function (input) {
-        var wrap = document.createElement('span');
-        wrap.className = 'pw';
-        input.parentNode.insertBefore(wrap, input);
-        wrap.appendChild(input);
-
-        var eye = document.createElement('button');
-        eye.type = 'button';
-        eye.innerHTML = EYE_SHUT;
-        eye.setAttribute('aria-label', 'Show what I am typing');
-        eye.setAttribute('aria-pressed', 'false');
-        wrap.appendChild(eye);
-
-        eye.addEventListener('click', function () {
-          var showing = input.type === 'text';
-          input.type = showing ? 'password' : 'text';
-          eye.innerHTML = showing ? EYE_SHUT : EYE_OPEN;
-          eye.setAttribute('aria-pressed', showing ? 'false' : 'true');
-          eye.setAttribute('aria-label',
-            showing ? 'Show what I am typing' : 'Hide what I am typing');
-          input.focus();
-        });
-      });
       var steps = { signin: el('step-signin'), denied: el('step-denied'), dash: el('step-dash') };
 
       function show(which) {
