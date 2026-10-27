@@ -110,7 +110,40 @@
           </div>
 
           <div id="tab-reports" hidden>
-          <div class="panel" id="reports-panel">
+          <div class="panel" id="reports-lock">
+            <h2>Second phrase</h2>
+            <p>Being staff is not enough to read what people reported about
+            each other. This is not stored in your browser beyond this tab,
+            and it is checked in the database rather than here.</p>
+            <div class="notice bad" id="lock-error" role="alert"></div>
+            <form id="lock-form" novalidate>
+              <div class="field">
+                <label for="phrase">Phrase</label>
+                <input id="phrase" type="password" autocomplete="off" required>
+              </div>
+              <div class="btn-row">
+                <button type="submit" class="primary" id="lock-btn">Unlock</button>
+                <button type="button" class="quiet" id="change-toggle">Change it</button>
+              </div>
+            </form>
+
+            <form id="change-form" class="act-form" hidden>
+              <p class="count" id="change-hint"></p>
+              <div class="field" id="old-field">
+                <label for="old-phrase">Current phrase</label>
+                <input id="old-phrase" type="password" autocomplete="off">
+              </div>
+              <div class="field">
+                <label for="new-phrase">New phrase, ten characters or more</label>
+                <input id="new-phrase" type="password" autocomplete="off" required>
+              </div>
+              <div class="btn-row">
+                <button type="submit" class="primary" id="change-btn">Save it</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="panel" id="reports-panel" hidden>
             <h2>Reports</h2>
             <p>Critical first, then oldest. Acting on somebody writes an
             audit row with your reason against it, which is the only way an
@@ -315,6 +348,78 @@
 
       var reportState = 'open';
 
+      /* sessionStorage, not localStorage: it dies with the tab, so the
+         phrase is not left sitting on the machine. The database is what
+         actually checks it; this only saves retyping. */
+      function phrase() {
+        try { return sessionStorage.getItem('rost.phrase') || ''; } catch (e) { return ''; }
+      }
+      function keepPhrase(v) {
+        try { if (v === null) sessionStorage.removeItem('rost.phrase');
+              else sessionStorage.setItem('rost.phrase', v); } catch (e) {}
+      }
+      function locked(yes) {
+        el('reports-lock').hidden = !yes;
+        el('reports-panel').hidden = yes;
+      }
+
+      /* Whether anybody has ever chosen one. Until they have, the queue is
+         shut to everybody and the first phrase can be set without one. */
+      async function phraseIsSet() {
+        var out = await db.rpc('report_passphrase_set');
+        return out.error ? true : out.data === true;
+      }
+
+      el('change-toggle').addEventListener('click', async function () {
+        var f = el('change-form');
+        f.hidden = !f.hidden;
+        if (f.hidden) return;
+        var isSet = await phraseIsSet();
+        el('old-field').hidden = !isSet;
+        el('change-hint').textContent = isSet
+          ? 'Changing it needs the current one.'
+          : 'Nobody has set one yet, so this first one is free.';
+        el('new-phrase').focus();
+      });
+
+      el('change-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var btn = el('change-btn');
+        say(el('lock-error'), '');
+        if (el('new-phrase').value.length < 10) {
+          say(el('lock-error'), 'Ten characters or more.');
+          return;
+        }
+        btn.disabled = true; btn.textContent = 'Saving';
+        var out = await db.rpc('set_report_passphrase', {
+          p_old: el('old-phrase').value,
+          p_new: el('new-phrase').value,
+        });
+        btn.disabled = false; btn.textContent = 'Save it';
+        if (out.error) { say(el('lock-error'), out.error.message); return; }
+        keepPhrase(el('new-phrase').value);
+        el('old-phrase').value = ''; el('new-phrase').value = '';
+        el('change-form').hidden = true;
+        say(el('lock-error'), '');
+        locked(false);
+        loadReports();
+      });
+
+      el('lock-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var btn = el('lock-btn'), input = el('phrase');
+        say(el('lock-error'), '');
+        btn.disabled = true; btn.textContent = 'Checking';
+        var out = await db.rpc('report_passphrase_ok', { p_try: input.value });
+        btn.disabled = false; btn.textContent = 'Unlock';
+        if (out.error) { say(el('lock-error'), out.error.message); return; }
+        if (out.data !== true) { say(el('lock-error'), 'That is not it.'); return; }
+        keepPhrase(input.value);
+        input.value = '';
+        locked(false);
+        loadReports();
+      });
+
       function drawReports(rows) {
         if (!rows.length) {
           el('reports').innerHTML = '<p class="empty">Nothing here. ' +
@@ -426,13 +531,15 @@
           }
           var expires = form.querySelector('[data-field="expires"]').value;
           out = await db.rpc('act_on_report', {
+            p_passphrase: phrase(),
             p_report_id: id,
             p_action: form.querySelector('[data-field="action"]').value,
             p_rationale: rationale,
             p_expires_at: expires ? new Date(expires).toISOString() : null,
           });
         } else {
-          out = await db.rpc('set_report_state', { p_report_id: id, p_state: todo });
+          out = await db.rpc('set_report_state',
+            { p_passphrase: phrase(), p_report_id: id, p_state: todo });
         }
 
         btn.disabled = false;
@@ -443,9 +550,16 @@
 
       async function loadReports() {
         say(el('reports-error'), '');
-        var out = await db.rpc('get_report_queue',
-          reportState ? { p_state: reportState } : {});
-        if (out.error) { say(el('reports-error'), out.error.message); return; }
+        var args = { p_passphrase: phrase() };
+        if (reportState) args.p_state = reportState;
+        var out = await db.rpc('get_report_queue', args);
+        if (out.error) {
+          /* The phrase was changed, or this is a stale tab. Ask again
+             rather than leaving an error nobody can act on. */
+          keepPhrase(null); locked(true);
+          say(el('lock-error'), out.error.message);
+          return;
+        }
         drawReports(out.data || []);
       }
 
@@ -488,7 +602,8 @@
         el('refresh-btn').hidden = false;
         show('dash');
         load();
-        loadReports();
+        locked(!phrase());
+        if (phrase()) loadReports();
       }
 
       el('signin-form').addEventListener('submit', async function (e) {
@@ -506,9 +621,10 @@
       });
 
       el('signout-btn').addEventListener('click', async function () {
+        keepPhrase(null);
         await db.auth.signOut(); refresh();
       });
-      el('refresh-btn').addEventListener('click', function () { load(); loadReports(); });
+      el('refresh-btn').addEventListener('click', function () { load(); if (phrase()) loadReports(); });
 
       refresh();
     </script>
