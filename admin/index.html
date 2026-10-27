@@ -77,25 +77,34 @@
           </div>
 
           <div class="panel">
-            <h2>Not wired up yet</h2>
-            <p>Everything above comes from <code>get_funnel()</code>, which is the
-            only staff-readable statistic that exists today. These need a
-            migration before this page can show them, and each one has to be a
-            count or a distribution rather than a list of people and what they
-            said.</p>
-            <ul>
-              <li><strong>Accounts</strong>, total and active in the last week.</li>
-              <li><strong>Recordings</strong>, total, and the distribution of their lengths.</li>
-              <li><strong>Rooms and messages</strong>, counts only.</li>
-              <li><strong>Retention</strong>, how many of each week's arrivals came back.</li>
-              <li><strong>Capacity.</strong> <code>src/lib/capacity.ts</code> in the app
-              models the free tier limits and which resource binds first, and has
-              no caller. It was written for this page.</li>
-              <li><strong>The report queue.</strong> Five kinds of thing can be
-              reported and every report writes a row. No screen shows one yet.
-              That is the gap that matters most, and it is a different build from
-              this dashboard.</li>
-            </ul>
+            <h2>Recording lengths</h2>
+            <p>Against a thirty second ceiling. Anything over it means
+            something is wrong rather than that somebody was chatty.</p>
+            <div class="funnel" id="lengths"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Coming back</h2>
+            <p>People who finished signing up in a given week, and how many
+            did something between one and eight days later. The newest week
+            is always understated, because its people have not had their
+            eight days yet.</p>
+            <div class="funnel" id="cohorts"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Capacity</h2>
+            <p>Against the free tier, from
+            <code>FREE_TIER</code> in <code>src/lib/capacity.ts</code>.</p>
+            <div class="funnel" id="capacity"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Still to build</h2>
+            <p><strong>The report queue.</strong> Five kinds of thing can be
+            reported and every report writes a row. The count above is the
+            only part of it any screen shows. That is the gap that matters
+            most, and it is a different build from this dashboard.</p>
           </div>
         </div>
       </div>
@@ -187,28 +196,96 @@
             '</span></div>';
         }).join('');
 
+      }
+
+      function bytes(n) {
+        if (n >= 1073741824) return (n / 1073741824).toFixed(2) + ' GB';
+        if (n >= 1048576) return (n / 1048576).toFixed(0) + ' MB';
+        return (n / 1024).toFixed(0) + ' KB';
+      }
+      function rungs(rows) {
+        var top = Math.max.apply(null, rows.map(function (r) { return r.of || r.n; }).concat([1]));
+        return rows.map(function (r) {
+          var ceiling = r.of || top;
+          return '<div class="rung"><span class="name">' + r.name + '</span>' +
+            '<span class="track"><span class="bar" style="width:' +
+              (ceiling ? Math.min(100, (r.n / ceiling) * 100) : 0).toFixed(1) + '%"></span></span>' +
+            '<span class="val">' + r.label +
+              (r.note ? ' <span class="pct">' + r.note + '</span>' : '') +
+            '</span></div>';
+        }).join('');
+      }
+
+      function drawCounts(c) {
         el('tiles').innerHTML =
-          '<div class="tile"><span class="k">Onboarded</span>' +
-            '<span class="v">' + base + '</span>' +
-            '<span class="n">finished signing up</span></div>' +
-          '<div class="tile"><span class="k">Posted something</span>' +
-            '<span class="v">' + (by.posted || 0) + '</span>' +
-            '<span class="n">' + (base ? Math.round(((by.posted||0)/base)*100) : 0) +
-            '% of those who arrived</span></div>' +
-          '<div class="tile"><span class="k">Said something to somebody</span>' +
-            '<span class="v">' + (by.messaged || 0) + '</span>' +
-            '<span class="n">' + (base ? Math.round(((by.messaged||0)/base)*100) : 0) +
-            '% of those who arrived</span></div>';
+          '<div class="tile"><span class="k">Accounts</span><span class="v">' + c.accounts +
+            '</span><span class="n">' + c.accounts_new_7d + ' in the last week</span></div>' +
+          '<div class="tile"><span class="k">Spoke this week</span><span class="v">' + c.active_7d +
+            '</span><span class="n">recorded or messaged in 7 days</span></div>' +
+          '<div class="tile"><span class="k">Recordings</span><span class="v">' + c.recordings +
+            '</span><span class="n">' + bytes(c.audio_bytes) + ' of audio</span></div>' +
+          '<div class="tile"><span class="k">Messages</span><span class="v">' + c.messages +
+            '</span><span class="n">' + c.messages_7d + ' in the last week</span></div>' +
+          '<div class="tile"><span class="k">Rooms</span><span class="v">' + c.rooms +
+            '</span><span class="n">' + c.posts + ' posts on Discover</span></div>' +
+          '<div class="tile"><span class="k">Open reports</span><span class="v">' + c.reports_open +
+            '</span><span class="n">nothing reads these yet</span></div>';
+
+        /* The two free tier limits this product actually pushes against,
+           from FREE_TIER in src/lib/capacity.ts. */
+        el('capacity').innerHTML = rungs([
+          { name: 'Audio storage', n: c.audio_bytes, of: 1073741824,
+            label: bytes(c.audio_bytes),
+            note: Math.round((c.audio_bytes / 1073741824) * 100) + '% of 1 GB' },
+          { name: 'Database', n: c.database_bytes, of: 524288000,
+            label: bytes(c.database_bytes),
+            note: Math.round((c.database_bytes / 524288000) * 100) + '% of 500 MB' },
+        ]);
+      }
+
+      function drawLengths(rows) {
+        var total = rows.reduce(function (a, r) { return a + r.recordings; }, 0);
+        el('lengths').innerHTML = rungs(rows.map(function (r) {
+          return { name: r.bucket, n: r.recordings, of: total || 1,
+                   label: String(r.recordings),
+                   note: total ? Math.round((r.recordings / total) * 100) + '%' : '' };
+        }));
+      }
+
+      function drawCohorts(rows) {
+        if (!rows.length) {
+          el('cohorts').innerHTML = '<p style="color:var(--dim);margin:0">' +
+            'Nobody has finished signing up yet, so there is no cohort to follow.</p>';
+          return;
+        }
+        el('cohorts').innerHTML = rungs(rows.map(function (r) {
+          var d = new Date(r.week_start);
+          return {
+            name: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+            n: r.returned, of: r.arrived || 1,
+            label: r.returned + ' of ' + r.arrived,
+            note: r.arrived ? Math.round((r.returned / r.arrived) * 100) + '%' : '',
+          };
+        }));
       }
 
       async function load() {
         say(el('dash-error'), '');
-        var out = await db.rpc('get_funnel');
-        if (out.error) {
-          say(el('dash-error'), 'Could not read the funnel: ' + out.error.message);
-          return;
+        var out = await Promise.all([
+          db.rpc('get_funnel'),
+          db.rpc('get_platform_counts'),
+          db.rpc('get_recording_lengths'),
+          db.rpc('get_weekly_cohorts'),
+        ]);
+        var bad = out.filter(function (r) { return r.error; });
+        if (bad.length) {
+          say(el('dash-error'), 'Could not read some of the numbers: ' + bad[0].error.message);
         }
-        drawFunnel(out.data || []);
+        if (out[0].data) drawFunnel(out[0].data);
+        /* One row, or none at all if the caller is not staff. */
+        if (out[1].data && out[1].data[0]) drawCounts(out[1].data[0]);
+        if (out[2].data) drawLengths(out[2].data);
+        if (out[3].data) drawCohorts(out[3].data);
       }
 
       async function refresh() {
