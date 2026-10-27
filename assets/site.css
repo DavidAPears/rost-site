@@ -1,0 +1,153 @@
+/* Shared across every page: the palette, the base, the footer, and the
+   layout policy and about documents are set in. Page specific styling
+   stays inline in the page that needs it.
+
+   The palette is the app's own design tokens rather than approximated,
+   so the two cannot drift. */
+
+:root{
+  --ground:#040B0A;
+  --surface:#0A1311;
+  --edge:#1B2724;
+  --lime:#E6FF4D;
+  --aqua:#37DCCB;
+  --ink:#101817;
+  --text:#F7F7F1;
+  --muted:#A9BDB8;
+  --dim:#78837F;
+  --pad:clamp(22px,5vw,72px);
+  --util:0.6875rem;
+  --maxw:1320px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--ground);color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+::selection{background:var(--lime);color:var(--ink)}
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+[hidden]{display:none!important}
+
+.util{font-size:var(--util);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;line-height:1.4}
+.shell{max-width:var(--maxw);margin:0 auto;width:100%}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;margin:0}
+
+/* ===================== footer ===================== */
+footer{padding:clamp(44px,5vw,76px) var(--pad) clamp(26px,3vw,38px);border-top:1px solid var(--edge)}
+.foot-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));
+  gap:clamp(28px,4vw,64px);
+}
+.foot-brand .wordmark{width:148px;height:auto;margin-bottom:16px}
+.foot-brand p{margin:0;color:var(--muted);font-size:0.9375rem;max-width:30ch}
+.foot-brand .where{margin-top:10px;color:var(--dim)}
+
+.foot-col h2{
+  font-family:Inter,sans-serif;font-size:var(--util);font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);
+  margin:0 0 16px;
+}
+.foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.foot-col a{color:var(--muted);text-decoration:none;font-size:0.9375rem}
+.foot-col a:hover{color:var(--lime)}
+
+.foot-base{
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center;
+  margin-top:clamp(34px,4vw,56px);padding-top:22px;border-top:1px solid var(--edge);
+  color:var(--dim);font-size:0.875rem;
+}
+
+@media (max-width:860px){
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+  .foot-brand{grid-column:1 / -1}
+}
+@media (max-width:460px){
+  .foot-grid{grid-template-columns:1fr}
+}
+
+/* ===================== document pages ===================== */
+.doc-head{
+  padding:clamp(24px,3vw,38px) var(--pad) clamp(34px,4vw,56px);
+  border-bottom:1px solid var(--edge);
+}
+.doc-head .wordmark{width:clamp(150px,14vw,196px);height:auto}
+.doc-head .back{
+  display:inline-block;margin-top:clamp(28px,4vw,52px);
+  color:var(--dim);text-decoration:none;
+}
+.doc-head .back:hover{color:var(--lime)}
+.doc-head h1{
+  font-size:clamp(2.1rem,4.4vw,3.4rem);line-height:1.02;letter-spacing:-0.035em;
+  margin:14px 0 0;max-width:18ch;
+}
+.doc-head .stamp{
+  display:flex;gap:10px 22px;flex-wrap:wrap;
+  margin:20px 0 0;color:var(--dim);
+}
+
+.doc{padding:clamp(40px,5vw,72px) var(--pad) clamp(52px,6vw,88px)}
+/* Left aligned, like every other page. A centred column under a
+   left aligned masthead reads as two different designs. */
+.doc .shell{max-width:min(var(--maxw),78ch);margin-left:0}
+.doc h2{
+  font-size:clamp(1.3rem,2.2vw,1.75rem);line-height:1.2;letter-spacing:-0.02em;
+  margin:clamp(34px,4vw,54px) 0 12px;
+}
+.doc h2:first-of-type{margin-top:0}
+.doc h3{
+  font-size:1.0625rem;letter-spacing:-0.01em;
+  margin:26px 0 8px;font-weight:500;
+}
+.doc p,.doc li{color:var(--muted)}
+.doc p{margin:0 0 14px}
+.doc ul,.doc ol{margin:0 0 16px;padding-left:22px;display:flex;flex-direction:column;gap:8px}
+.doc a{color:var(--lime)}
+.doc strong{color:var(--text);font-weight:600}
+
+/* Marks a section that has no copy in it yet. Deliberately loud: a
+   placeholder that looks like finished text is how a draft gets
+   published by accident. */
+.todo{
+  border:1px dashed var(--edge);border-left:2px solid var(--lime);
+  border-radius:4px;padding:14px 16px;margin:0 0 14px;
+  color:var(--dim);font-size:0.9375rem;
+}
+.todo b{color:var(--lime);font-weight:700;letter-spacing:0.14em;
+        text-transform:uppercase;font-size:var(--util);display:block;margin-bottom:6px}
+
+.toc{
+  border:1px solid var(--edge);border-radius:10px;background:var(--surface);
+  padding:clamp(20px,2vw,26px);margin:0 0 clamp(32px,4vw,48px);
+}
+.toc h2{font-family:Inter,sans-serif;font-size:var(--util);font-weight:700;
+        letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);margin:0 0 14px}
+.toc ol{margin:0;padding-left:20px;gap:9px}
+.toc a{color:var(--muted);text-decoration:none}
+.toc a:hover{color:var(--lime)}
+
+/* An unresolved placeholder inside otherwise finished prose. Loud on
+   purpose: these are the lines that must not survive publication, and
+   the only thing worse than a gap is a gap that reads as settled. */
+.hold{
+  background:rgba(230,255,77,0.1);color:var(--lime);
+  border:1px dashed rgba(230,255,77,0.45);border-radius:3px;
+  padding:1px 6px;font-size:0.9em;font-weight:600;
+}
+
+.tablewrap{overflow-x:auto;margin:0 0 18px;border:1px solid var(--edge);border-radius:10px}
+.doc table{border-collapse:collapse;width:100%;min-width:480px;font-size:0.9375rem}
+.doc th,.doc td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--edge);vertical-align:top}
+.doc thead th{
+  color:var(--dim);font-family:Inter,sans-serif;font-size:var(--util);
+  font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
+  background:var(--surface);white-space:nowrap;
+}
+.doc tbody tr:last-child td{border-bottom:0}
+.doc td{color:var(--muted)}
