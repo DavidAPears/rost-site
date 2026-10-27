@@ -28,6 +28,13 @@
         <a class="back util" href="/">&lt;&lt;&lt; Back to rost.fyi</a>
         <h1>Admin</h1>
         <div class="stamp util"><span>Staff only</span><span>Counts, never people</span></div>
+
+        <div class="head-user" id="head-user" hidden>
+          <span class="util">Signed in as</span>
+          <b id="who-email"></b>
+          <button type="button" class="quiet" id="refresh-btn" hidden>Refresh</button>
+          <button type="button" class="quiet" id="signout-btn">Sign out</button>
+        </div>
       </div>
     </header>
 
@@ -55,15 +62,10 @@
 
         <div id="step-denied" class="panel" hidden>
           <h2>This is a staff page</h2>
-          <p class="who">Signed in as <b id="denied-email"></b>
-            <button type="button" class="quiet" id="denied-signout">Sign out</button></p>
           <p>That account is not staff. Nothing else to see here.</p>
         </div>
 
         <div id="step-dash" hidden>
-          <p class="who">Signed in as <b id="who-email"></b>
-            <button type="button" class="quiet" id="signout-btn">Sign out</button>
-            <button type="button" class="quiet" id="refresh-btn">Refresh</button></p>
 
           <div class="seg" id="tabs" style="margin-top:18px">
             <button type="button" data-tab="stats" class="on">Stats</button>
@@ -469,18 +471,21 @@
       async function refresh() {
         var res = await db.auth.getSession();
         var session = res.data.session;
-        if (!session) { show('signin'); return; }
+        if (!session) { el('head-user').hidden = true; show('signin'); return; }
 
         /* is_staff() is the same check every staff-only function in the
            database makes. The page asking is a convenience: the gate that
            matters is in the function, not here. */
+        el('who-email').textContent = session.user.email;
+        el('head-user').hidden = false;
+
         var staff = await db.rpc('is_staff');
         if (staff.error || staff.data !== true) {
-          el('denied-email').textContent = session.user.email;
+          el('refresh-btn').hidden = true;
           show('denied');
           return;
         }
-        el('who-email').textContent = session.user.email;
+        el('refresh-btn').hidden = false;
         show('dash');
         load();
         loadReports();
@@ -500,10 +505,8 @@
         refresh();
       });
 
-      ['signout-btn','denied-signout'].forEach(function (id) {
-        el(id).addEventListener('click', async function () {
-          await db.auth.signOut(); refresh();
-        });
+      el('signout-btn').addEventListener('click', async function () {
+        await db.auth.signOut(); refresh();
       });
       el('refresh-btn').addEventListener('click', function () { load(); loadReports(); });
 
