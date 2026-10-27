@@ -96,6 +96,10 @@ footer{padding:clamp(44px,5vw,76px) var(--pad) clamp(26px,3vw,38px);border-top:1
 /* Left aligned, like every other page. A centred column under a
    left aligned masthead reads as two different designs. */
 .doc .shell{max-width:min(var(--maxw),78ch);margin-left:0}
+
+/* 78ch is a reading measure. A dashboard is scanned rather than read, and
+   its tiles and bars want the width, so it opts out. */
+.doc.wide .shell{max-width:1600px}
 .doc h2{
   font-size:clamp(1.3rem,2.2vw,1.75rem);line-height:1.2;letter-spacing:-0.02em;
   margin:clamp(34px,4vw,54px) 0 12px;
@@ -233,9 +237,14 @@ button:disabled{opacity:0.38;cursor:not-allowed}
 }
 .rung .pct{color:var(--dim);font-size:0.8125rem;font-variant-numeric:tabular-nums}
 .rung:hover .track{background:rgba(247,247,241,0.08)}
+@media (max-width:560px){
+  .rung{grid-template-columns:minmax(74px,auto) 1fr minmax(52px,auto);gap:9px}
+  .rung .name,.rung .val{font-size:0.8125rem}
+  .rung .track{height:18px}
+}
 @media (prefers-reduced-motion:reduce){.rung .bar{transition:none}}
 
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:0 0 22px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:0 0 22px}
 .tile{background:var(--ground);border:1px solid var(--edge);border-radius:10px;padding:18px}
 .tile .k{color:var(--dim);font-size:var(--util);font-weight:700;
          letter-spacing:0.16em;text-transform:uppercase;display:block;margin-bottom:9px}
