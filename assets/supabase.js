@@ -8,8 +8,9 @@
 window.ROST = {
   supabaseUrl: 'https://mdjzwodsczqtqvpeoymd.supabase.co',
   supabaseAnonKey: 'sb_publishable_m4XTSUoc-1UZgcKUs-QxKg_f4Iw5lFv',
-  /* Where a deleted account is invited to send feedback, and where the
-     policy pages point. Currently a personal address: see the note in
-     TODO.md about moving it to something on the domain. */
-  feedbackEmail: 'hello@rost.fyi',
+  /* Where a deleted account is invited to send feedback. A Cloudflare
+     Email Routing alias forwarding to the founder's inbox, free, and
+     separate from safety@ so that one can be filtered and published
+     without this one being scraped alongside it. */
+  feedbackEmail: 'contact@rost.fyi',
 };
