@@ -219,6 +219,10 @@ button:disabled{opacity:0.38;cursor:not-allowed}
 .rung .name{color:var(--muted);font-size:0.9375rem}
 .rung .track{height:22px;background:rgba(247,247,241,0.045);border-radius:4px;position:relative}
 .rung .bar{
+  /* A span is inline, and an inline box ignores width and height, so the
+     bars were being drawn at zero size. The track above it escapes this
+     by being a grid item, which blockifies it; this one does not. */
+  display:block;
   height:100%;background:var(--lime);
   border-radius:0 4px 4px 0;min-width:2px;
   transition:width 420ms cubic-bezier(.2,.7,.3,1);
