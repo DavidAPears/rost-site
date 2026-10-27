@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delete your account. RÖST</title>
+
+    <meta name="description" content="How to permanently delete your RÖST account and everything on it." />
+    <meta name="robots" content="index" />
+    <meta name="theme-color" content="#040B0A" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+    <link rel="canonical" href="https://rost.fyi/delete" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/site.css" />
+  </head>
+
+  <body>
+    <header class="doc-head">
+      <div class="shell">
+        <a href="/"><img class="wordmark" src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111"></a>
+        <a class="back util" href="/">&lt;&lt;&lt; Back to rost.fyi</a>
+        <h1>Delete your account</h1>
+        <div class="stamp util"><span>Permanent</span><span>No undo</span></div>
+      </div>
+    </header>
+
+    <main class="doc">
+      <div class="shell">
+
+        <p>Deleting your RÖST account removes it and the things you made with it.
+        It happens immediately, it cannot be undone, and we cannot bring an
+        account back once it is gone.</p>
+
+        <p>You do not need to be signed in to read this page. You do need to sign
+        in to delete an account, because the only account we will ever delete is
+        the one you are signed in to.</p>
+
+        <h2 id="what-goes">What is deleted</h2>
+        <ul>
+          <li>Your account and the email address it signs in with.</li>
+          <li>Your profile, your display name and your avatar.</li>
+          <li>Every voice recording you made, in Discover, Connect and Create.</li>
+          <li>Your Connect profile, your answers, your matches and your identity photos.</li>
+          <li>Your voice messages, your follows, your saves and your settings.</li>
+        </ul>
+
+        <h2 id="what-stays">What does not go, and why</h2>
+        <p>Two things deliberately survive. We would rather tell you now than
+        have you find out afterwards.</p>
+        <ul>
+          <li><strong>Reports made about you stay, without your name on them.</strong>
+          The report, the reason and what the reporter wrote are kept; the link to
+          your account is removed. If a report about somebody disappeared the
+          moment they deleted themselves, deleting your account would be a way of
+          destroying evidence.</li>
+          <li><strong>Rooms you started may carry on without you.</strong> A room
+          with another moderator passes to whoever has been a moderator longest,
+          because a room with members is somebody else's too. A room nobody else
+          is running goes with your account.</li>
+        </ul>
+        <p>Anything other people already heard, saved or recorded on another
+        device is outside our reach. We cannot delete somebody else's memory of a
+        conversation.</p>
+
+        <h2 id="go">Delete your account</h2>
+
+        <div id="step-signin" class="panel">
+          <h2>First, sign in</h2>
+          <p>Use the email and password you sign in to RÖST with. This page can
+          only ever delete the account it is signed in to.</p>
+          <div class="notice bad" id="signin-error" role="alert"></div>
+          <form id="signin-form" novalidate>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" autocomplete="email" placeholder="you@email.com" required>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" autocomplete="current-password" required>
+            </div>
+            <div class="btn-row">
+              <button type="submit" class="primary" id="signin-btn">Sign in</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="step-confirm" class="panel zone" hidden>
+          <h2>This deletes everything above</h2>
+          <p class="who">Signed in as <b id="who-email"></b>
+            <button type="button" class="quiet" id="signout-btn">Sign out</button></p>
+          <div class="notice bad" id="delete-error" role="alert"></div>
+          <p>To confirm, type your email address exactly as it appears above.
+          Nothing happens until it matches.</p>
+          <form id="delete-form" novalidate>
+            <div class="field">
+              <label for="confirm">Type your email to confirm</label>
+              <input id="confirm" type="text" autocomplete="off" autocapitalize="none"
+                     spellcheck="false" placeholder="you@email.com">
+            </div>
+            <div class="btn-row">
+              <button type="submit" class="danger" id="delete-btn" disabled>
+                Delete my account permanently
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div id="step-done" class="panel" hidden>
+          <h2>Your account is gone</h2>
+          <p>It has been deleted, along with everything listed above. There is
+          nothing left to sign in to.</p>
+          <p><strong>Thank you for the time you gave RÖST.</strong> You were here
+          early, and that counted for more than you probably think.</p>
+          <p>If you have a minute and something to say about why you left, we
+          would genuinely like to hear it. One line is plenty, and it is the most
+          useful thing anybody can send us.</p>
+          <p><a class="btn-row" id="feedback-link" href="#">Email us your feedback</a></p>
+        </div>
+
+        <h2 id="trouble">If you cannot sign in</h2>
+        <p>If you have lost access to the account and cannot sign in to delete it,
+        email us from the address the account uses and tell us you want it
+        deleted. We will verify it is yours before we do anything.</p>
+        <p id="trouble-email"></p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shell">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <img class="wordmark" src="/assets/wordmark.png" alt="RÖST" width="420" height="111">
+            <p>Less scrolling. More listening.</p>
+            <p class="where util">London. 18 and over.</p>
+          </div>
+
+          <div class="foot-col">
+            <h2>The app</h2>
+            <ul>
+              <li><a href="/#discover">Discover</a></li>
+              <li><a href="/#connect">Connect</a></li>
+              <li><a href="/#create">Create</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Company</h2>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="/#waitlist">Get early access</a></li>
+              <li><a href="/delete">Delete your account</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/child-safety">CSAE Policy</a></li>
+              <li><a href="/community-guidelines">Community Guidelines</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="foot-base">
+          <span>&copy; R&Ouml;ST 2026</span>
+          <span>Made in London</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="/assets/supabase.js"></script>
+    <script>
+      var db = window.supabase.createClient(window.ROST.supabaseUrl, window.ROST.supabaseAnonKey);
+      var MAIL = window.ROST.feedbackEmail;
+
+      var el = function (id) { return document.getElementById(id); };
+      var steps = { signin: el('step-signin'), confirm: el('step-confirm'), done: el('step-done') };
+
+      function show(which) {
+        Object.keys(steps).forEach(function (k) { steps[k].hidden = k !== which; });
+      }
+      function say(node, text, kind) {
+        node.textContent = text || '';
+        node.className = 'notice ' + (kind || 'bad');
+      }
+
+      el('feedback-link').href = 'mailto:' + MAIL + '?subject=' + encodeURIComponent('Why I left RÖST');
+      el('feedback-link').textContent = 'Email us at ' + MAIL;
+      el('trouble-email').innerHTML = 'Email <a href="mailto:' + MAIL + '">' + MAIL + '</a>.';
+
+      var signedInAs = null;
+
+      async function refresh() {
+        var res = await db.auth.getSession();
+        var session = res.data.session;
+        if (!session) { signedInAs = null; show('signin'); return; }
+        signedInAs = session.user.email;
+        el('who-email').textContent = signedInAs;
+        el('confirm').value = '';
+        el('delete-btn').disabled = true;
+        show('confirm');
+      }
+
+      el('signin-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var btn = el('signin-btn');
+        say(el('signin-error'), '');
+        btn.disabled = true; btn.textContent = 'Signing in';
+        var out = await db.auth.signInWithPassword({
+          email: el('email').value.trim(),
+          password: el('password').value,
+        });
+        btn.disabled = false; btn.textContent = 'Sign in';
+        if (out.error) {
+          say(el('signin-error'), 'That email and password did not match an account. ' +
+              'Check them and try again.');
+          return;
+        }
+        el('password').value = '';
+        refresh();
+      });
+
+      el('signout-btn').addEventListener('click', async function () {
+        await db.auth.signOut();
+        refresh();
+      });
+
+      /* The button stays dead until what is typed matches the signed in
+         address exactly, case insensitively. A destructive control that is
+         live by default is one somebody hits by accident. */
+      el('confirm').addEventListener('input', function () {
+        var typed = el('confirm').value.trim().toLowerCase();
+        var match = signedInAs && typed === signedInAs.toLowerCase();
+        el('delete-btn').disabled = !match;
+        el('confirm').dataset.ok = typed.length === 0 || match ? 'true' : 'false';
+      });
+
+      el('delete-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var btn = el('delete-btn');
+        say(el('delete-error'), '');
+        btn.disabled = true; btn.textContent = 'Deleting';
+
+        /* delete_own_account takes no argument on purpose: the only id it
+           can act on is the one in the token. */
+        var out = await db.rpc('delete_own_account');
+
+        if (out.error) {
+          btn.disabled = false; btn.textContent = 'Delete my account permanently';
+          say(el('delete-error'), 'We could not delete the account just then. ' +
+              'Nothing has been changed. Try again, and if it keeps failing email ' + MAIL + '.');
+          return;
+        }
+
+        /* The account behind this session no longer exists, so the local
+           session is already meaningless. Clearing it is tidiness, and it
+           is allowed to fail. */
+        try { await db.auth.signOut(); } catch (err) {}
+        show('done');
+        window.scrollTo({ top: el('step-done').offsetTop - 80, behavior: 'smooth' });
+      });
+
+      refresh();
+    </script>
+  </body>
+</html>

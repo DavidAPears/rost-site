@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin. RÖST</title>
+
+    <meta name="description" content="Staff only." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#040B0A" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+    <link rel="canonical" href="https://rost.fyi/admin" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/site.css" />
+  </head>
+
+  <body>
+    <header class="doc-head">
+      <div class="shell">
+        <a href="/"><img class="wordmark" src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111"></a>
+        <a class="back util" href="/">&lt;&lt;&lt; Back to rost.fyi</a>
+        <h1>Admin</h1>
+        <div class="stamp util"><span>Staff only</span><span>Counts, never people</span></div>
+      </div>
+    </header>
+
+    <main class="doc">
+      <div class="shell">
+
+        <div id="step-signin" class="panel">
+          <h2>Sign in</h2>
+          <p>Staff accounts only.</p>
+          <div class="notice bad" id="signin-error" role="alert"></div>
+          <form id="signin-form" novalidate>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" autocomplete="current-password" required>
+            </div>
+            <div class="btn-row">
+              <button type="submit" class="primary" id="signin-btn">Sign in</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="step-denied" class="panel" hidden>
+          <h2>This is a staff page</h2>
+          <p class="who">Signed in as <b id="denied-email"></b>
+            <button type="button" class="quiet" id="denied-signout">Sign out</button></p>
+          <p>That account is not staff. Nothing else to see here.</p>
+        </div>
+
+        <div id="step-dash" hidden>
+          <p class="who">Signed in as <b id="who-email"></b>
+            <button type="button" class="quiet" id="signout-btn">Sign out</button>
+            <button type="button" class="quiet" id="refresh-btn">Refresh</button></p>
+
+          <div class="notice bad" id="dash-error" role="alert"></div>
+
+          <div class="tiles" id="tiles"></div>
+
+          <div class="panel">
+            <h2>How far people get</h2>
+            <p>One row per person per milestone, the first time they reach it.
+            Counts only: there is no version of this that returns who.</p>
+            <div class="funnel" id="funnel"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Not wired up yet</h2>
+            <p>Everything above comes from <code>get_funnel()</code>, which is the
+            only staff-readable statistic that exists today. These need a
+            migration before this page can show them, and each one has to be a
+            count or a distribution rather than a list of people and what they
+            said.</p>
+            <ul>
+              <li><strong>Accounts</strong>, total and active in the last week.</li>
+              <li><strong>Recordings</strong>, total, and the distribution of their lengths.</li>
+              <li><strong>Rooms and messages</strong>, counts only.</li>
+              <li><strong>Retention</strong>, how many of each week's arrivals came back.</li>
+              <li><strong>Capacity.</strong> <code>src/lib/capacity.ts</code> in the app
+              models the free tier limits and which resource binds first, and has
+              no caller. It was written for this page.</li>
+              <li><strong>The report queue.</strong> Five kinds of thing can be
+              reported and every report writes a row. No screen shows one yet.
+              That is the gap that matters most, and it is a different build from
+              this dashboard.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shell">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <img class="wordmark" src="/assets/wordmark.png" alt="RÖST" width="420" height="111">
+            <p>Less scrolling. More listening.</p>
+            <p class="where util">London. 18 and over.</p>
+          </div>
+
+          <div class="foot-col">
+            <h2>The app</h2>
+            <ul>
+              <li><a href="/#discover">Discover</a></li>
+              <li><a href="/#connect">Connect</a></li>
+              <li><a href="/#create">Create</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Company</h2>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="/#waitlist">Get early access</a></li>
+              <li><a href="/delete">Delete your account</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/child-safety">CSAE Policy</a></li>
+              <li><a href="/community-guidelines">Community Guidelines</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="foot-base">
+          <span>&copy; R&Ouml;ST 2026</span>
+          <span>Made in London</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="/assets/supabase.js"></script>
+    <script>
+      var db = window.supabase.createClient(window.ROST.supabaseUrl, window.ROST.supabaseAnonKey);
+      var el = function (id) { return document.getElementById(id); };
+      var steps = { signin: el('step-signin'), denied: el('step-denied'), dash: el('step-dash') };
+
+      function show(which) {
+        Object.keys(steps).forEach(function (k) { steps[k].hidden = k !== which; });
+      }
+      function say(node, text) { node.textContent = text || ''; }
+
+      /* The order the funnel is read in, which is not the enum's order and
+         not alphabetical. It is roughly how a person moves through the app. */
+      var ORDER = ['onboarded','posted','broadcast','connect_on','messaged',
+                   'room_joined','room_made','commissioned','delivered'];
+      var LABEL = {
+        onboarded:'Onboarded', posted:'Posted', broadcast:'Broadcast',
+        connect_on:'Connect on', messaged:'Messaged', room_joined:'Joined a room',
+        room_made:'Made a room', commissioned:'Commissioned', delivered:'Delivered',
+      };
+
+      function drawFunnel(rows) {
+        var by = {};
+        rows.forEach(function (r) { by[r.milestone] = r.people; });
+        var top = Math.max.apply(null, ORDER.map(function (k) { return by[k] || 0; }).concat([1]));
+        var base = by.onboarded || 0;
+
+        el('funnel').innerHTML = ORDER.map(function (k) {
+          var n = by[k] || 0;
+          var pct = base ? Math.round((n / base) * 100) : 0;
+          return '<div class="rung">' +
+            '<span class="name">' + LABEL[k] + '</span>' +
+            '<span class="track"><span class="bar" style="width:' +
+              (top ? (n / top) * 100 : 0).toFixed(1) + '%"></span></span>' +
+            '<span class="val">' + n +
+              (k === 'onboarded' ? '' : ' <span class="pct">' + pct + '%</span>') +
+            '</span></div>';
+        }).join('');
+
+        el('tiles').innerHTML =
+          '<div class="tile"><span class="k">Onboarded</span>' +
+            '<span class="v">' + base + '</span>' +
+            '<span class="n">finished signing up</span></div>' +
+          '<div class="tile"><span class="k">Posted something</span>' +
+            '<span class="v">' + (by.posted || 0) + '</span>' +
+            '<span class="n">' + (base ? Math.round(((by.posted||0)/base)*100) : 0) +
+            '% of those who arrived</span></div>' +
+          '<div class="tile"><span class="k">Said something to somebody</span>' +
+            '<span class="v">' + (by.messaged || 0) + '</span>' +
+            '<span class="n">' + (base ? Math.round(((by.messaged||0)/base)*100) : 0) +
+            '% of those who arrived</span></div>';
+      }
+
+      async function load() {
+        say(el('dash-error'), '');
+        var out = await db.rpc('get_funnel');
+        if (out.error) {
+          say(el('dash-error'), 'Could not read the funnel: ' + out.error.message);
+          return;
+        }
+        drawFunnel(out.data || []);
+      }
+
+      async function refresh() {
+        var res = await db.auth.getSession();
+        var session = res.data.session;
+        if (!session) { show('signin'); return; }
+
+        /* is_staff() is the same check every staff-only function in the
+           database makes. The page asking is a convenience: the gate that
+           matters is in the function, not here. */
+        var staff = await db.rpc('is_staff');
+        if (staff.error || staff.data !== true) {
+          el('denied-email').textContent = session.user.email;
+          show('denied');
+          return;
+        }
+        el('who-email').textContent = session.user.email;
+        show('dash');
+        load();
+      }
+
+      el('signin-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var btn = el('signin-btn');
+        say(el('signin-error'), '');
+        btn.disabled = true; btn.textContent = 'Signing in';
+        var out = await db.auth.signInWithPassword({
+          email: el('email').value.trim(), password: el('password').value,
+        });
+        btn.disabled = false; btn.textContent = 'Sign in';
+        if (out.error) { say(el('signin-error'), 'That did not match an account.'); return; }
+        el('password').value = '';
+        refresh();
+      });
+
+      ['signout-btn','denied-signout'].forEach(function (id) {
+        el(id).addEventListener('click', async function () {
+          await db.auth.signOut(); refresh();
+        });
+      });
+      el('refresh-btn').addEventListener('click', load);
+
+      refresh();
+    </script>
+  </body>
+</html>

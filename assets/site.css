@@ -151,3 +151,90 @@ footer{padding:clamp(44px,5vw,76px) var(--pad) clamp(26px,3vw,38px);border-top:1
 }
 .doc tbody tr:last-child td{border-bottom:0}
 .doc td{color:var(--muted)}
+
+/* ===================== account and staff pages ===================== */
+:root{
+  --danger:#FF6B5A;        /* palette.coral500 */
+  --danger-pressed:#C94131;/* palette.coral600 */
+}
+
+.panel{
+  background:var(--surface);border:1px solid var(--edge);border-radius:12px;
+  padding:clamp(22px,2.6vw,32px);margin:0 0 20px;
+}
+.panel h2{
+  font-size:clamp(1.15rem,1.8vw,1.45rem);letter-spacing:-0.02em;margin:0 0 8px;
+}
+.panel > p{margin:0 0 18px;color:var(--muted);font-size:0.9375rem}
+.panel > p:last-child{margin-bottom:0}
+
+.field{display:flex;flex-direction:column;gap:7px;margin:0 0 14px}
+.field label{color:var(--dim);font-size:var(--util);font-weight:700;
+             letter-spacing:0.16em;text-transform:uppercase}
+.field input{
+  background:var(--ground);border:1px solid var(--edge);border-radius:6px;
+  color:var(--text);font:inherit;font-size:1rem;padding:14px 15px;width:100%;
+}
+.field input::placeholder{color:var(--dim)}
+.field input:focus{outline:none;border-color:var(--lime)}
+.field input[data-ok="false"]{border-color:var(--danger)}
+
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:4px}
+button.primary,button.danger,button.quiet{
+  appearance:none;border:0;border-radius:6px;cursor:pointer;
+  font-family:Inter,sans-serif;font-size:var(--util);font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;padding:15px 26px;
+}
+button.primary{background:var(--lime);color:var(--ink)}
+button.primary:hover:not(:disabled){background:#fff}
+button.danger{background:var(--danger);color:#1A0B08}
+button.danger:hover:not(:disabled){background:var(--danger-pressed);color:#fff}
+button.quiet{background:none;border:1px solid var(--edge);color:var(--muted)}
+button.quiet:hover{border-color:var(--muted);color:var(--text)}
+button:disabled{opacity:0.38;cursor:not-allowed}
+
+.zone{border:1px solid var(--danger);border-radius:12px;background:rgba(255,107,90,0.05)}
+.zone h2{color:var(--danger)}
+
+.notice{
+  border-radius:6px;padding:13px 15px;margin:0 0 16px;font-size:0.9375rem;
+  border:1px solid var(--edge);color:var(--muted);
+}
+.notice.bad{border-color:var(--danger);color:var(--danger);background:rgba(255,107,90,0.07)}
+.notice.good{border-color:var(--lime);color:var(--lime);background:rgba(230,255,77,0.06)}
+.notice:empty{display:none}
+
+.who{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin:0 0 18px;color:var(--muted);font-size:0.9375rem;
+}
+.who b{color:var(--text);font-weight:600}
+
+/* ===================== the funnel ===================== */
+.funnel{display:flex;flex-direction:column;gap:3px}
+.rung{
+  display:grid;grid-template-columns:minmax(118px,auto) 1fr minmax(58px,auto);
+  gap:14px;align-items:center;padding:7px 0;
+}
+.rung .name{color:var(--muted);font-size:0.9375rem}
+.rung .track{height:22px;background:rgba(247,247,241,0.045);border-radius:4px;position:relative}
+.rung .bar{
+  height:100%;background:var(--lime);
+  border-radius:0 4px 4px 0;min-width:2px;
+  transition:width 420ms cubic-bezier(.2,.7,.3,1);
+}
+.rung .val{
+  color:var(--text);font-variant-numeric:tabular-nums;font-weight:600;
+  font-size:0.9375rem;text-align:right;
+}
+.rung .pct{color:var(--dim);font-size:0.8125rem;font-variant-numeric:tabular-nums}
+.rung:hover .track{background:rgba(247,247,241,0.08)}
+@media (prefers-reduced-motion:reduce){.rung .bar{transition:none}}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:0 0 22px}
+.tile{background:var(--ground);border:1px solid var(--edge);border-radius:10px;padding:18px}
+.tile .k{color:var(--dim);font-size:var(--util);font-weight:700;
+         letter-spacing:0.16em;text-transform:uppercase;display:block;margin-bottom:9px}
+.tile .v{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;
+         font-size:clamp(1.7rem,3vw,2.3rem);line-height:1;font-variant-numeric:tabular-nums}
+.tile .n{color:var(--dim);font-size:0.8125rem;margin-top:7px;display:block}
