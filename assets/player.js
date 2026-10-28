@@ -102,13 +102,10 @@
   decide();
 
   function setPlaying(on) {
-    var glyph = on
+    el('play-glyph').innerHTML = on
       ? '<rect x="1" y="1" width="10" height="10"/>'
       : '<polygon points="1,0 12,6 1,12"/>';
-    el('play-glyph').innerHTML = glyph;
     el('play').setAttribute('aria-label', on ? 'Pause' : 'Play');
-    el('hear-disc').querySelector('svg').innerHTML = glyph;
-    el('hear-label').textContent = on ? 'Stop' : 'Hear RÖST';
   }
 
   function toggle() {
@@ -129,7 +126,6 @@
   }
 
   el('play').addEventListener('click', toggle);
-  el('hear').addEventListener('click', toggle);
 
   audio.addEventListener('play', function () { setPlaying(true); decide(); });
   ['pause', 'ended'].forEach(function (e) {

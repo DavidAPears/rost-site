@@ -43,15 +43,11 @@
       /* ---------- nav ---------- */
       .nav{position:relative;z-index:2;border-bottom:1px solid var(--edge);
            padding:clamp(14px,1.6vw,20px) var(--pad);flex:none}
-      .nav-inner{display:flex;align-items:center;gap:clamp(18px,3vw,48px)}
+      .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,3vw,48px)}
       .nav-brand{display:block;text-decoration:none;flex:none}
       .nav-brand img{width:clamp(118px,11vw,172px);height:auto}
       .nav-brand span{display:block;color:var(--muted);margin-top:7px;font-size:0.5625rem}
-      .nav-mid{display:flex;gap:clamp(16px,2.4vw,34px);margin:0 auto}
-      .nav-mid a,.nav-end a:not(.pill){color:var(--text);text-decoration:none;font-size:0.9375rem}
-      .nav-mid a:hover,.nav-end a:not(.pill):hover{color:var(--lime)}
       .nav-end{display:flex;align-items:center;gap:clamp(14px,1.8vw,24px);flex:none}
-      .nav-rule{width:1px;height:22px;background:var(--edge)}
       .pill{
         display:inline-block;background:var(--lime);color:var(--ink);
         border-radius:999px;padding:13px 22px;text-decoration:none;
@@ -62,33 +58,29 @@
 
       /* ---------- hero ---------- */
       .stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;
-             justify-content:center;gap:clamp(24px,3.4vw,52px);
+             justify-content:center;gap:clamp(30px,4.2vw,64px);
              padding:clamp(24px,3vw,44px) var(--pad) clamp(20px,2.4vw,34px)}
-      .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+      .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.92fr);
             gap:clamp(28px,4vw,64px);align-items:center}
       .eyebrow{color:var(--muted);margin:0 0 clamp(12px,1.4vw,18px)}
       .hero h1{font-size:clamp(2.4rem,4.6vw,4rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
       .lede{margin:clamp(16px,1.8vw,24px) 0 clamp(22px,2.6vw,32px);
             color:var(--muted);font-size:clamp(1rem,1.15vw,1.125rem);max-width:42ch}
-      .hero-cta{display:flex;align-items:center;gap:clamp(14px,1.8vw,24px);flex-wrap:wrap}
-      .hear{display:inline-flex;align-items:center;gap:13px;background:none;border:0;
-            color:var(--text);font:inherit;font-size:1.0625rem;cursor:pointer;padding:0}
-      .hear .disc{width:46px;height:46px;border-radius:50%;border:1px solid var(--lime);
-                  display:flex;align-items:center;justify-content:center;flex:none}
-      .hear .disc svg{width:13px;height:13px;fill:var(--lime)}
-      .hear:hover .disc{background:rgba(230,255,77,0.1)}
 
       /* ---------- the player, which is a real one ---------- */
-      .player{margin:0;background:rgba(10,19,17,0.72);border:1px solid var(--edge);
-              border-radius:16px;padding:clamp(20px,2.2vw,30px);backdrop-filter:blur(6px)}
+      /* Held narrower than its column and shorter than it wants to be, so
+         there is air between it and the cards underneath. */
+      .player{margin:0 0 0 auto;max-width:min(100%,560px);
+              background:rgba(10,19,17,0.72);border:1px solid var(--edge);
+              border-radius:16px;padding:clamp(17px,1.9vw,25px);backdrop-filter:blur(6px)}
       .player-head{display:flex;justify-content:space-between;align-items:center;
                    color:var(--muted);margin-bottom:clamp(10px,1.2vw,16px)}
       .player-head svg{width:19px;height:19px;stroke:var(--muted);fill:none;stroke-width:1.6;
                        stroke-linecap:round;stroke-linejoin:round}
-      .player canvas{display:block;width:100%;height:clamp(110px,13vw,168px)}
+      .player canvas{display:block;width:100%;height:clamp(96px,11vw,142px)}
       .transport{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px);
                  margin:clamp(12px,1.4vw,18px) 0 clamp(14px,1.6vw,20px)}
-      .transport button{width:54px;height:54px;border-radius:50%;border:0;background:var(--lime);
+      .transport button{width:48px;height:48px;border-radius:50%;border:0;background:var(--lime);
                         color:var(--ink);cursor:pointer;display:flex;align-items:center;
                         justify-content:center;flex:none}
       .transport button svg{width:16px;height:16px;fill:currentColor}
@@ -111,8 +103,11 @@
       .feature:hover{border-color:var(--bar)}
       .feature .ico{width:46px;height:46px;border-radius:50%;background:rgba(230,255,77,0.1);
                     display:flex;align-items:center;justify-content:center;flex:none}
-      .feature .ico svg{width:21px;height:21px;stroke:var(--lime);fill:none;stroke-width:1.7;
-                        stroke-linecap:round;stroke-linejoin:round}
+      /* Ionicons, the same three the app's tab bar uses, so the website and
+         the app look related. They are drawn on a 512 viewBox and carry
+         their own stroke-width of 32, so nothing here may override it:
+         only the colour, which they take from currentColor. */
+      .feature .ico svg{width:23px;height:23px;color:var(--lime)}
       .feature .k{display:block;color:var(--dim);margin-bottom:7px}
       .feature h2{font-size:clamp(1rem,1.25vw,1.2rem);line-height:1.22;letter-spacing:-0.02em;
                   margin:0 0 7px;color:var(--text)}
@@ -137,15 +132,12 @@
       .said:empty{margin:0}
 
       @media (max-width:1040px){
-        .nav-mid{display:none}
         .hero{grid-template-columns:1fr;gap:28px}
         .cards{grid-template-columns:1fr}
         .feature{align-items:center}
         .fold{min-height:0}
       }
       @media (max-width:560px){
-        .nav-end a:not(.pill){display:none}
-        .hero-cta{gap:16px}
         .pill{padding:12px 18px}
       }
     </style>
@@ -161,14 +153,7 @@
             <img src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
             <span class="util">Less scrolling. More listening.</span>
           </a>
-          <nav class="nav-mid">
-            <a href="#discover">Discover</a>
-            <a href="#connect">Connect</a>
-            <a href="#create">Create</a>
-          </nav>
           <div class="nav-end">
-            <a href="/about">About</a>
-            <span class="nav-rule"></span>
             <a class="pill" href="#early">Get early access</a>
           </div>
         </div>
@@ -182,15 +167,6 @@
               <h1>Less scrolling.<br>More talking.</h1>
               <p class="lede">Share voice notes, meet people through conversation
               and get heard. No endless feeds. Just real voices.</p>
-              <div class="hero-cta">
-                <a class="pill" href="#early">Get early access</a>
-                <button type="button" class="hear" id="hear">
-                  <span class="disc" id="hear-disc">
-                    <svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg>
-                  </span>
-                  <span id="hear-label">Hear R&Ouml;ST</span>
-                </button>
-              </div>
             </div>
 
             <figure class="player">
@@ -219,7 +195,7 @@
 
           <div class="cards">
             <a class="feature" id="discover" href="/about#discover">
-              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="2" y="13" width="5" height="7" rx="2"/><rect x="17" y="13" width="5" height="7" rx="2"/></svg></span>
+              <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="208" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="256" cy="256" r="96" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><circle cx="256" cy="256" r="32" fill="currentColor"/></svg></span>
               <span>
                 <span class="k util">Discover</span>
                 <h2>Social, but make it audio.</h2>
@@ -229,7 +205,7 @@
             </a>
 
             <a class="feature" id="connect" href="/about#connect">
-              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.2A4 4 0 0 1 12 8a4 4 0 0 1 7-1.2c0 4.8-7 13.2-7 13.2Z"/></svg></span>
+              <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M402 168c-2.93 40.67-33.1 72-66 72s-63.12-31.32-66-72c-3-42.31 26.37-72 66-72s69 30.46 66 72z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M336 304c-65.17 0-127.84 32.37-143.54 95.41-2.08 8.34 3.15 16.59 11.72 16.59h263.65c8.57 0 13.77-8.25 11.72-16.59C463.85 335.36 401.18 304 336 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path d="M200 185.94c-2.34 32.48-26.72 58.06-53 58.06s-50.7-25.57-53-58.06C91.61 152.15 115.34 128 147 128s55.39 24.77 53 57.94z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M206 306c-18.05-8.27-37.93-11.45-59-11.45-52 0-102.1 25.85-114.65 76.2-1.65 6.66 2.53 13.25 9.37 13.25H154" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/></svg></span>
               <span>
                 <span class="k util">Connect</span>
                 <h2>Fall for a voice first.</h2>
@@ -239,7 +215,7 @@
             </a>
 
             <a class="feature" id="create" href="/about#create">
-              <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></span>
+              <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M259.92 262.91L216.4 149.77a9 9 0 00-16.8 0l-43.52 113.14a9 9 0 01-5.17 5.17L37.77 311.6a9 9 0 000 16.8l113.14 43.52a9 9 0 015.17 5.17l43.52 113.14a9 9 0 0016.8 0l43.52-113.14a9 9 0 015.17-5.17l113.14-43.52a9 9 0 000-16.8l-113.14-43.52a9 9 0 01-5.17-5.17zM108 68L88 16 68 68 16 88l52 20 20 52 20-52 52-20-52-20zM426.67 117.33L400 48l-26.67 69.33L304 144l69.33 26.67L400 240l26.67-69.33L496 144l-69.33-26.67z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
               <span>
                 <span class="k util">Create</span>
                 <h2>Your voice deserves an audience.</h2>
