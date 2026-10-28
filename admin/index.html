@@ -572,6 +572,7 @@
           db.rpc('get_platform_counts'),
           db.rpc('get_recording_lengths'),
           db.rpc('get_weekly_cohorts'),
+          db.rpc('get_waitlist_count'),
         ]);
         var bad = out.filter(function (r) { return r.error; });
         if (bad.length) {
@@ -582,6 +583,13 @@
         if (out[1].data && out[1].data[0]) drawCounts(out[1].data[0]);
         if (out[2].data) drawLengths(out[2].data);
         if (out[3].data) drawCohorts(out[3].data);
+        /* A count, never the addresses. The dashboard has no business
+           holding everybody's email. */
+        if (typeof out[4].data === 'number') {
+          el('tiles').insertAdjacentHTML('beforeend',
+            '<div class="tile"><span class="k">Waiting</span><span class="v">' +
+            out[4].data + '</span><span class="n">on the launch list</span></div>');
+        }
       }
 
       async function refresh() {

@@ -592,17 +592,9 @@
         });
       });
 
-      document.getElementById('form').addEventListener('submit', function(e){
-        e.preventDefault();
-        var field = document.getElementById('email'), said = document.getElementById('said');
-        if (!field.value || field.value.indexOf('@') < 1){
-          said.textContent = 'That needs to be an email address we can reach you on.';
-          field.focus();
-          return;
-        }
-        said.textContent = 'Noted. Nothing is stored yet, this field still needs wiring to a list.';
-        field.value = '';
-      });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="/assets/supabase.js"></script>
+    <script src="/assets/waitlist.js" defer></script>
   </body>
 </html>
