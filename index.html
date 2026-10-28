@@ -87,6 +87,7 @@
               border-radius:16px;padding:clamp(15px,1.6vw,21px);backdrop-filter:blur(6px)}
       .player-head{display:flex;justify-content:space-between;align-items:center;
                    color:var(--muted);margin-bottom:clamp(8px,0.9vw,12px)}
+      .player-head .source{color:var(--lime)}
       .player-head svg{width:19px;height:19px;stroke:var(--muted);fill:none;stroke-width:1.6;
                        stroke-linecap:round;stroke-linejoin:round}
       .player canvas{display:block;width:100%;height:clamp(82px,9vw,116px)}
@@ -184,7 +185,7 @@
 
             <figure class="player">
               <figcaption class="player-head util">
-                <span>Voice note &middot; <span id="total">0:18</span></span>
+                <span class="source">Discover &middot; Unfiltered thoughts</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>
                   <path d="M18.5 5.5a9 9 0 0 1 0 13"/>
@@ -201,8 +202,9 @@
                 <span class="time" id="time">0:00 / 0:18</span>
               </div>
 
-              <p class="quote" id="quote">&ldquo;Okay, unpopular opinion: voice notes are better than texting&hellip;&rdquo;</p>
-              <p class="note util">An example of what you&rsquo;ll hear on R&Ouml;ST</p>
+              <p class="quote" id="quote">&ldquo;You can tell more about someone from thirty seconds of
+              hearing them talk than from scrolling their whole profile&hellip;&rdquo;</p>
+              <p class="note util">A thought worth sharing</p>
             </figure>
           </div>
 

@@ -42,7 +42,7 @@
   var sized = wave.size();
   if (sized) wave.draw();
 
-  var audio = new Audio('/voice.m4a');
+  var audio = new Audio('/assets/voice.m4a');
   audio.preload = 'metadata';
   audio.crossOrigin = 'anonymous';
 
@@ -63,8 +63,7 @@
   }
 
   function paintTime() {
-    var d = isFinite(audio.duration) ? audio.duration : 18;
-    el('total').textContent = clock(d);
+    var d = isFinite(audio.duration) ? audio.duration : 0;
     el('time').textContent = clock(audio.currentTime) + ' / ' + clock(d);
     el('fill').style.width = (d ? (audio.currentTime / d) * 100 : 0).toFixed(2) + '%';
   }
