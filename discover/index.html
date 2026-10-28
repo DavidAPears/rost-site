@@ -61,7 +61,33 @@
                  font-size:clamp(0.9375rem,1.05vw,1.0625rem);max-width:44ch}
 
       /* ---------- the phone, which holds no faces ---------- */
-      .phone{justify-self:end;width:min(100%,286px);border:8px solid #10211D;border-radius:34px;
+      /* The three portraits sit in phone frames around the real one, as in
+         the reference. Absolutely positioned, so they add nothing to the
+         fold's height, and the fold's own overflow:hidden crops whatever
+         runs past the right edge, which is what the reference does too. */
+      /* Pulled in from the shell's right edge so the two frames that sit
+         outside the phone have somewhere to be. Without it they run past
+         the viewport and the fold's overflow:hidden slices them. */
+      .phones{position:relative;justify-self:end;width:min(100%,286px);
+              margin-right:clamp(0px,4.5vw,74px)}
+      .ghost{position:absolute;overflow:hidden;z-index:0;
+             border:5px solid #0E1C19;border-radius:22px;
+             box-shadow:0 18px 44px rgba(0,0,0,0.5)}
+      .ghost img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.85)}
+      .ghost::after{content:"";position:absolute;inset:0;
+                    background:linear-gradient(180deg,rgba(4,11,10,0.18),rgba(4,11,10,0.62))}
+      .ghost.left{width:150px;height:300px;left:-104px;top:58px;transform:rotate(-7deg)}
+      .ghost.upper{width:138px;height:276px;right:-104px;top:-4px;transform:rotate(8deg)}
+      .ghost.lower{width:138px;height:276px;right:-66px;bottom:-14px;transform:rotate(-5deg)}
+
+      /* The two lime marks in the reference's top corner. */
+      .slash{position:absolute;right:-138px;top:30px;width:46px;height:46px;z-index:0}
+      .slash::before,.slash::after{content:"";position:absolute;width:2px;height:30px;
+                                   background:var(--lime);transform:rotate(26deg)}
+      .slash::before{left:6px;top:0}
+      .slash::after{left:20px;top:11px;height:20px;opacity:0.65}
+
+      .phone{position:relative;z-index:1;width:100%;border:8px solid #10211D;border-radius:34px;
              background:var(--ground);box-shadow:0 30px 70px rgba(0,0,0,0.55);overflow:hidden}
       .screen{padding:11px 10px 13px}
       .bezel{display:flex;justify-content:center;padding:5px 0 8px}
@@ -145,7 +171,10 @@
 
       @media (max-width:1040px){
         .top-grid{grid-template-columns:1fr;gap:34px}
-        .phone{justify-self:start}
+        .phones{justify-self:start}
+        /* The flanking frames crowd a single column and would be clipped
+           to slivers, so they stand down rather than half-appearing. */
+        .ghost,.slash{display:none}
         .claims{grid-template-columns:1fr}
         .find-grid{grid-template-columns:1fr;gap:30px}
         .find-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -185,7 +214,13 @@
             <a class="pill" href="/#early">Get early access</a>
           </div>
 
-          <div class="phone">
+          <div class="phones">
+            <span class="slash" aria-hidden="true"></span>
+            <span class="ghost left"><img src="/assets/discover_left_woman_portrait.jpg" alt="" width="509" height="1024" loading="lazy"></span>
+            <span class="ghost upper"><img src="/assets/discover_middle_man_portrait.jpg" alt="" width="506" height="1024" loading="lazy"></span>
+            <span class="ghost lower"><img src="/assets/discover_right_woman_portrait.jpg" alt="" width="509" height="1024" loading="lazy"></span>
+
+            <div class="phone">
             <div class="bezel"><span></span></div>
             <div class="screen">
               <div class="scrtitle">
@@ -226,6 +261,7 @@
                 <p class="said">&ldquo;I&rsquo;m gatekeeping this caf&eacute; and here is exactly why.&rdquo;</p>
               </div>
             </article>
+            </div>
             </div>
           </div>
         </div>
