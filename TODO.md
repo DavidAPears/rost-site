@@ -118,17 +118,7 @@ reach it by typing the path.
 
 ## Build work, nothing blocking it
 
-### 9. Share previews are a 500×500 icon
-
-Every page sets `twitter:card` to `summary_large_image` and then gives
-it `/assets/icon.png`, which is square. A link to RÖST pasted into a
-group chat is the first impression most people get, and right now it
-renders as a small square or gets cropped.
-
-Wants a **1200×630** image, and probably a different one per page.
-There is also no `og:url` on any page.
-
-### 10. No `robots.txt` and no `sitemap.xml`
+### 9. No `robots.txt` and no `sitemap.xml`
 
 `/about` was written for search engines and there is nothing telling
 them what to crawl. The four `noindex` pages (`/privacy`, `/terms`,
@@ -139,7 +129,7 @@ seven belong in it.
 
 ## Carried over from the app side
 
-### 11. Public playback at `/r/<code>`
+### 10. Public playback at `/r/<code>`
 
 A shared link should play one voice note and offer the app. Nothing in
 the database is readable by an anonymous visitor today, and the audio
@@ -152,7 +142,7 @@ minted somewhere privileged anyway.
 a second product to keep in step and it sidesteps every age-assurance
 control the app has.
 
-### 12. The storage purge sweep has never run against a real queue
+### 11. The storage purge sweep has never run against a real queue
 
 Deployed and scheduled weekly, Sunday 04:17 UTC. Deleting an account
 from `/delete` leaves the audio in the bucket until it runs. Worth one
@@ -162,12 +152,12 @@ real deletion and then:
 select count(*) from public.pending_storage_purges where purged_at is null;
 ```
 
-### 13. Play Console Data safety form
+### 12. Play Console Data safety form
 
 It has to point at `https://rost.fyi/delete`. The page existing is not
 the whole requirement.
 
-### 14. A Gmail filter on the `To:` address
+### 13. A Gmail filter on the `To:` address
 
 So mail to `safety@rost.fyi` labels itself rather than landing in the
 same place as everything else.
@@ -190,3 +180,7 @@ same place as everything else.
 - `/delete` is reachable without signing in and says what is kept,
   including that reports survive the account, which is deliberate in the
   schema rather than an oversight.
+- Share previews: one 1200×630 card at `/assets/share.jpg`, on all ten
+  public pages with absolute `og:url`, width, height and alt. The home
+  page had no `canonical` at all and now has one. `/admin` is left
+  without share tags on purpose.
