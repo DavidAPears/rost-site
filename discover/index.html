@@ -116,8 +116,15 @@
       /* The artwork stands in for photography. It is the brand's own and it
          is abstract, which is the point: this is a page about voices. */
       .find img{width:100%;height:clamp(104px,10vw,146px);object-fit:cover;display:block}
-      .find .chip{display:inline-block;margin:clamp(12px,1.3vw,16px) clamp(12px,1.3vw,16px) 0}
+      .find{position:relative}
+      .find .chip{position:absolute;top:clamp(84px,8vw,118px);left:clamp(12px,1.3vw,16px);
+                  display:inline-flex;align-items:center;gap:6px;
+                  background:rgba(4,11,10,0.82);backdrop-filter:blur(4px);
+                  padding:6px 11px 6px 9px;border-color:rgba(230,255,77,0.45)}
+      .find .chip svg{width:13px;height:13px;color:var(--lime);flex:none}
+      .find h3{margin-top:clamp(24px,2.4vw,32px)}
       .find h3{font-size:0.9375rem;letter-spacing:-0.01em;margin:9px clamp(12px,1.3vw,16px) 6px}
+      .find{display:flex;flex-direction:column}
       .find p{margin:0 clamp(12px,1.3vw,16px);color:var(--muted);font-size:0.8125rem;line-height:1.45}
 
       .early{border-top:1px solid var(--edge);background:var(--ground);
@@ -247,28 +254,28 @@
           </div>
           <div class="find-cards">
           <article class="find">
-            <img src="/assets/bg_static.jpg" alt="" style="object-position:12% 50%">
-            <span class="chip lime">Life</span>
+            <img src="/assets/discover_life.jpg" alt="Two friends laughing together" width="764" height="508" loading="lazy">
+            <span class="chip"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M87.49 380c1.19-4.38-1.44-10.47-3.95-14.86a44.86 44.86 0 00-2.54-3.8 199.81 199.81 0 01-33-110C47.65 139.09 140.73 48 255.83 48 356.21 48 440 117.54 459.58 209.85a199 199 0 014.42 41.64c0 112.41-89.49 204.93-204.59 204.93-18.3 0-43-4.6-56.47-8.37s-26.92-8.77-30.39-10.11a31.09 31.09 0 00-11.12-2.07 30.71 30.71 0 00-12.09 2.43l-67.83 24.48a16 16 0 01-4.67 1.22 9.6 9.6 0 01-9.57-9.74 15.85 15.85 0 01.6-3.29z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/></svg>Life</span>
             <h3>Unfiltered opinions</h3>
             <p>Hot takes, rants and random thoughts.</p>
           </article>
           <article class="find">
-            <img src="/assets/bg_static.jpg" alt="" style="object-position:38% 50%">
-            <span class="chip lime">Storytelling</span>
+            <img src="/assets/discover_travel.jpg" alt="A sunset seen from an aeroplane window" width="764" height="508" loading="lazy">
+            <span class="chip"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M256 160c16-63.16 76.43-95.41 208-96a15.94 15.94 0 0116 16v288a16 16 0 01-16 16c-128 0-177.45 25.81-208 64-30.37-38-80-64-208-64-9.88 0-16-8.05-16-17.93V80a15.94 15.94 0 0116-16c131.57.59 192 32.84 208 96zM256 160v288" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>Storytelling</span>
             <h3>Stories from everywhere</h3>
             <p>Hidden gems, local tips and unforgettable moments.</p>
           </article>
           <article class="find">
-            <img src="/assets/bg_static.jpg" alt="" style="object-position:64% 50%">
-            <span class="chip lime">Advice</span>
+            <img src="/assets/discover_relationships.jpg" alt="Somebody at home with their cat" width="764" height="508" loading="lazy">
+            <span class="chip"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>Advice</span>
             <h3>Real conversations</h3>
-            <p>Friendship, family and everything in between.</p>
+            <p>Friendship, dating, family and everything in between.</p>
           </article>
           <article class="find">
-            <img src="/assets/bg_static.jpg" alt="" style="object-position:88% 50%">
-            <span class="chip lime">Culture</span>
+            <img src="/assets/discover_culture.jpg" alt="A night out in a crowd" width="764" height="508" loading="lazy">
+            <span class="chip"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M192 218v-6c0-14.84 10-27 24.24-30.59l174.59-46.68A20 20 0 01416 154v22" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M416 295.94v80c0 13.91-8.93 25.59-22 30l-22 8c-25.9 8.72-52-10.42-52-38h0a33.37 33.37 0 0123-32l51-18.15c13.07-4.4 22-15.94 22-29.85V58a10 10 0 00-12.6-9.61L204 102a16.48 16.48 0 00-12 16v226c0 13.91-8.93 25.6-22 30l-52 18c-13.88 4.68-22 17.22-22 32h0c0 27.58 26.52 46.55 52 38l22-8c13.07-4.4 22-16.08 22-30v-80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>Culture</span>
             <h3>What is happening now</h3>
-            <p>Music, film, food and the things we love.</p>
+            <p>Music, film, food, cities and the things we love.</p>
           </article>
           </div>
         </div>
