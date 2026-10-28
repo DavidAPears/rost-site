@@ -118,18 +118,51 @@ reach it by typing the path.
 
 ## Build work, nothing blocking it
 
-### 9. No `robots.txt` and no `sitemap.xml`
+### 9. The four indexed pages are nearly empty
 
-`/about` was written for search engines and there is nothing telling
-them what to crawl. The four `noindex` pages (`/privacy`, `/terms`,
-`/child-safety`, `/admin`) should stay out of the sitemap; the other
-seven belong in it.
+This is the whole SEO problem and nothing else comes close to it.
+
+| Page | Words |
+| ---- | ----: |
+| `/` | 132 |
+| `/connect` | 183 |
+| `/create` | 222 |
+| `/discover` | 231 |
+| `/about` | 1005 |
+
+Google ranks text. The pages carrying almost all of the writing on this
+site — privacy at 2,293 words, terms at 2,394, CSAE at 1,342 — are the
+ones marked `noindex`.
+
+`/about` was 538 and is now 1,005, because ten questions were added to
+it. The same treatment is what the other four need: **three or four
+hundred words each of real prose under the fold**, answering what
+somebody searching would actually type. Not keywords, sentences.
+
+Suggested, one per page, needing your copy:
+
+- `/discover` — what a voice note actually is, what the topics are, why
+  thirty seconds, what rooms are for.
+- `/connect` — why voice before photographs, what the three-message gate
+  is, how it differs from swiping.
+- `/create` — what kinds of voice work people ask for, how a request
+  works, what it costs.
+- `/` — a paragraph under the three cards saying what RÖST is in prose
+  rather than in three card headings.
+
+### 10. ASMR, and whether R&Ouml;ST wants that audience
+
+A real and large audio search term, and the app has a `Calm` topic it
+would sit under. It is also a community with its own expectations and
+its own moderation problems. Worth a deliberate yes or no rather than
+drifting into it, because the answer changes the topic list, the
+moderation load and who the app attracts.
 
 ---
 
 ## Carried over from the app side
 
-### 10. Public playback at `/r/<code>`
+### 11. Public playback at `/r/<code>`
 
 A shared link should play one voice note and offer the app. Nothing in
 the database is readable by an anonymous visitor today, and the audio
@@ -142,7 +175,7 @@ minted somewhere privileged anyway.
 a second product to keep in step and it sidesteps every age-assurance
 control the app has.
 
-### 11. The storage purge sweep has never run against a real queue
+### 12. The storage purge sweep has never run against a real queue
 
 Deployed and scheduled weekly, Sunday 04:17 UTC. Deleting an account
 from `/delete` leaves the audio in the bucket until it runs. Worth one
@@ -152,12 +185,12 @@ real deletion and then:
 select count(*) from public.pending_storage_purges where purged_at is null;
 ```
 
-### 12. Play Console Data safety form
+### 13. Play Console Data safety form
 
 It has to point at `https://rost.fyi/delete`. The page existing is not
 the whole requirement.
 
-### 13. A Gmail filter on the `To:` address
+### 14. A Gmail filter on the `To:` address
 
 So mail to `safety@rost.fyi` labels itself rather than landing in the
 same place as everything else.
@@ -184,3 +217,11 @@ same place as everything else.
   public pages with absolute `og:url`, width, height and alt. The home
   page had no `canonical` at all and now has one. `/admin` is left
   without share tags on purpose.
+- `robots.txt` and `sitemap.xml`. The policy pages are crawlable on
+  purpose: a page blocked in robots.txt cannot be read, so the
+  `noindex` in its head is never seen, and it can still be indexed from
+  a link somewhere else.
+- Structured data: `Organization`, `WebSite` and `SoftwareApplication`
+  on the home page, `WebPage` and `BreadcrumbList` on the three feature
+  pages, `FAQPage` on `/about`. No invented ratings, which is the
+  fastest route to a manual action.

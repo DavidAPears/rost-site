@@ -35,6 +35,70 @@
     />
     <link rel="stylesheet" href="/assets/site.css" />
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://rost.fyi/#org",
+          "name": "RÖST",
+          "url": "https://rost.fyi/",
+          "logo": "https://rost.fyi/assets/wordmark.png",
+          "email": "contact@rost.fyi",
+          "description": "RÖST is a voice-first social platform. A feed you listen to, a way to meet people through their voice, and a page you can be hired from.",
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "contact@rost.fyi",
+              "availableLanguage": "English"
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "safety",
+              "email": "safety@rost.fyi",
+              "availableLanguage": "English"
+            }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://rost.fyi/#site",
+          "url": "https://rost.fyi/",
+          "name": "RÖST",
+          "publisher": {
+            "@id": "https://rost.fyi/#org"
+          },
+          "inLanguage": "en-GB"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://rost.fyi/#app",
+          "name": "RÖST",
+          "applicationCategory": "SocialNetworkingApplication",
+          "operatingSystem": "iOS, Android",
+          "publisher": {
+            "@id": "https://rost.fyi/#org"
+          },
+          "description": "A voice-first social app. Share short voice notes, meet people through conversation before photographs, and be hired for voice work.",
+          "featureList": [
+            "Voice notes up to thirty seconds",
+            "A social feed you listen to rather than scroll",
+            "Voice-first dating with photographs locked until three messages in",
+            "A creator page for voice work and recording requests",
+            "Rooms for talking about one subject",
+            "Reporting and moderation on every recording, message, profile and room"
+          ],
+          "audience": {
+            "@type": "Audience",
+            "suggestedMinAge": 18
+          }
+        }
+      ]
+    }
+    </script>
+
     <style>
       /* The whole proposition in one screen: who we are, what it sounds
          like, and the three parts. Everything below the fold is the

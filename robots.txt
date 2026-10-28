@@ -1,0 +1,16 @@
+# rost.fyi
+
+User-agent: *
+Allow: /
+
+# The desk. Noindex already, but there is no reason to spend a crawl
+# budget on it or to have it turn up in a site: search.
+Disallow: /admin
+
+# The policy documents carry noindex in their own <head>, which is the
+# control that actually works. They are deliberately NOT disallowed
+# here: a disallowed page cannot be crawled, so the noindex on it is
+# never read, and it can still be indexed from a link elsewhere. Let
+# them be crawled so the noindex is obeyed.
+
+Sitemap: https://rost.fyi/sitemap.xml
