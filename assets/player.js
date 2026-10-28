@@ -5,24 +5,33 @@
  * pattern. That is the same rule the app keeps everywhere: a waveform is a
  * measured recording, never decoration.
  *
- * Two ribbons on the page, one loop. The backdrop is drawn once and never
- * animates, because two moving particle fields fight each other and the
- * second one costs frames for nothing.
+ * The backdrop behind all of this is a video, so the only thing this file
+ * animates is the player's own band.
  */
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var el = function (id) { return document.getElementById(id); };
 
-  /* ---------- the backdrop: drawn once ---------- */
-  var backdrop = el('backdrop');
-  if (backdrop && window.makeRibbon) {
-    var bg = window.makeRibbon(backdrop, { quiet: 26, phase: 1.4 });
-    var paint = function () { if (bg.size()) bg.draw(); };
-    paint();
-    var t = 0;
-    window.addEventListener('resize', function () {
-      clearTimeout(t); t = setTimeout(paint, 150);
-    });
+  /* ---------- the backdrop ---------- */
+  /* A video rather than a second drawn ribbon: the GPU decodes it, which
+     costs far less than the canvas it replaced. Somebody who has asked
+     their machine to stop moving things gets the poster frame instead,
+     and it stops while the tab is in the background. */
+  var backdrop = document.getElementById('backdrop');
+  if (backdrop) {
+    if (reduce) {
+      backdrop.removeAttribute('autoplay');
+      backdrop.pause();
+    } else {
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') {
+          var p = backdrop.play();
+          if (p && p.catch) p.catch(function () {});
+        } else {
+          backdrop.pause();
+        }
+      });
+    }
   }
 
   /* ---------- the player ---------- */

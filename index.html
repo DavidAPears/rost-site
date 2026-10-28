@@ -35,10 +35,16 @@
          footer and the one thing it is asking for. */
       .fold{min-height:100svh;display:flex;flex-direction:column;position:relative;overflow:hidden}
 
-      /* The backdrop is drawn once and never animates. The player's ribbon
-         is the thing that moves, and two moving fields fight each other. */
+      /* The backdrop is a video rather than a second drawn ribbon. The GPU
+         decodes it, so it costs far less than the canvas it replaced, and
+         the poster holds the same frame until it is ready.
+
+         object-fit covers rather than letting it letterbox: the artwork is
+         1920x1080 and the fold is rarely that shape, so a crop loses the
+         edges and never the middle. */
       .backdrop{position:absolute;inset:0;width:100%;height:100%;display:block;
-                z-index:0;pointer-events:none;opacity:0.5}
+                object-fit:cover;object-position:center;
+                z-index:0;pointer-events:none;opacity:0.55}
 
       /* ---------- nav ---------- */
       .nav{position:relative;z-index:2;border-bottom:1px solid var(--edge);
@@ -145,7 +151,10 @@
 
   <body>
     <div class="fold">
-      <canvas class="backdrop" id="backdrop" aria-hidden="true"></canvas>
+      <video class="backdrop" id="backdrop" poster="/assets/bg_static.jpg"
+             autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="/assets/bg_animation.mp4" type="video/mp4">
+      </video>
 
       <header class="nav">
         <div class="shell nav-inner">
