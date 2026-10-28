@@ -50,7 +50,7 @@
 
     /* The same answer whether it was new or already there, because the
        function deliberately does not say which. */
-    say('You are on the list. We will write once, when London opens.', true);
+    say('You are on the list. We will write once, when it is ready.', true);
     field.value = '';
   });
 })();
