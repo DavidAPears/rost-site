@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Discover. RÖST</title>
+
+    <meta
+      name="description"
+      content="Discover on RÖST: a social feed you listen to. Stories, opinions, jokes and conversations, up to thirty seconds each."
+    />
+    <meta name="theme-color" content="#040B0A" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+
+    <!-- Sharing. A link to a holding page still gets pasted into a group chat,
+         and the preview is the first impression most people get. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Discover on RÖST" />
+    <meta property="og:description" content="A social feed you listen to. Stories, opinions, jokes and conversations from real people." />
+    <meta property="og:image" content="/assets/icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="canonical" href="https://rost.fyi/discover" />
+    <link rel="stylesheet" href="/assets/site.css" />
+
+    <style>
+      .page{position:relative;overflow:hidden}
+      .backdrop{position:absolute;inset:0;width:100%;height:100%;display:block;
+                object-fit:cover;object-position:center;z-index:0;pointer-events:none;opacity:0.4}
+
+      .nav{position:relative;z-index:2;border-bottom:1px solid var(--edge);
+           padding:clamp(14px,1.6vw,20px) var(--pad)}
+      .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,3vw,48px)}
+      .nav-brand{display:block;text-decoration:none;flex:none}
+      .nav-brand img{width:clamp(118px,11vw,172px);height:auto}
+      .nav-end{display:flex;align-items:center;gap:clamp(14px,1.8vw,24px);flex:none}
+      .pill{display:inline-block;background:var(--lime);color:var(--ink);border-radius:999px;
+            padding:13px 22px;text-decoration:none;font-size:var(--util);font-weight:700;
+            letter-spacing:0.14em;text-transform:uppercase;border:0;cursor:pointer;
+            font-family:Inter,sans-serif;white-space:nowrap}
+      .pill:hover{background:#fff}
+
+      /* ---------- hero ---------- */
+      .top{position:relative;z-index:1;padding:clamp(34px,5vw,76px) var(--pad) clamp(30px,4vw,56px)}
+      .top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.78fr);
+                gap:clamp(28px,4vw,64px);align-items:center}
+      .label{color:var(--lime);margin:0 0 clamp(14px,1.6vw,20px)}
+      .top h1{font-size:clamp(2.4rem,5vw,4.1rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
+      .top h1 em{font-style:normal;color:var(--lime)}
+      .top .lede{margin:clamp(18px,2vw,26px) 0 clamp(24px,2.8vw,34px);color:var(--muted);
+                 font-size:clamp(1rem,1.15vw,1.125rem);max-width:46ch}
+
+      /* ---------- the phone, which holds no faces ---------- */
+      .phone{justify-self:end;width:min(100%,330px);border:9px solid #10211D;border-radius:40px;
+             background:var(--ground);box-shadow:0 30px 70px rgba(0,0,0,0.55);overflow:hidden}
+      .screen{padding:16px 13px 18px}
+      .bezel{display:flex;justify-content:center;padding:7px 0 11px}
+      .bezel span{width:84px;height:5px;border-radius:3px;background:#1B2724}
+      .scrtitle{display:flex;align-items:center;justify-content:space-between;margin:0 3px 13px}
+      .scrtitle h2{font-size:1.0625rem;letter-spacing:-0.01em;margin:0}
+      .scrtitle svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.8}
+      .tabs{display:flex;gap:7px;margin:0 0 13px}
+      .tabs span{font-size:0.6875rem;font-weight:600;padding:6px 11px;border-radius:999px;
+                 color:var(--dim);background:rgba(247,247,241,0.05)}
+      .tabs span.on{background:var(--lime);color:var(--ink)}
+
+      .row{display:flex;gap:10px;background:var(--surface);border:1px solid var(--edge);
+           border-radius:12px;padding:11px;margin:0 0 8px}
+      .who{width:32px;height:32px;border-radius:50%;flex:none;background:rgba(230,255,77,0.1);
+           display:flex;align-items:center;justify-content:center}
+      .who svg{width:15px;height:15px;stroke:var(--lime);fill:none;stroke-width:1.8;
+               stroke-linecap:round;stroke-linejoin:round}
+      .rowbody{min-width:0;flex:1}
+      .rowtop{margin:0 0 7px;font-size:0.8125rem;color:var(--text);display:flex;
+              align-items:center;gap:7px;flex-wrap:wrap}
+      .chip{font-size:0.625rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+            color:var(--lime);border:1px solid rgba(230,255,77,0.35);border-radius:999px;padding:2px 7px}
+      .rowplay{display:flex;align-items:center;gap:9px;margin:0 0 7px}
+      .mini{width:24px;height:24px;border-radius:50%;background:var(--lime);flex:none;
+            display:flex;align-items:center;justify-content:center}
+      .mini svg{width:8px;height:8px;fill:var(--ink)}
+      .wf{flex:1;height:26px;min-width:0}
+      .said{margin:0;font-size:0.75rem;line-height:1.4;color:var(--muted)}
+
+      /* ---------- three claims ---------- */
+      .claims{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+              gap:clamp(12px,1.4vw,22px);padding:0 var(--pad) clamp(44px,6vw,86px)}
+      .claim{display:flex;gap:clamp(13px,1.4vw,20px);align-items:center;
+             background:rgba(10,19,17,0.66);border:1px solid var(--edge);border-radius:14px;
+             padding:clamp(16px,1.7vw,24px)}
+      .claim .ico{width:52px;height:52px;border-radius:50%;border:1px solid rgba(230,255,77,0.4);
+                  display:flex;align-items:center;justify-content:center;flex:none}
+      .claim .ico svg{width:23px;height:23px;color:var(--lime)}
+      .claim .k{display:block;color:var(--dim);margin-bottom:6px}
+      .claim p{margin:0;color:var(--text);font-size:0.9375rem;line-height:1.45}
+      .claim .arrow{margin-left:auto;color:var(--muted);flex:none}
+      .claim .arrow svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.6}
+
+      /* ---------- what you'll find ---------- */
+      .find-wrap{border-top:1px solid var(--edge);background:var(--surface);
+                 padding:clamp(48px,6vw,92px) var(--pad)}
+      .find-grid{display:grid;grid-template-columns:minmax(0,0.78fr) minmax(0,2fr);
+                 gap:clamp(28px,4vw,64px);align-items:start}
+      .find-intro h2{font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
+      .find-intro p{margin:clamp(16px,1.8vw,24px) 0 clamp(22px,2.6vw,32px);color:var(--muted);font-size:0.9375rem}
+      .find-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.3vw,18px)}
+      .find{background:var(--ground);border:1px solid var(--edge);border-radius:14px;
+            overflow:hidden;padding:0 0 clamp(14px,1.5vw,20px)}
+      /* The artwork stands in for photography. It is the brand's own and it
+         is abstract, which is the point: this is a page about voices. */
+      .find img{width:100%;height:clamp(104px,10vw,146px);object-fit:cover;display:block}
+      .find .chip{display:inline-block;margin:clamp(12px,1.3vw,16px) clamp(12px,1.3vw,16px) 0}
+      .find h3{font-size:0.9375rem;letter-spacing:-0.01em;margin:9px clamp(12px,1.3vw,16px) 6px}
+      .find p{margin:0 clamp(12px,1.3vw,16px);color:var(--muted);font-size:0.8125rem;line-height:1.45}
+
+      .early{border-top:1px solid var(--edge);background:var(--ground);
+             padding:clamp(72px,8vw,120px) var(--pad) clamp(52px,6vw,84px)}
+      .early-inner{display:flex;gap:clamp(20px,3vw,48px);align-items:center;flex-wrap:wrap;justify-content:space-between}
+      .early h2{font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.1;letter-spacing:-0.03em;margin:0 0 7px}
+      .early p{margin:0;color:var(--muted);font-size:0.9375rem;max-width:44ch}
+      .early form{display:flex;gap:10px;flex-wrap:wrap;max-width:480px;flex:1 1 320px}
+      .early input{flex:1 1 200px;min-width:0;background:var(--surface);border:1px solid var(--edge);
+                   border-radius:999px;color:var(--text);font:inherit;font-size:0.9375rem;padding:14px 20px}
+      .early input::placeholder{color:var(--dim)}
+      .early input:focus{outline:none;border-color:var(--lime)}
+      .said{margin:12px 0 0;font-size:0.875rem;flex-basis:100%}
+      .said:empty{margin:0}
+
+      @media (max-width:1040px){
+        .top-grid{grid-template-columns:1fr;gap:34px}
+        .phone{justify-self:start}
+        .claims{grid-template-columns:1fr}
+        .find-grid{grid-template-columns:1fr;gap:30px}
+        .find-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+      }
+      @media (max-width:560px){
+        .find-cards{grid-template-columns:1fr}
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <video class="backdrop" poster="/assets/bg_static.jpg" autoplay muted loop playsinline
+             preload="metadata" aria-hidden="true">
+        <source src="/assets/bg_animation.mp4" type="video/mp4">
+      </video>
+
+      <header class="nav">
+        <div class="shell nav-inner">
+          <a class="nav-brand" href="/">
+            <img src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
+          </a>
+          <div class="nav-end">
+            <a class="pill" href="#early">Get early access</a>
+          </div>
+        </div>
+      </header>
+
+      <section class="top">
+        <div class="shell top-grid">
+          <div>
+            <p class="label util">Discover</p>
+            <h1>Social,<br>but make it <em>audio.</em></h1>
+            <p class="lede">Real people. Real voices. Stories, opinions, questions
+            and conversations from around you and around the world. No filters,
+            no perfect grids. Just honest audio.</p>
+            <a class="pill" href="/#early">Get early access</a>
+          </div>
+
+          <div class="phone">
+            <div class="bezel"><span></span></div>
+            <div class="screen">
+              <div class="scrtitle">
+                <h2>Discover</h2>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+              </div>
+              <div class="tabs"><span class="on">For you</span><span>Nearby</span><span>Topics</span></div>
+            <article class="row">
+              <span class="who"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></span>
+              <div class="rowbody">
+                <p class="rowtop"><b>Ravi</b> <span class="chip">Life</span></p>
+                <div class="rowplay">
+                  <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span>
+                  <svg class="wf" viewBox="0 0 112 26" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#E6FF4D"/><rect x="3.32" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#E6FF4D"/><rect x="6.65" y="8.94" width="2.32" height="8.11" rx="1.16" fill="#E6FF4D"/><rect x="9.97" y="10.71" width="2.32" height="4.58" rx="1.16" fill="#E6FF4D"/><rect x="13.29" y="7.91" width="2.32" height="10.19" rx="1.16" fill="#E6FF4D"/><rect x="16.62" y="8.31" width="2.32" height="9.38" rx="1.16" fill="#E6FF4D"/><rect x="19.94" y="9.86" width="2.32" height="6.29" rx="1.16" fill="#E6FF4D"/><rect x="23.26" y="6.49" width="2.32" height="13.02" rx="1.16" fill="#E6FF4D"/><rect x="26.59" y="9.56" width="2.32" height="6.89" rx="1.16" fill="#E6FF4D"/><rect x="29.91" y="6.30" width="2.32" height="13.41" rx="1.16" fill="#E6FF4D"/><rect x="33.24" y="8.96" width="2.32" height="8.08" rx="1.16" fill="#E6FF4D"/><rect x="36.56" y="8.64" width="2.32" height="8.72" rx="1.16" fill="#E6FF4D"/><rect x="39.88" y="5.64" width="2.32" height="14.72" rx="1.16" fill="#E6FF4D"/><rect x="43.21" y="1.93" width="2.32" height="22.13" rx="1.16" fill="#E6FF4D"/><rect x="46.53" y="8.05" width="2.32" height="9.89" rx="1.16" fill="#E6FF4D"/><rect x="49.85" y="7.10" width="2.32" height="11.79" rx="1.16" fill="#2F6F66"/><rect x="53.18" y="3.40" width="2.32" height="19.21" rx="1.16" fill="#2F6F66"/><rect x="56.50" y="0.48" width="2.32" height="25.03" rx="1.16" fill="#2F6F66"/><rect x="59.82" y="3.90" width="2.32" height="18.20" rx="1.16" fill="#2F6F66"/><rect x="63.15" y="5.61" width="2.32" height="14.78" rx="1.16" fill="#2F6F66"/><rect x="66.47" y="0.62" width="2.32" height="24.76" rx="1.16" fill="#2F6F66"/><rect x="69.79" y="8.90" width="2.32" height="8.20" rx="1.16" fill="#2F6F66"/><rect x="73.12" y="2.20" width="2.32" height="21.60" rx="1.16" fill="#2F6F66"/><rect x="76.44" y="7.18" width="2.32" height="11.65" rx="1.16" fill="#2F6F66"/><rect x="79.76" y="8.55" width="2.32" height="8.91" rx="1.16" fill="#2F6F66"/><rect x="83.09" y="8.96" width="2.32" height="8.08" rx="1.16" fill="#2F6F66"/><rect x="86.41" y="7.87" width="2.32" height="10.25" rx="1.16" fill="#2F6F66"/><rect x="89.74" y="4.96" width="2.32" height="16.09" rx="1.16" fill="#2F6F66"/><rect x="93.06" y="9.40" width="2.32" height="7.20" rx="1.16" fill="#2F6F66"/><rect x="96.38" y="7.66" width="2.32" height="10.67" rx="1.16" fill="#2F6F66"/><rect x="99.71" y="8.12" width="2.32" height="9.77" rx="1.16" fill="#2F6F66"/><rect x="103.03" y="9.99" width="2.32" height="6.02" rx="1.16" fill="#2F6F66"/><rect x="106.35" y="10.29" width="2.32" height="5.42" rx="1.16" fill="#2F6F66"/><rect x="109.68" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#2F6F66"/></svg>
+                </div>
+                <p class="said">&ldquo;Hot take: winter is the best season and I will not be taking questions.&rdquo;</p>
+              </div>
+            </article>
+            <article class="row">
+              <span class="who"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></span>
+              <div class="rowbody">
+                <p class="rowtop"><b>Noor</b> <span class="chip">Storytelling</span></p>
+                <div class="rowplay">
+                  <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span>
+                  <svg class="wf" viewBox="0 0 112 26" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#2F6F66"/><rect x="3.32" y="9.14" width="2.32" height="7.72" rx="1.16" fill="#2F6F66"/><rect x="6.65" y="10.92" width="2.32" height="4.17" rx="1.16" fill="#2F6F66"/><rect x="9.97" y="7.82" width="2.32" height="10.37" rx="1.16" fill="#2F6F66"/><rect x="13.29" y="10.29" width="2.32" height="5.43" rx="1.16" fill="#2F6F66"/><rect x="16.62" y="9.01" width="2.32" height="7.99" rx="1.16" fill="#2F6F66"/><rect x="19.94" y="3.77" width="2.32" height="18.45" rx="1.16" fill="#2F6F66"/><rect x="23.26" y="8.56" width="2.32" height="8.87" rx="1.16" fill="#2F6F66"/><rect x="26.59" y="5.09" width="2.32" height="15.82" rx="1.16" fill="#2F6F66"/><rect x="29.91" y="6.10" width="2.32" height="13.80" rx="1.16" fill="#2F6F66"/><rect x="33.24" y="5.85" width="2.32" height="14.30" rx="1.16" fill="#2F6F66"/><rect x="36.56" y="5.25" width="2.32" height="15.50" rx="1.16" fill="#2F6F66"/><rect x="39.88" y="7.64" width="2.32" height="10.71" rx="1.16" fill="#2F6F66"/><rect x="43.21" y="1.90" width="2.32" height="22.20" rx="1.16" fill="#2F6F66"/><rect x="46.53" y="8.36" width="2.32" height="9.28" rx="1.16" fill="#2F6F66"/><rect x="49.85" y="7.00" width="2.32" height="11.99" rx="1.16" fill="#2F6F66"/><rect x="53.18" y="8.92" width="2.32" height="8.16" rx="1.16" fill="#2F6F66"/><rect x="56.50" y="6.68" width="2.32" height="12.65" rx="1.16" fill="#2F6F66"/><rect x="59.82" y="5.43" width="2.32" height="15.13" rx="1.16" fill="#2F6F66"/><rect x="63.15" y="1.09" width="2.32" height="23.83" rx="1.16" fill="#2F6F66"/><rect x="66.47" y="5.88" width="2.32" height="14.24" rx="1.16" fill="#2F6F66"/><rect x="69.79" y="8.32" width="2.32" height="9.36" rx="1.16" fill="#2F6F66"/><rect x="73.12" y="7.24" width="2.32" height="11.53" rx="1.16" fill="#2F6F66"/><rect x="76.44" y="1.49" width="2.32" height="23.03" rx="1.16" fill="#2F6F66"/><rect x="79.76" y="9.18" width="2.32" height="7.65" rx="1.16" fill="#2F6F66"/><rect x="83.09" y="5.25" width="2.32" height="15.50" rx="1.16" fill="#2F6F66"/><rect x="86.41" y="7.40" width="2.32" height="11.21" rx="1.16" fill="#2F6F66"/><rect x="89.74" y="5.96" width="2.32" height="14.08" rx="1.16" fill="#2F6F66"/><rect x="93.06" y="8.47" width="2.32" height="9.06" rx="1.16" fill="#2F6F66"/><rect x="96.38" y="7.08" width="2.32" height="11.83" rx="1.16" fill="#2F6F66"/><rect x="99.71" y="8.76" width="2.32" height="8.47" rx="1.16" fill="#2F6F66"/><rect x="103.03" y="8.95" width="2.32" height="8.10" rx="1.16" fill="#2F6F66"/><rect x="106.35" y="9.31" width="2.32" height="7.38" rx="1.16" fill="#2F6F66"/><rect x="109.68" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#2F6F66"/></svg>
+                </div>
+                <p class="said">&ldquo;What&rsquo;s a place that completely changed you?&rdquo;</p>
+              </div>
+            </article>
+            <article class="row">
+              <span class="who"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg></span>
+              <div class="rowbody">
+                <p class="rowtop"><b>Sam</b> <span class="chip">Advice</span></p>
+                <div class="rowplay">
+                  <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span>
+                  <svg class="wf" viewBox="0 0 112 26" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#2F6F66"/><rect x="3.32" y="10.77" width="2.32" height="4.45" rx="1.16" fill="#2F6F66"/><rect x="6.65" y="10.87" width="2.32" height="4.26" rx="1.16" fill="#2F6F66"/><rect x="9.97" y="7.08" width="2.32" height="11.85" rx="1.16" fill="#2F6F66"/><rect x="13.29" y="10.70" width="2.32" height="4.60" rx="1.16" fill="#2F6F66"/><rect x="16.62" y="7.50" width="2.32" height="11.00" rx="1.16" fill="#2F6F66"/><rect x="19.94" y="4.43" width="2.32" height="17.15" rx="1.16" fill="#2F6F66"/><rect x="23.26" y="9.46" width="2.32" height="7.09" rx="1.16" fill="#2F6F66"/><rect x="26.59" y="5.74" width="2.32" height="14.53" rx="1.16" fill="#2F6F66"/><rect x="29.91" y="4.87" width="2.32" height="16.25" rx="1.16" fill="#2F6F66"/><rect x="33.24" y="9.19" width="2.32" height="7.61" rx="1.16" fill="#2F6F66"/><rect x="36.56" y="6.22" width="2.32" height="13.55" rx="1.16" fill="#2F6F66"/><rect x="39.88" y="3.23" width="2.32" height="19.53" rx="1.16" fill="#2F6F66"/><rect x="43.21" y="5.24" width="2.32" height="15.52" rx="1.16" fill="#2F6F66"/><rect x="46.53" y="2.67" width="2.32" height="20.66" rx="1.16" fill="#2F6F66"/><rect x="49.85" y="7.70" width="2.32" height="10.60" rx="1.16" fill="#2F6F66"/><rect x="53.18" y="6.94" width="2.32" height="12.12" rx="1.16" fill="#2F6F66"/><rect x="56.50" y="8.09" width="2.32" height="9.81" rx="1.16" fill="#2F6F66"/><rect x="59.82" y="4.54" width="2.32" height="16.92" rx="1.16" fill="#2F6F66"/><rect x="63.15" y="0.89" width="2.32" height="24.22" rx="1.16" fill="#2F6F66"/><rect x="66.47" y="4.02" width="2.32" height="17.96" rx="1.16" fill="#2F6F66"/><rect x="69.79" y="2.62" width="2.32" height="20.75" rx="1.16" fill="#2F6F66"/><rect x="73.12" y="6.18" width="2.32" height="13.63" rx="1.16" fill="#2F6F66"/><rect x="76.44" y="3.48" width="2.32" height="19.05" rx="1.16" fill="#2F6F66"/><rect x="79.76" y="8.88" width="2.32" height="8.25" rx="1.16" fill="#2F6F66"/><rect x="83.09" y="7.68" width="2.32" height="10.64" rx="1.16" fill="#2F6F66"/><rect x="86.41" y="5.33" width="2.32" height="15.34" rx="1.16" fill="#2F6F66"/><rect x="89.74" y="5.54" width="2.32" height="14.92" rx="1.16" fill="#2F6F66"/><rect x="93.06" y="7.98" width="2.32" height="10.05" rx="1.16" fill="#2F6F66"/><rect x="96.38" y="10.27" width="2.32" height="5.45" rx="1.16" fill="#2F6F66"/><rect x="99.71" y="9.82" width="2.32" height="6.36" rx="1.16" fill="#2F6F66"/><rect x="103.03" y="10.60" width="2.32" height="4.80" rx="1.16" fill="#2F6F66"/><rect x="106.35" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#2F6F66"/><rect x="109.68" y="10.92" width="2.32" height="4.16" rx="1.16" fill="#2F6F66"/></svg>
+                </div>
+                <p class="said">&ldquo;I&rsquo;m gatekeeping this caf&eacute; and here is exactly why.&rdquo;</p>
+              </div>
+            </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="shell claims">
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M402 168c-2.93 40.67-33.1 72-66 72s-63.12-31.32-66-72c-3-42.31 26.37-72 66-72s69 30.46 66 72z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M336 304c-65.17 0-127.84 32.37-143.54 95.41-2.08 8.34 3.15 16.59 11.72 16.59h263.65c8.57 0 13.77-8.25 11.72-16.59C463.85 335.36 401.18 304 336 304z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path d="M200 185.94c-2.34 32.48-26.72 58.06-53 58.06s-50.7-25.57-53-58.06C91.61 152.15 115.34 128 147 128s55.39 24.77 53 57.94z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M206 306c-18.05-8.27-37.93-11.45-59-11.45-52 0-102.1 25.85-114.65 76.2-1.65 6.66 2.53 13.25 9.37 13.25H154" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32"/></svg></span>
+          <span><span class="k util">Real people</span><p>Everyday voices from around the world.</p></span>
+        </div>
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M192 448h128M256 384v64M496 128v16a48 48 0 01-48 48h-48v-32h48a16 16 0 0016-16v-16a16 16 0 00-16-16h-48V80h48a48 48 0 0148 48zM16 128v16a48 48 0 0048 48h48v-32H64a16 16 0 01-16-16v-16a16 16 0 0116-16h48V80H64a48 48 0 00-48 48z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M400 48v208c0 79.52-64 144-144 144h0c-80 0-144-64.48-144-144V48z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">All kinds of stories</span><p>Opinions, questions, advice, confessions and more.</p></span>
+        </div>
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M48 256c0-114.87 93.13-208 208-208s208 93.13 208 208" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M416 320c0 35.35-28.65 64-64 64h-16v-96h16c35.35 0 64 28.65 64 64zM96 320c0-35.35 28.65-64 64-64h16v96h-16c-35.35 0-64-28.65-64-64z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">Find your crowd</span><p>Browse by topic or by what is being heard right now.</p></span>
+        </div>
+      </div>
+
+      <section class="find-wrap">
+        <div class="shell find-grid">
+          <div class="find-intro">
+            <h2>Voices on everything.</h2>
+            <p>From unfiltered opinions to late-night ramblings, travel stories to
+            life advice. RÖST is a place to listen, reply and be part of real
+            conversations.</p>
+            <a class="pill" href="/#early">Get early access</a>
+          </div>
+          <div class="find-cards">
+          <article class="find">
+            <img src="/assets/bg_static.jpg" alt="" style="object-position:12% 50%">
+            <span class="chip lime">Life</span>
+            <h3>Unfiltered opinions</h3>
+            <p>Hot takes, rants and random thoughts.</p>
+          </article>
+          <article class="find">
+            <img src="/assets/bg_static.jpg" alt="" style="object-position:38% 50%">
+            <span class="chip lime">Storytelling</span>
+            <h3>Stories from everywhere</h3>
+            <p>Hidden gems, local tips and unforgettable moments.</p>
+          </article>
+          <article class="find">
+            <img src="/assets/bg_static.jpg" alt="" style="object-position:64% 50%">
+            <span class="chip lime">Advice</span>
+            <h3>Real conversations</h3>
+            <p>Friendship, family and everything in between.</p>
+          </article>
+          <article class="find">
+            <img src="/assets/bg_static.jpg" alt="" style="object-position:88% 50%">
+            <span class="chip lime">Culture</span>
+            <h3>What is happening now</h3>
+            <p>Music, film, food and the things we love.</p>
+          </article>
+          </div>
+        </div>
+      </section>
+
+    <section class="early" id="early">
+      <div class="shell early-inner">
+        <div>
+          <h2>Sign up to our waiting list.</h2>
+          <p>No newsletter, no countdown. One email when it is ready.</p>
+        </div>
+        <form id="form" novalidate>
+          <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+          <button type="submit" class="pill">Get early access</button>
+          <p class="said" id="said" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="shell">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <img class="wordmark" src="/assets/wordmark.png" alt="RÖST" width="420" height="111">
+            <p>Less scrolling. More listening.</p>
+            <p class="where util">18 and over.</p>
+          </div>
+
+          <div class="foot-col">
+            <h2>The app</h2>
+            <ul>
+              <li><a href="/discover">Discover</a></li>
+              <li><a href="/#connect">Connect</a></li>
+              <li><a href="/#create">Create</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Company</h2>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="/#early">Get early access</a></li>
+              <li><a href="/delete">Delete your account</a></li>
+              <li><a href="/admin">Admin</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/child-safety">CSAE Policy</a></li>
+              <li><a href="/community-guidelines">Community Guidelines</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="foot-base">
+          <span>&copy; R&Ouml;ST 2026</span>
+        </div>
+      </div>
+    </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="/assets/supabase.js"></script>
+    <script src="/assets/waitlist.js" defer></script>
+  </body>
+</html>
