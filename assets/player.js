@@ -1,6 +1,6 @@
 /* The voice note on the home page, which is a real one.
  *
- * The clip at /voice.m4a drives the ribbon through an AnalyserNode, so the
+ * The clip at /assets/voice2.m4a drives the ribbon through an AnalyserNode, so the
  * band swells to the actual envelope of a real recording rather than to a
  * pattern. That is the same rule the app keeps everywhere: a waveform is a
  * measured recording, never decoration.
@@ -42,16 +42,24 @@
   var sized = wave.size();
   if (sized) wave.draw();
 
-  var audio = new Audio('/assets/voice.m4a');
+  var audio = new Audio('/assets/voice2.m4a');
   audio.preload = 'metadata';
   audio.crossOrigin = 'anonymous';
 
   var actx = null, analyser = null, buf = null, frame = 0, last = null;
 
-  /* Phone recordings sit well below full scale. Measured across the whole
-     of this clip in 50ms windows: peak 0.216, p95 0.085, median 0.018. At
-     a gain of 3.2 the band rested through most of the speech. Remeasure if
-     the clip changes. */
+  /* Phone recordings sit well below full scale, so the analyser's output
+     has to be lifted before the ribbon can read it.
+
+     Measured across the whole of voice2.m4a in 50ms windows: peak 0.263,
+     p95 0.088, median 0.028, and the mean of everything above silence
+     0.048. At 9.5 that puts the 95th percentile at 0.84 and leaves 71% of
+     the clip above the noise gate, so the band moves through the speech
+     and rests in the pauses rather than either sitting flat or pinning.
+
+     The previous recording measured 0.216 / 0.085 / 0.018, close enough
+     that the same number serves both. That is luck rather than design:
+     remeasure whenever the clip changes. */
   var GAIN = 9.5;
   var GATE = 0.1;
 
