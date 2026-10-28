@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Connect. R&Ouml;ST</title>
+
+    <meta
+      name="description"
+      content="Connect on R&Ouml;ST: meet people through voice first. No endless swiping. Photos stay locked until three messages in."
+    />
+    <meta name="theme-color" content="#040B0A" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Connect on R&Ouml;ST" />
+    <meta property="og:description" content="Meet people by how they sound, not how they look. Photos unlock after three messages." />
+    <meta property="og:image" content="/assets/icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="canonical" href="https://rost.fyi/connect" />
+    <link rel="stylesheet" href="/assets/site.css" />
+
+    <style>
+      /* ----------------------------------------------------------------
+         Built on Discover's fold, deliberately. Same backdrop scoping,
+         same nav, same type scale, same scaled phone cluster, same three
+         claims peeking over the fold line. Where this page differs it is
+         because Connect differs, not because it was drawn separately.
+         ---------------------------------------------------------------- */
+      .fold{position:relative;overflow:hidden}
+      .backdrop{position:absolute;inset:0;width:100%;height:100%;display:block;
+                object-fit:cover;object-position:center;z-index:0;pointer-events:none;opacity:0.5}
+
+      .nav{position:relative;z-index:2;border-bottom:1px solid var(--edge);
+           padding:clamp(14px,1.6vw,20px) var(--pad)}
+      .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,3vw,48px)}
+      .nav-brand{display:block;text-decoration:none;flex:none}
+      .nav-brand img{width:clamp(118px,11vw,172px);height:auto}
+      .nav-end{display:flex;align-items:center;gap:clamp(14px,1.8vw,24px);flex:none}
+      .pill{display:inline-block;background:var(--lime);color:var(--ink);border-radius:999px;
+            padding:13px 22px;text-decoration:none;font-size:var(--util);font-weight:700;
+            letter-spacing:0.14em;text-transform:uppercase;border:0;cursor:pointer;
+            font-family:Inter,sans-serif;white-space:nowrap}
+      .pill:hover{background:#fff}
+
+      /* ---------- hero ---------- */
+      .top{position:relative;z-index:1;padding:clamp(18px,2.1vw,32px) var(--pad) clamp(18px,2vw,30px)}
+      .top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.66fr);
+                gap:clamp(28px,4vw,56px);align-items:start}
+      .top-copy{padding-top:clamp(8px,4vw,58px)}
+      .label{color:var(--lime);margin:0 0 clamp(10px,1.2vw,15px)}
+      .top h1{font-size:clamp(2.2rem,4.2vw,3.5rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
+      .top h1 em{font-style:normal;color:var(--lime)}
+      .top .lede{margin:clamp(14px,1.6vw,20px) 0 0;color:var(--muted);
+                 font-size:clamp(0.9375rem,1.05vw,1.0625rem);max-width:44ch}
+
+      /* ---------- the cluster ---------- */
+      .phones{position:relative;justify-self:end;width:min(100%,286px);
+              zoom:0.88;margin-right:clamp(0px,16vw,230px)}
+      .ghost{position:absolute;overflow:hidden;z-index:0;
+             border:5px solid #0E1C19;border-radius:22px;
+             box-shadow:0 18px 44px rgba(0,0,0,0.5);background:#07100E}
+      .ghost>img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.85)}
+      .ghost::after{content:"";position:absolute;inset:0;
+                    background:linear-gradient(180deg,rgba(4,11,10,0.18),rgba(4,11,10,0.62))}
+      .ghost.left{width:150px;height:300px;left:-104px;top:58px;transform:rotate(-7deg)}
+      .ghost.right{width:138px;height:276px;right:-116px;top:96px;transform:rotate(6deg)}
+
+      /* A face nobody is entitled to see yet.
+         In the app this is not a blurred photograph at all: Connect sends a
+         blurhash and the real pixels never reach the device, because a
+         blurred JPEG comes straight back out of it with a screenshot and a
+         slider. This page is a drawing of that screen rather than the screen,
+         so a CSS blur is honest enough here — but it is scaled up as well,
+         so the blur has image to sample at the edges instead of fading into
+         the frame, and so no amount of squinting resolves a face. */
+      .locked>img{filter:blur(13px) saturate(0.8);transform:scale(1.2)}
+      .lock{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+            width:46px;height:46px;border-radius:50%;z-index:2;
+            border:1.5px solid rgba(247,247,241,0.75);background:rgba(4,11,10,0.3);
+            display:flex;align-items:center;justify-content:center}
+      .lock svg{width:21px;height:21px;color:#F7F7F1}
+
+      /* The play strip that sits along the bottom of a flanking frame. */
+      .gplay{position:absolute;left:9px;right:9px;bottom:10px;z-index:2;
+             display:flex;align-items:center;gap:7px}
+      .mini{width:21px;height:21px;border-radius:50%;background:var(--lime);flex:none;
+            display:flex;align-items:center;justify-content:center}
+      .mini svg{width:8px;height:8px;fill:var(--ink)}
+      .wf{flex:1;height:20px;min-width:0}
+
+      .phone{position:relative;z-index:1;width:100%;border:8px solid #10211D;border-radius:34px;
+             background:var(--ground);box-shadow:0 30px 70px rgba(0,0,0,0.55);overflow:hidden}
+      .screen{padding:11px 10px 13px}
+      .bezel{display:flex;justify-content:center;padding:5px 0 8px}
+      .bezel span{width:84px;height:5px;border-radius:3px;background:#1B2724}
+      .scrtitle{display:flex;align-items:center;justify-content:space-between;margin:0 2px 9px}
+      .scrtitle h2{font-size:0.9375rem;letter-spacing:-0.01em;margin:0}
+      .scrtitle svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.8;
+                    stroke-linecap:round}
+      .tabs{display:flex;gap:6px;margin:0 0 9px}
+      .tabs span{font-size:0.625rem;font-weight:600;padding:5px 9px;border-radius:999px;
+                 color:var(--dim);background:rgba(247,247,241,0.05)}
+      .tabs span.on{background:var(--lime);color:var(--ink)}
+
+      /* The deck card: one person on most of a screen. */
+      .deck{background:var(--surface);border:1px solid var(--edge);border-radius:12px;
+            overflow:hidden;margin:0 0 9px}
+      .deck>img{width:100%;height:224px;object-fit:cover;object-position:center 22%;display:block}
+      .deckbody{padding:8px 9px 9px}
+      .deckname{margin:0;font-size:0.8125rem;color:var(--text);display:flex;align-items:baseline;gap:5px}
+      .deckname b{font-weight:700}
+      .deckname span{font-size:0.6875rem;color:var(--muted);font-weight:500}
+      .deckmeta{margin:2px 0 6px;font-size:0.625rem;color:var(--dim)}
+      .deckplay{display:flex;align-items:center;gap:7px;margin:0 0 6px}
+      .deckplay .dur{font-size:0.5625rem;color:var(--dim);flex:none}
+      .deckquote{margin:0;font-size:0.6875rem;line-height:1.38;color:var(--muted)}
+
+      .acts{display:flex;align-items:center;justify-content:center;gap:12px;padding:2px 0 0}
+      .act{width:28px;height:28px;border-radius:50%;border:1px solid var(--edge);
+           display:flex;align-items:center;justify-content:center;background:rgba(247,247,241,0.03)}
+      .act svg{width:14px;height:14px;color:var(--muted)}
+      .act.rec{width:36px;height:36px;background:var(--lime);border-color:var(--lime)}
+      .act.rec svg{width:17px;height:17px;color:var(--ink)}
+      .act.yes svg{color:var(--lime)}
+
+      /* ---------- three claims ---------- */
+      .claims{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+              gap:clamp(12px,1.4vw,20px);padding:0 var(--pad) clamp(30px,3.4vw,50px)}
+      .claim{display:flex;gap:clamp(13px,1.4vw,20px);align-items:center;
+             background:rgba(10,19,17,0.66);border:1px solid var(--edge);border-radius:14px;
+             padding:clamp(14px,1.4vw,20px)}
+      .claim .ico{width:46px;height:46px;border-radius:50%;border:1px solid rgba(230,255,77,0.4);
+                  display:flex;align-items:center;justify-content:center;flex:none}
+      .claim .ico svg{width:21px;height:21px;color:var(--lime)}
+      .claim .k{display:block;color:var(--dim);margin-bottom:6px}
+      .claim p{margin:0;color:var(--text);font-size:0.875rem;line-height:1.4}
+
+      /* ---------- how it works ---------- */
+      .how-wrap{border-top:1px solid var(--edge);background:var(--surface);
+                padding:clamp(48px,6vw,92px) var(--pad)}
+      .how-grid{display:grid;grid-template-columns:minmax(0,0.78fr) minmax(0,2fr);
+                gap:clamp(28px,4vw,64px);align-items:start}
+      .how-intro h2{font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
+      .how-intro .label{margin-bottom:clamp(10px,1.2vw,15px)}
+      .how-intro p{margin:clamp(16px,1.8vw,24px) 0 clamp(22px,2.6vw,32px);color:var(--muted);font-size:0.9375rem}
+
+      /* Three steps with an arrow between them, so it reads as a sequence
+         rather than three unrelated cards. The arrows are grid items of
+         their own and go when the row does. */
+      .steps{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);
+             gap:clamp(10px,1.1vw,16px);align-items:start}
+      .seq{align-self:start;color:var(--dim);margin-top:clamp(40px,6.1vw,96px)}
+      .seq svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;
+               stroke-linecap:round;stroke-linejoin:round;display:block}
+      .step figure{margin:0 0 clamp(12px,1.3vw,17px);position:relative;border-radius:14px;
+                   overflow:hidden;background:var(--ground);border:1px solid var(--edge);
+                   aspect-ratio:4/3}
+      .step figure>img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block}
+      .stepno{display:inline-flex;align-items:center;justify-content:center;flex:none;
+              width:26px;height:26px;border-radius:50%;border:1px solid rgba(230,255,77,0.45);
+              color:var(--lime);font-size:0.75rem;font-weight:700}
+      .stephead{display:flex;align-items:center;gap:10px;margin:0 0 7px}
+      .stephead h3{font-size:0.9375rem;letter-spacing:-0.01em;margin:0}
+      .step p{margin:0;color:var(--muted);font-size:0.8125rem;line-height:1.45}
+
+      /* The second step is a conversation rather than a photograph. */
+      .chat{position:absolute;inset:0;display:flex;flex-direction:column;
+            justify-content:center;gap:9px;padding:clamp(10px,1.1vw,16px)}
+      .cmsg{display:flex;align-items:center;gap:8px;background:var(--surface);
+            border:1px solid var(--edge);border-radius:10px;padding:7px 9px}
+      .cmsg.them{margin-right:clamp(10px,2vw,34px)}
+      .cmsg.you{margin-left:clamp(10px,2vw,34px)}
+      .cav{width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none;display:block}
+      .cmsg .dur{font-size:0.5625rem;color:var(--dim);flex:none}
+
+      .early{border-top:1px solid var(--edge);background:var(--ground);
+             padding:clamp(72px,8vw,120px) var(--pad) clamp(52px,6vw,84px)}
+      .early-inner{display:flex;gap:clamp(20px,3vw,48px);align-items:center;flex-wrap:wrap;justify-content:space-between}
+      .early h2{font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.1;letter-spacing:-0.03em;margin:0 0 7px}
+      .early p{margin:0;color:var(--muted);font-size:0.9375rem;max-width:44ch}
+      .early form{display:flex;gap:10px;flex-wrap:wrap;max-width:480px;flex:1 1 320px}
+      .early input{flex:1 1 200px;min-width:0;background:var(--surface);border:1px solid var(--edge);
+                   border-radius:999px;color:var(--text);font:inherit;font-size:0.9375rem;padding:14px 20px}
+      .early input::placeholder{color:var(--dim)}
+      .early input:focus{outline:none;border-color:var(--lime)}
+      .said{margin:12px 0 0;font-size:0.875rem;flex-basis:100%}
+      .said:empty{margin:0}
+
+      @media (max-width:1040px){
+        .top-grid{grid-template-columns:1fr;gap:34px}
+        .top-copy{padding-top:0}
+        .phones{justify-self:start;zoom:1;margin-right:0}
+        .ghost{display:none}
+        .claims{grid-template-columns:1fr}
+        .how-grid{grid-template-columns:1fr;gap:30px}
+        /* The arrows were the sequence. Stacked, the order is the sequence,
+           so they stand down rather than pointing at the floor. */
+        .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+        .seq{display:none}
+      }
+      @media (max-width:560px){
+        .steps{grid-template-columns:1fr}
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="fold">
+      <video class="backdrop" poster="/assets/bg_static.jpg" autoplay muted loop playsinline
+             preload="metadata" aria-hidden="true">
+        <source src="/assets/bg_animation.mp4" type="video/mp4">
+      </video>
+
+      <header class="nav">
+        <div class="shell nav-inner">
+          <a class="nav-brand" href="/">
+            <img src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
+          </a>
+          <div class="nav-end">
+            <a class="pill" href="#early">Get early access</a>
+          </div>
+        </div>
+      </header>
+
+      <section class="top">
+        <div class="shell top-grid">
+          <div class="top-copy">
+            <p class="label util">Connect</p>
+            <h1>Real people.<br>Real <em>voices.</em></h1>
+            <p class="lede">Meet people through voice-first conversations. No endless
+            swiping. Get to know someone by how they sound, not just how they look.</p>
+          </div>
+
+          <div class="phones">
+            <span class="ghost left">
+              <img src="/assets/connect_left.jpg" alt="" width="509" height="1024" loading="lazy">
+              <span class="gplay"><span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 84 20" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#E6FF4D"/><rect x="3.23" y="7.26" width="2.26" height="5.49" rx="1.13" fill="#E6FF4D"/><rect x="6.46" y="6.97" width="2.26" height="6.06" rx="1.13" fill="#E6FF4D"/><rect x="9.69" y="5.45" width="2.26" height="9.10" rx="1.13" fill="#E6FF4D"/><rect x="12.92" y="4.73" width="2.26" height="10.53" rx="1.13" fill="#E6FF4D"/><rect x="16.15" y="6.99" width="2.26" height="6.02" rx="1.13" fill="#E6FF4D"/><rect x="19.38" y="7.04" width="2.26" height="5.93" rx="1.13" fill="#E6FF4D"/><rect x="22.62" y="2.16" width="2.26" height="15.68" rx="1.13" fill="#E6FF4D"/><rect x="25.85" y="5.24" width="2.26" height="9.52" rx="1.13" fill="#2F6F66"/><rect x="29.08" y="5.23" width="2.26" height="9.55" rx="1.13" fill="#2F6F66"/><rect x="32.31" y="0.28" width="2.26" height="19.44" rx="1.13" fill="#2F6F66"/><rect x="35.54" y="3.50" width="2.26" height="12.99" rx="1.13" fill="#2F6F66"/><rect x="38.77" y="1.07" width="2.26" height="17.86" rx="1.13" fill="#2F6F66"/><rect x="42.00" y="3.41" width="2.26" height="13.18" rx="1.13" fill="#2F6F66"/><rect x="45.23" y="2.42" width="2.26" height="15.17" rx="1.13" fill="#2F6F66"/><rect x="48.46" y="5.63" width="2.26" height="8.73" rx="1.13" fill="#2F6F66"/><rect x="51.69" y="2.75" width="2.26" height="14.50" rx="1.13" fill="#2F6F66"/><rect x="54.92" y="1.61" width="2.26" height="16.78" rx="1.13" fill="#2F6F66"/><rect x="58.15" y="3.95" width="2.26" height="12.10" rx="1.13" fill="#2F6F66"/><rect x="61.38" y="3.13" width="2.26" height="13.75" rx="1.13" fill="#2F6F66"/><rect x="64.62" y="3.97" width="2.26" height="12.06" rx="1.13" fill="#2F6F66"/><rect x="67.85" y="7.27" width="2.26" height="5.45" rx="1.13" fill="#2F6F66"/><rect x="71.08" y="4.84" width="2.26" height="10.33" rx="1.13" fill="#2F6F66"/><rect x="74.31" y="6.23" width="2.26" height="7.54" rx="1.13" fill="#2F6F66"/><rect x="77.54" y="7.87" width="2.26" height="4.25" rx="1.13" fill="#2F6F66"/><rect x="80.77" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#2F6F66"/></svg></span>
+            </span>
+            <span class="ghost right locked">
+              <img src="/assets/connect_locked.jpg" alt="" width="509" height="1024" loading="lazy">
+              <span class="lock"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M336 208v-95a80 80 0 0 0-160 0v95" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><rect x="96" y="208" width="320" height="272" rx="48" ry="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+              <span class="gplay"><span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 84 20" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#E6FF4D"/><rect x="3.23" y="7.69" width="2.26" height="4.62" rx="1.13" fill="#E6FF4D"/><rect x="6.46" y="7.74" width="2.26" height="4.52" rx="1.13" fill="#E6FF4D"/><rect x="9.69" y="4.40" width="2.26" height="11.19" rx="1.13" fill="#E6FF4D"/><rect x="12.92" y="7.54" width="2.26" height="4.93" rx="1.13" fill="#E6FF4D"/><rect x="16.15" y="4.81" width="2.26" height="10.38" rx="1.13" fill="#E6FF4D"/><rect x="19.38" y="2.28" width="2.26" height="15.44" rx="1.13" fill="#2F6F66"/><rect x="22.62" y="6.47" width="2.26" height="7.06" rx="1.13" fill="#2F6F66"/><rect x="25.85" y="3.48" width="2.26" height="13.04" rx="1.13" fill="#2F6F66"/><rect x="29.08" y="2.86" width="2.26" height="14.27" rx="1.13" fill="#2F6F66"/><rect x="32.31" y="6.33" width="2.26" height="7.34" rx="1.13" fill="#2F6F66"/><rect x="35.54" y="4.09" width="2.26" height="11.82" rx="1.13" fill="#2F6F66"/><rect x="38.77" y="1.94" width="2.26" height="16.13" rx="1.13" fill="#2F6F66"/><rect x="42.00" y="3.57" width="2.26" height="12.86" rx="1.13" fill="#2F6F66"/><rect x="45.23" y="1.86" width="2.26" height="16.28" rx="1.13" fill="#2F6F66"/><rect x="48.46" y="5.59" width="2.26" height="8.82" rx="1.13" fill="#2F6F66"/><rect x="51.69" y="5.20" width="2.26" height="9.59" rx="1.13" fill="#2F6F66"/><rect x="54.92" y="6.13" width="2.26" height="7.75" rx="1.13" fill="#2F6F66"/><rect x="58.15" y="4.05" width="2.26" height="11.91" rx="1.13" fill="#2F6F66"/><rect x="61.38" y="2.14" width="2.26" height="15.71" rx="1.13" fill="#2F6F66"/><rect x="64.62" y="4.38" width="2.26" height="11.25" rx="1.13" fill="#2F6F66"/><rect x="67.85" y="4.06" width="2.26" height="11.88" rx="1.13" fill="#2F6F66"/><rect x="71.08" y="6.33" width="2.26" height="7.35" rx="1.13" fill="#2F6F66"/><rect x="74.31" y="5.71" width="2.26" height="8.57" rx="1.13" fill="#2F6F66"/><rect x="77.54" y="8.38" width="2.26" height="3.24" rx="1.13" fill="#2F6F66"/><rect x="80.77" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#2F6F66"/></svg></span>
+            </span>
+
+            <div class="phone">
+              <div class="bezel"><span></span></div>
+              <div class="screen">
+                <div class="scrtitle">
+                  <h2>Connect</h2>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+                </div>
+                <div class="tabs"><span class="on">For you</span><span>Nearby</span><span>New</span></div>
+
+                <article class="deck">
+                  <img src="/assets/connect_card.jpg" alt="" width="509" height="1024" loading="lazy">
+                  <div class="deckbody">
+                    <p class="deckname"><b>Aisha</b> <span>25</span></p>
+                    <p class="deckmeta">2 km away</p>
+                    <div class="deckplay">
+                      <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 150 24" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="10.08" width="2.62" height="3.84" rx="1.31" fill="#E6FF4D"/><rect x="3.75" y="10.08" width="2.62" height="3.84" rx="1.31" fill="#E6FF4D"/><rect x="7.50" y="8.22" width="2.62" height="7.55" rx="1.31" fill="#E6FF4D"/><rect x="11.25" y="9.67" width="2.62" height="4.65" rx="1.31" fill="#E6FF4D"/><rect x="15.00" y="7.32" width="2.62" height="9.35" rx="1.31" fill="#E6FF4D"/><rect x="18.75" y="7.63" width="2.62" height="8.74" rx="1.31" fill="#E6FF4D"/><rect x="22.50" y="8.86" width="2.62" height="6.28" rx="1.31" fill="#E6FF4D"/><rect x="26.25" y="6.10" width="2.62" height="11.81" rx="1.31" fill="#E6FF4D"/><rect x="30.00" y="8.55" width="2.62" height="6.90" rx="1.31" fill="#E6FF4D"/><rect x="33.75" y="5.87" width="2.62" height="12.25" rx="1.31" fill="#E6FF4D"/><rect x="37.50" y="8.00" width="2.62" height="8.01" rx="1.31" fill="#E6FF4D"/><rect x="41.25" y="7.70" width="2.62" height="8.59" rx="1.31" fill="#E6FF4D"/><rect x="45.00" y="5.21" width="2.62" height="13.57" rx="1.31" fill="#E6FF4D"/><rect x="48.75" y="2.12" width="2.62" height="19.76" rx="1.31" fill="#E6FF4D"/><rect x="52.50" y="7.10" width="2.62" height="9.80" rx="1.31" fill="#E6FF4D"/><rect x="56.25" y="6.26" width="2.62" height="11.47" rx="1.31" fill="#E6FF4D"/><rect x="60.00" y="3.10" width="2.62" height="17.81" rx="1.31" fill="#E6FF4D"/><rect x="63.75" y="0.53" width="2.62" height="22.94" rx="1.31" fill="#2F6F66"/><rect x="67.50" y="3.33" width="2.62" height="17.34" rx="1.31" fill="#2F6F66"/><rect x="71.25" y="4.71" width="2.62" height="14.58" rx="1.31" fill="#2F6F66"/><rect x="75.00" y="0.19" width="2.62" height="23.62" rx="1.31" fill="#2F6F66"/><rect x="78.75" y="7.45" width="2.62" height="9.09" rx="1.31" fill="#2F6F66"/><rect x="82.50" y="1.22" width="2.62" height="21.56" rx="1.31" fill="#2F6F66"/><rect x="86.25" y="5.68" width="2.62" height="12.65" rx="1.31" fill="#2F6F66"/><rect x="90.00" y="6.86" width="2.62" height="10.28" rx="1.31" fill="#2F6F66"/><rect x="93.75" y="7.15" width="2.62" height="9.71" rx="1.31" fill="#2F6F66"/><rect x="97.50" y="5.87" width="2.62" height="12.26" rx="1.31" fill="#2F6F66"/><rect x="101.25" y="2.45" width="2.62" height="19.09" rx="1.31" fill="#2F6F66"/><rect x="105.00" y="7.09" width="2.62" height="9.82" rx="1.31" fill="#2F6F66"/><rect x="108.75" y="4.63" width="2.62" height="14.74" rx="1.31" fill="#2F6F66"/><rect x="112.50" y="4.58" width="2.62" height="14.84" rx="1.31" fill="#2F6F66"/><rect x="116.25" y="6.54" width="2.62" height="10.92" rx="1.31" fill="#2F6F66"/><rect x="120.00" y="5.87" width="2.62" height="12.26" rx="1.31" fill="#2F6F66"/><rect x="123.75" y="8.84" width="2.62" height="6.33" rx="1.31" fill="#2F6F66"/><rect x="127.50" y="9.11" width="2.62" height="5.78" rx="1.31" fill="#2F6F66"/><rect x="131.25" y="8.76" width="2.62" height="6.48" rx="1.31" fill="#2F6F66"/><rect x="135.00" y="7.36" width="2.62" height="9.28" rx="1.31" fill="#2F6F66"/><rect x="138.75" y="8.93" width="2.62" height="6.13" rx="1.31" fill="#2F6F66"/><rect x="142.50" y="9.95" width="2.62" height="4.10" rx="1.31" fill="#2F6F66"/><rect x="146.25" y="10.08" width="2.62" height="3.84" rx="1.31" fill="#2F6F66"/></svg><span class="dur">0:28</span>
+                    </div>
+                    <p class="deckquote">&ldquo;Late night walks, deep chats and terrible song recommendations&hellip;&rdquo;</p>
+                  </div>
+                </article>
+
+                <div class="acts">
+                  <span class="act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                  <span class="act rec"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M192 176v160a64 64 0 0 0 128 0V176a64 64 0 0 0-128 0z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M352 208v32c0 52.9-43.1 96-96 96s-96-43.1-96-96v-32M256 336v48M216 384h80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+                  <span class="act yes"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="shell claims">
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M192 176v160a64 64 0 0 0 128 0V176a64 64 0 0 0-128 0z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M352 208v32c0 52.9-43.1 96-96 96s-96-43.1-96-96v-32M256 336v48M216 384h80" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">Voice first</span><p>Short voice notes instead of endless profiles.</p></span>
+        </div>
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">Three message gate</span><p>Get to know each other before photos are revealed.</p></span>
+        </div>
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M336 208v-95a80 80 0 0 0-160 0v95" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><rect x="96" y="208" width="320" height="272" rx="48" ry="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">Reveal</span><p>Unlock photos after three meaningful messages.</p></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="how-wrap">
+      <div class="shell how-grid">
+        <div class="how-intro">
+          <p class="label util">How it works</p>
+          <h2>From voice<br>to connection.</h2>
+          <p>A slower, more meaningful way to meet new people. Less pressure,
+          more genuine conversations.</p>
+          <a class="pill" href="#early">Join the waiting list</a>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <figure>
+              <img src="/assets/connect_step1.jpg" alt="Somebody recording a voice note on their phone" width="509" height="1024" loading="lazy">
+            </figure>
+            <div class="stephead"><span class="stepno">1</span><h3>Record a voice note</h3></div>
+            <p>Share a little about yourself. Keep it real.</p>
+          </article>
+
+          <span class="seq" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+
+          <article class="step">
+            <figure>
+              <div class="chat">
+                <span class="cmsg them">
+                  <img class="cav" src="/assets/connect_step2_a.jpg" alt="" width="509" height="1024" loading="lazy">
+                  <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 104 20" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="8.40" width="2.43" height="3.20" rx="1.21" fill="#E6FF4D"/><rect x="3.47" y="7.43" width="2.43" height="5.15" rx="1.21" fill="#E6FF4D"/><rect x="6.93" y="5.48" width="2.43" height="9.04" rx="1.21" fill="#E6FF4D"/><rect x="10.40" y="6.29" width="2.43" height="7.42" rx="1.21" fill="#E6FF4D"/><rect x="13.87" y="5.59" width="2.43" height="8.81" rx="1.21" fill="#E6FF4D"/><rect x="17.33" y="4.76" width="2.43" height="10.48" rx="1.21" fill="#E6FF4D"/><rect x="20.80" y="6.36" width="2.43" height="7.29" rx="1.21" fill="#E6FF4D"/><rect x="24.27" y="4.36" width="2.43" height="11.29" rx="1.21" fill="#E6FF4D"/><rect x="27.73" y="3.39" width="2.43" height="13.22" rx="1.21" fill="#E6FF4D"/><rect x="31.20" y="2.14" width="2.43" height="15.71" rx="1.21" fill="#E6FF4D"/><rect x="34.67" y="6.14" width="2.43" height="7.72" rx="1.21" fill="#E6FF4D"/><rect x="38.13" y="4.73" width="2.43" height="10.54" rx="1.21" fill="#E6FF4D"/><rect x="41.60" y="5.99" width="2.43" height="8.02" rx="1.21" fill="#E6FF4D"/><rect x="45.07" y="1.30" width="2.43" height="17.41" rx="1.21" fill="#E6FF4D"/><rect x="48.53" y="2.00" width="2.43" height="16.00" rx="1.21" fill="#E6FF4D"/><rect x="52.00" y="6.23" width="2.43" height="7.54" rx="1.21" fill="#E6FF4D"/><rect x="55.47" y="0.18" width="2.43" height="19.63" rx="1.21" fill="#E6FF4D"/><rect x="58.93" y="0.41" width="2.43" height="19.17" rx="1.21" fill="#2F6F66"/><rect x="62.40" y="2.54" width="2.43" height="14.93" rx="1.21" fill="#2F6F66"/><rect x="65.87" y="2.96" width="2.43" height="14.08" rx="1.21" fill="#2F6F66"/><rect x="69.33" y="5.89" width="2.43" height="8.21" rx="1.21" fill="#2F6F66"/><rect x="72.80" y="6.87" width="2.43" height="6.26" rx="1.21" fill="#2F6F66"/><rect x="76.27" y="4.27" width="2.43" height="11.46" rx="1.21" fill="#2F6F66"/><rect x="79.73" y="6.99" width="2.43" height="6.03" rx="1.21" fill="#2F6F66"/><rect x="83.20" y="6.61" width="2.43" height="6.78" rx="1.21" fill="#2F6F66"/><rect x="86.67" y="6.71" width="2.43" height="6.57" rx="1.21" fill="#2F6F66"/><rect x="90.13" y="7.90" width="2.43" height="4.20" rx="1.21" fill="#2F6F66"/><rect x="93.60" y="6.90" width="2.43" height="6.20" rx="1.21" fill="#2F6F66"/><rect x="97.07" y="7.71" width="2.43" height="4.59" rx="1.21" fill="#2F6F66"/><rect x="100.53" y="8.23" width="2.43" height="3.54" rx="1.21" fill="#2F6F66"/></svg><span class="dur">0:18</span>
+                </span>
+                <span class="cmsg you">
+                  <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 104 20" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="8.40" width="2.43" height="3.20" rx="1.21" fill="#E6FF4D"/><rect x="3.47" y="6.85" width="2.43" height="6.30" rx="1.21" fill="#E6FF4D"/><rect x="6.93" y="5.37" width="2.43" height="9.27" rx="1.21" fill="#E6FF4D"/><rect x="10.40" y="6.94" width="2.43" height="6.12" rx="1.21" fill="#E6FF4D"/><rect x="13.87" y="4.51" width="2.43" height="10.98" rx="1.21" fill="#E6FF4D"/><rect x="17.33" y="4.22" width="2.43" height="11.57" rx="1.21" fill="#E6FF4D"/><rect x="20.80" y="3.95" width="2.43" height="12.09" rx="1.21" fill="#E6FF4D"/><rect x="24.27" y="6.52" width="2.43" height="6.97" rx="1.21" fill="#E6FF4D"/><rect x="27.73" y="6.80" width="2.43" height="6.40" rx="1.21" fill="#E6FF4D"/><rect x="31.20" y="4.56" width="2.43" height="10.89" rx="1.21" fill="#E6FF4D"/><rect x="34.67" y="2.16" width="2.43" height="15.68" rx="1.21" fill="#E6FF4D"/><rect x="38.13" y="5.05" width="2.43" height="9.90" rx="1.21" fill="#E6FF4D"/><rect x="41.60" y="3.37" width="2.43" height="13.27" rx="1.21" fill="#2F6F66"/><rect x="45.07" y="4.47" width="2.43" height="11.05" rx="1.21" fill="#2F6F66"/><rect x="48.53" y="1.01" width="2.43" height="17.99" rx="1.21" fill="#2F6F66"/><rect x="52.00" y="0.36" width="2.43" height="19.27" rx="1.21" fill="#2F6F66"/><rect x="55.47" y="3.93" width="2.43" height="12.14" rx="1.21" fill="#2F6F66"/><rect x="58.93" y="0.20" width="2.43" height="19.60" rx="1.21" fill="#2F6F66"/><rect x="62.40" y="6.24" width="2.43" height="7.52" rx="1.21" fill="#2F6F66"/><rect x="65.87" y="1.76" width="2.43" height="16.48" rx="1.21" fill="#2F6F66"/><rect x="69.33" y="1.66" width="2.43" height="16.68" rx="1.21" fill="#2F6F66"/><rect x="72.80" y="6.10" width="2.43" height="7.80" rx="1.21" fill="#2F6F66"/><rect x="76.27" y="3.32" width="2.43" height="13.37" rx="1.21" fill="#2F6F66"/><rect x="79.73" y="4.47" width="2.43" height="11.06" rx="1.21" fill="#2F6F66"/><rect x="83.20" y="3.05" width="2.43" height="13.90" rx="1.21" fill="#2F6F66"/><rect x="86.67" y="6.85" width="2.43" height="6.30" rx="1.21" fill="#2F6F66"/><rect x="90.13" y="6.01" width="2.43" height="7.97" rx="1.21" fill="#2F6F66"/><rect x="93.60" y="5.61" width="2.43" height="8.78" rx="1.21" fill="#2F6F66"/><rect x="97.07" y="7.24" width="2.43" height="5.52" rx="1.21" fill="#2F6F66"/><rect x="100.53" y="8.40" width="2.43" height="3.20" rx="1.21" fill="#2F6F66"/></svg><span class="dur">0:12</span>
+                  <img class="cav" src="/assets/connect_step2_b.jpg" alt="" width="509" height="1024" loading="lazy">
+                </span>
+              </div>
+            </figure>
+            <div class="stephead"><span class="stepno">2</span><h3>Chat with your match</h3></div>
+            <p>Exchange up to three voice messages.</p>
+          </article>
+
+          <span class="seq" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+
+          <article class="step">
+            <figure class="locked">
+              <img src="/assets/connect_step3.jpg" alt="" width="509" height="1024" loading="lazy">
+              <span class="lock"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M336 208v-95a80 80 0 0 0-160 0v95" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><rect x="96" y="208" width="320" height="272" rx="48" ry="48" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+            </figure>
+            <div class="stephead"><span class="stepno">3</span><h3>Reveal photos</h3></div>
+            <p>If it feels right, unlock photos and keep the conversation going.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="early" id="early">
+      <div class="shell early-inner">
+        <div>
+          <h2>Sign up to our waiting list.</h2>
+          <p>No newsletter, no countdown. One email when it is ready.</p>
+        </div>
+        <form id="form" novalidate>
+          <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+          <button type="submit" class="pill">Get early access</button>
+          <p class="said" id="said" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="shell">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <img class="wordmark" src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
+            <p>Less scrolling. More listening.</p>
+            <p class="where util">18 and over.</p>
+          </div>
+
+          <div class="foot-col">
+            <h2>The app</h2>
+            <ul>
+              <li><a href="/discover">Discover</a></li>
+              <li><a href="/connect">Connect</a></li>
+              <li><a href="/#create">Create</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Company</h2>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="/#early">Get early access</a></li>
+              <li><a href="/delete">Delete your account</a></li>
+              <li><a href="/admin">Admin</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/child-safety">CSAE Policy</a></li>
+              <li><a href="/community-guidelines">Community Guidelines</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="foot-base">
+          <span>&copy; R&Ouml;ST 2026</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="/assets/supabase.js"></script>
+    <script src="/assets/waitlist.js" defer></script>
+  </body>
+</html>
