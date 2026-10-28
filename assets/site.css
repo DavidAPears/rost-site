@@ -342,3 +342,34 @@ button:disabled{opacity:0.38;cursor:not-allowed}
 .pw button:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
 .pw svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;
         stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------------------------------------------------------------------
+   The long read at the bottom of Discover, Connect and Create.
+
+   Here rather than inline in each page because it is identical on all
+   three, and three copies is how three pages stop being identical.
+
+   It exists because everything above it is a claim, and a claim is not
+   something a search engine can rank. The three pages carried 636 words
+   between them before this; the three documents nobody is allowed to
+   index carried six thousand.
+   --------------------------------------------------------------------- */
+.read{border-top:1px solid var(--edge);background:var(--ground);
+      padding:clamp(48px,6vw,92px) var(--pad)}
+.read-grid{display:grid;grid-template-columns:minmax(0,0.78fr) minmax(0,2fr);
+           gap:clamp(28px,4vw,64px);align-items:start}
+.read h2{font-size:clamp(1.75rem,3vw,2.5rem);line-height:1.05;
+         letter-spacing:-0.03em;margin:0 0 clamp(14px,1.6vw,20px)}
+.read .lead{margin:0;color:var(--muted);font-size:0.9375rem;line-height:1.62}
+.read-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+           gap:clamp(22px,2.6vw,36px) clamp(26px,3vw,48px)}
+.read-body h3{margin:0 0 8px;font-size:0.9375rem;letter-spacing:-0.01em;color:var(--text)}
+.read-body p{margin:0;color:var(--muted);font-size:0.875rem;line-height:1.62}
+
+@media (max-width:1040px){
+  .read-grid{grid-template-columns:1fr;gap:30px}
+}
+@media (max-width:620px){
+  /* Two columns of prose in a phone's width is four words a line. */
+  .read-body{grid-template-columns:1fr}
+}

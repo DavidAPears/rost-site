@@ -118,37 +118,15 @@ reach it by typing the path.
 
 ## Build work, nothing blocking it
 
-### 9. The four indexed pages are nearly empty
+### 9. The home page is still 132 words
 
-This is the whole SEO problem and nothing else comes close to it.
+`/discover`, `/connect` and `/create` have their long read now and sit
+at 559, 498 and 495. `/about` is at 1,007. The home page has had none
+of that treatment and is the page most people will land on.
 
-| Page | Words |
-| ---- | ----: |
-| `/` | 132 |
-| `/connect` | 183 |
-| `/create` | 222 |
-| `/discover` | 231 |
-| `/about` | 1005 |
-
-Google ranks text. The pages carrying almost all of the writing on this
-site — privacy at 2,293 words, terms at 2,394, CSAE at 1,342 — are the
-ones marked `noindex`.
-
-`/about` was 538 and is now 1,005, because ten questions were added to
-it. The same treatment is what the other four need: **three or four
-hundred words each of real prose under the fold**, answering what
-somebody searching would actually type. Not keywords, sentences.
-
-Suggested, one per page, needing your copy:
-
-- `/discover` — what a voice note actually is, what the topics are, why
-  thirty seconds, what rooms are for.
-- `/connect` — why voice before photographs, what the three-message gate
-  is, how it differs from swiping.
-- `/create` — what kinds of voice work people ask for, how a request
-  works, what it costs.
-- `/` — a paragraph under the three cards saying what RÖST is in prose
-  rather than in three card headings.
+It wants a paragraph or two of prose under the three cards, saying what
+R&Ouml;ST is in sentences rather than in three card headings. Not long:
+two hundred words would double it.
 
 ### 10. ASMR, and whether R&Ouml;ST wants that audience
 
@@ -225,3 +203,9 @@ same place as everything else.
   on the home page, `WebPage` and `BreadcrumbList` on the three feature
   pages, `FAQPage` on `/about`. No invented ratings, which is the
   fastest route to a manual action.
+- The long read at the bottom of the three feature pages: roughly three
+  hundred words each, below the fold, which took them from 636 words
+  between them to 1,552. Its styles live in `site.css` rather than in
+  all three pages, because three copies is how three pages stop being
+  identical. **The folds did not move**: 739, 740, 739, claims peeking
+  62px on each.
