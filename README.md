@@ -4,7 +4,7 @@
 
 **Less scrolling. More listening.**
 
-The landing page for [RÖST](https://rost.fyi), a voice-first social platform.
+The website for [RÖST](https://rost.fyi), a voice-first social platform.
 
 </div>
 
@@ -12,12 +12,31 @@ The landing page for [RÖST](https://rost.fyi), a voice-first social platform.
 
 ## What this is
 
-One static page. No framework, no build step, no dependencies: a wordmark,
-a headline, the recording ribbon, three cards and a waitlist field. Anything
-heavier would be a liability on something that exists to be replaced.
+Eleven static pages. No framework, no build step, no dependencies beyond
+the Supabase client on the pages that write to it.
 
-It became the landing page when the holding page stopped being enough. The
-store links are still the part that will matter most once there are any.
+| Path | What it is | Indexed |
+| ---- | ---------- | ------- |
+| `/` | The landing page: ribbon, a real recording, three cards, the waitlist | yes |
+| `/discover` | The feed you listen to | yes |
+| `/connect` | Meeting people voice first | yes |
+| `/create` | The page you are hired from | yes |
+| `/about` | What RÖST is, written to be read by search engines | yes |
+| `/delete` | Account deletion, which Play requires to be reachable without signing in | yes |
+| `/privacy` | Privacy policy | no |
+| `/terms` | Terms of service | no |
+| `/child-safety` | CSAE policy | no |
+| `/community-guidelines` | Community guidelines | yes |
+| `/admin` | The desk: anonymised stats and the report queue, behind two gates | no |
+
+The three feature pages share one structure deliberately: the backdrop is
+scoped to the fold, the phone cluster is scaled rather than resized, and
+the three claim cards are sized so a strip of them shows above the fold.
+All three land within a few pixels of each other, which is a thing to
+preserve rather than a coincidence.
+
+**The store links are still the part that will matter most once there are
+any.**
 
 ## Running it
 
@@ -65,16 +84,15 @@ completely when the hero is scrolled past or the tab is in the background.
 
 ## A voice under the ribbon
 
-Drop a clip in the repository root named `voice.m4a`, `.mp3`, `.wav` or
-`.ogg`. Each is tried in turn. The HEAR RÖST button then runs it through an
-`AnalyserNode` and feeds the ribbon, so the band swells to the real envelope
-of a real recording rather than to a pattern. With no clip present the
-button disables itself and nothing else changes.
+`assets/voice2.m4a`, played through an `AnalyserNode` by `assets/player.js`,
+so the band swells to the real envelope of a real recording rather than to
+a pattern.
 
-`VOICE_GAIN` at the top of the audio block compensates for how far below
-full scale a phone recording sits. It was set from the envelope of the
-current clip, measured in 50ms windows, and wants remeasuring if the clip
-changes.
+`GAIN` and `GATE` at the top of that file compensate for how far below full
+scale a phone recording sits. They were set from the envelope of the current
+clip measured in 50ms windows, and **want remeasuring whenever the clip
+changes** — the constant is wrong for a different recording, and the comment
+above it records the measurements it came from.
 
 ## The brand
 
@@ -107,25 +125,37 @@ eslint. Commas, full stops, or a rewrite.
 | ---- | ---------- |
 | `assets/wordmark.png` | The wordmark, 420 by 111, as the app ships it |
 | `assets/icon.png` | Favicon, apple-touch-icon and the share preview |
-| `assets/discover_header.png` | The app's `BACKDROP.dark` still, used along the bottom of the three cards |
-| `assets/bg_wave.mp4` | The app's `BACKDROP.dark` video |
-| `voice.m4a` | The clip under the ribbon, if there is one |
+| `assets/bg_animation.mp4` | The backdrop behind every fold, 1920 by 1080, 8s |
+| `assets/bg_static.jpg` | Its poster, shown before the video decodes |
+| `assets/voice2.m4a` | The clip under the ribbon |
+| `assets/discover_*.jpg` | Discover: four topic cards and three portraits |
+| `assets/connect_*.jpg` | Connect: three portraits, two step pictures, two avatars |
+| `assets/create_*.jpg` | Create: three portraits, one profile avatar, three sample avatars, two step pictures |
 
-`bg_wave.mp4` is currently **parked**: the `<video>` in `.hero-art` and its
-two matching CSS rules are commented out rather than deleted, with a note
-saying they belong together. Uncommenting both brings the app's backdrop
-back as the hero artwork, with the ribbon fading in over it only while a
-voice plays. The video is portrait, 712 by 1536, and its bright band sits
-about 29 per cent down, which is why the crop is pulled up to meet it.
+Photographs are cropped per frame with `object-position`, worked out from
+where the subject sits in the file rather than nudged. **Replacing one
+almost always means changing its `object-position` too.**
+
+Connect's locked faces are blurred in CSS, scaled up so the blur has image
+to sample at its edges, at a share of the frame's width rather than a fixed
+number of pixels. Worth knowing that **this is not what the app does**:
+Connect sends a blurhash and the real pixels never reach the device, because
+a blurred JPEG comes back out of one with a screenshot and a slider. These
+pages are a drawing of that screen rather than the screen.
+
+## Policy versions
+
+The four published documents are dated **27 October 2026**, and
+`src/lib/policies.ts` in the mobile repo records `2026-10-27` against each.
+That version is what a user's acceptance is recorded against.
+
+**If a published document changes, its date has to change in both places.**
+A version in the app that disagrees with the live document is worse than no
+record at all.
 
 ## Not done yet
 
-The footer links at `/privacy`, `/terms`, `/child-safety` and `/delete` are
-the paths `src/lib/policies.ts` in the mobile repo already expects. **None
-of them resolve.** Two of them block store submission.
-
-The waitlist field validates and confirms but stores nothing until it is
-wired to a list.
+See [TODO.md](TODO.md).
 
 ---
 
