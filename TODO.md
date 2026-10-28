@@ -114,21 +114,7 @@ look before launch: it tells anybody reading the footer that there is a
 desk and where it is. Removing the link costs nothing — you would still
 reach it by typing the path.
 
----
-
-## Build work, nothing blocking it
-
-### 9. The home page is still 132 words
-
-`/discover`, `/connect` and `/create` have their long read now and sit
-at 559, 498 and 495. `/about` is at 1,007. The home page has had none
-of that treatment and is the page most people will land on.
-
-It wants a paragraph or two of prose under the three cards, saying what
-R&Ouml;ST is in sentences rather than in three card headings. Not long:
-two hundred words would double it.
-
-### 10. ASMR, and whether R&Ouml;ST wants that audience
+### 9. ASMR, and whether R&Ouml;ST wants that audience
 
 A real and large audio search term, and the app has a `Calm` topic it
 would sit under. It is also a community with its own expectations and
@@ -140,7 +126,7 @@ moderation load and who the app attracts.
 
 ## Carried over from the app side
 
-### 11. Public playback at `/r/<code>`
+### 10. Public playback at `/r/<code>`
 
 A shared link should play one voice note and offer the app. Nothing in
 the database is readable by an anonymous visitor today, and the audio
@@ -153,7 +139,7 @@ minted somewhere privileged anyway.
 a second product to keep in step and it sidesteps every age-assurance
 control the app has.
 
-### 12. The storage purge sweep has never run against a real queue
+### 11. The storage purge sweep has never run against a real queue
 
 Deployed and scheduled weekly, Sunday 04:17 UTC. Deleting an account
 from `/delete` leaves the audio in the bucket until it runs. Worth one
@@ -163,12 +149,12 @@ real deletion and then:
 select count(*) from public.pending_storage_purges where purged_at is null;
 ```
 
-### 13. Play Console Data safety form
+### 12. Play Console Data safety form
 
 It has to point at `https://rost.fyi/delete`. The page existing is not
 the whole requirement.
 
-### 14. A Gmail filter on the `To:` address
+### 13. A Gmail filter on the `To:` address
 
 So mail to `safety@rost.fyi` labels itself rather than landing in the
 same place as everything else.
@@ -203,9 +189,12 @@ same place as everything else.
   on the home page, `WebPage` and `BreadcrumbList` on the three feature
   pages, `FAQPage` on `/about`. No invented ratings, which is the
   fastest route to a manual action.
-- The long read at the bottom of the three feature pages: roughly three
-  hundred words each, below the fold, which took them from 636 words
-  between them to 1,552. Its styles live in `site.css` rather than in
-  all three pages, because three copies is how three pages stop being
-  identical. **The folds did not move**: 739, 740, 739, claims peeking
-  62px on each.
+- The long read at the bottom of all four: home 132 to 359, Discover
+  231 to 559, Connect 183 to 498, Create 222 to 495, About 538 to
+  1,007. Its styles live in `site.css` rather than in four pages,
+  because four copies is how four pages stop being identical. **No fold
+  moved**: 739, 740, 739, and the home page's cards still show 170px.
+- Links have a base colour. The site had none, so every `<a>` without
+  an explicit rule fell back to the browser's blue and purple. That is
+  what made the three home cards hover in browser colours, and it would
+  have done the same to the next link written anywhere without a rule.

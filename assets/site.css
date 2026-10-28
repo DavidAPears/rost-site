@@ -38,6 +38,16 @@ img{display:block;max-width:100%}
 [hidden]{display:none!important}
 
 .util{font-size:var(--util);font-weight:700;letter-spacing:0.2em;text-transform:uppercase;line-height:1.4}
+
+/* A base colour for every link, which the site did not have.
+   Without one an <a> falls back to the browser's own blue, and purple
+   once visited. That was invisible wherever a rule set the colour of
+   the text inside the link, and very visible the moment anything read
+   currentColor off the link itself: the three cards on the home page
+   hovered to browser blue and purple for exactly this reason, and so
+   did the first link written inside a section that had no rule of its
+   own. Every more specific rule below still wins. */
+a{color:var(--lime)}
 .shell{max-width:var(--maxw);margin:0 auto;width:100%}
 h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;margin:0}
 
@@ -356,6 +366,11 @@ button:disabled{opacity:0.38;cursor:not-allowed}
    --------------------------------------------------------------------- */
 .read{border-top:1px solid var(--edge);background:var(--ground);
       padding:clamp(48px,6vw,92px) var(--pad)}
+/* The three feature pages each define .label inline and the home page
+   does not. Scoped here so the eyebrow works wherever this section is
+   used, with the same values the inline rules already carry, so it
+   changes nothing on the pages that have one. */
+.read .label{color:var(--lime);margin:0 0 clamp(10px,1.2vw,15px)}
 .read-grid{display:grid;grid-template-columns:minmax(0,0.78fr) minmax(0,2fr);
            gap:clamp(28px,4vw,64px);align-items:start}
 .read h2{font-size:clamp(1.75rem,3vw,2.5rem);line-height:1.05;
