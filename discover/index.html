@@ -51,9 +51,10 @@
       .pill:hover{background:#fff}
 
       /* ---------- hero ---------- */
-      .top{position:relative;z-index:1;padding:clamp(26px,3vw,46px) var(--pad) clamp(22px,2.6vw,38px)}
+      .top{position:relative;z-index:1;padding:clamp(18px,2.1vw,32px) var(--pad) clamp(18px,2vw,30px)}
       .top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.66fr);
-                gap:clamp(28px,4vw,56px);align-items:center}
+                gap:clamp(28px,4vw,56px);align-items:start}
+      .top-copy{padding-top:clamp(8px,4vw,58px)}
       .label{color:var(--lime);margin:0 0 clamp(10px,1.2vw,15px)}
       .top h1{font-size:clamp(2.2rem,4.2vw,3.5rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
       .top h1 em{font-style:normal;color:var(--lime)}
@@ -69,7 +70,7 @@
          outside the phone have somewhere to be. Without it they run past
          the viewport and the fold's overflow:hidden slices them. */
       .phones{position:relative;justify-self:end;width:min(100%,286px);
-              margin-right:clamp(0px,4.5vw,74px)}
+              zoom:0.88;margin-right:clamp(0px,7.5vw,104px)}
       .ghost{position:absolute;overflow:hidden;z-index:0;
              border:5px solid #0E1C19;border-radius:22px;
              box-shadow:0 18px 44px rgba(0,0,0,0.5)}
@@ -171,7 +172,8 @@
 
       @media (max-width:1040px){
         .top-grid{grid-template-columns:1fr;gap:34px}
-        .phones{justify-self:start}
+        .top-copy{padding-top:0}
+        .phones{justify-self:start;zoom:1;margin-right:0}
         /* The flanking frames crowd a single column and would be clipped
            to slivers, so they stand down rather than half-appearing. */
         .ghost,.slash{display:none}
@@ -205,13 +207,12 @@
 
       <section class="top">
         <div class="shell top-grid">
-          <div>
+          <div class="top-copy">
             <p class="label util">Discover</p>
             <h1>Social,<br>but make it <em>audio.</em></h1>
             <p class="lede">Real people. Real voices. Stories, opinions, questions
             and conversations from around you and around the world. No filters,
             no perfect grids. Just honest audio.</p>
-            <a class="pill" href="/#early">Get early access</a>
           </div>
 
           <div class="phones">
