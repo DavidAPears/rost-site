@@ -64,9 +64,13 @@
 
       /* ---------- hero ---------- */
       .stage{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;
-             justify-content:center;gap:clamp(30px,4.2vw,64px);
+             justify-content:center;
              padding:clamp(24px,3vw,44px) var(--pad) clamp(20px,2.4vw,34px)}
-      .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.92fr);
+      /* The gap belongs here, not on .stage. The stage has one child, the
+         shell, and the hero and the cards are both inside it, so a gap up
+         there separates nothing and the cards sat against the player. */
+      .stage .shell{display:flex;flex-direction:column;gap:clamp(30px,4vw,60px)}
+      .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.84fr);
             gap:clamp(28px,4vw,64px);align-items:center}
       .eyebrow{color:var(--muted);margin:0 0 clamp(12px,1.4vw,18px)}
       .hero h1{font-size:clamp(2.4rem,4.6vw,4rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
@@ -74,22 +78,24 @@
             color:var(--muted);font-size:clamp(1rem,1.15vw,1.125rem);max-width:42ch}
 
       /* ---------- the player, which is a real one ---------- */
-      /* Held narrower than its column and shorter than it wants to be, so
-         there is air between it and the cards underneath. */
-      .player{margin:0 0 0 auto;max-width:min(100%,560px);
+      /* align-self:start pins its top to the top of the row, so making it
+         smaller only ever pulls the bottom up and away from the cards.
+         Centred, shrinking it would move both edges and the gap would
+         never open. */
+      .player{align-self:start;margin:0 0 0 auto;max-width:min(100%,500px);
               background:rgba(10,19,17,0.72);border:1px solid var(--edge);
-              border-radius:16px;padding:clamp(17px,1.9vw,25px);backdrop-filter:blur(6px)}
+              border-radius:16px;padding:clamp(15px,1.6vw,21px);backdrop-filter:blur(6px)}
       .player-head{display:flex;justify-content:space-between;align-items:center;
-                   color:var(--muted);margin-bottom:clamp(10px,1.2vw,16px)}
+                   color:var(--muted);margin-bottom:clamp(8px,0.9vw,12px)}
       .player-head svg{width:19px;height:19px;stroke:var(--muted);fill:none;stroke-width:1.6;
                        stroke-linecap:round;stroke-linejoin:round}
-      .player canvas{display:block;width:100%;height:clamp(96px,11vw,142px)}
-      .transport{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px);
-                 margin:clamp(12px,1.4vw,18px) 0 clamp(14px,1.6vw,20px)}
-      .transport button{width:48px;height:48px;border-radius:50%;border:0;background:var(--lime);
+      .player canvas{display:block;width:100%;height:clamp(82px,9vw,116px)}
+      .transport{display:flex;align-items:center;gap:clamp(11px,1.2vw,15px);
+                 margin:clamp(9px,1.1vw,14px) 0 clamp(11px,1.2vw,15px)}
+      .transport button{width:42px;height:42px;border-radius:50%;border:0;background:var(--lime);
                         color:var(--ink);cursor:pointer;display:flex;align-items:center;
                         justify-content:center;flex:none}
-      .transport button svg{width:16px;height:16px;fill:currentColor}
+      .transport button svg{width:14px;height:14px;fill:currentColor}
       .transport button:hover{background:#fff}
       .bar{flex:1;height:4px;border-radius:2px;background:rgba(247,247,241,0.14);
            position:relative;cursor:pointer}
@@ -160,7 +166,6 @@
         <div class="shell nav-inner">
           <a class="nav-brand" href="/">
             <img src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
-            <span class="util">Less scrolling. More listening.</span>
           </a>
           <div class="nav-end">
             <a class="pill" href="#early">Get early access</a>
@@ -172,7 +177,6 @@
         <div class="shell">
           <div class="hero">
             <div class="hero-copy">
-              <p class="eyebrow util">The voice-first social app</p>
               <h1>Less scrolling.<br>More talking.</h1>
               <p class="lede">Share voice notes, meet people through conversation
               and get heard. No endless feeds. Just real voices.</p>
