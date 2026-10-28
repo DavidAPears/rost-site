@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create. R&Ouml;ST</title>
+
+    <meta
+      name="description"
+      content="Create on R&Ouml;ST: your own page, a way to be found by the people who hear you, and a way to take requests. Free while R&Ouml;ST is new."
+    />
+    <meta name="theme-color" content="#040B0A" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="apple-touch-icon" href="/assets/icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Create on R&Ouml;ST" />
+    <meta property="og:description" content="Your own page, a way to be found by the people who hear you, and a way to take requests." />
+    <meta property="og:image" content="/assets/icon.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="canonical" href="https://rost.fyi/create" />
+    <link rel="stylesheet" href="/assets/site.css" />
+
+    <style>
+      /* ----------------------------------------------------------------
+         Built on Discover's fold, deliberately. Same backdrop scoping,
+         same nav, same type scale, same scaled phone cluster, same three
+         claims peeking over the fold line. Where this page differs it is
+         because Connect differs, not because it was drawn separately.
+         ---------------------------------------------------------------- */
+      .fold{position:relative;overflow:hidden}
+      .backdrop{position:absolute;inset:0;width:100%;height:100%;display:block;
+                object-fit:cover;object-position:center;z-index:0;pointer-events:none;opacity:0.5}
+
+      .nav{position:relative;z-index:2;border-bottom:1px solid var(--edge);
+           padding:clamp(14px,1.6vw,20px) var(--pad)}
+      .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,3vw,48px)}
+      .nav-brand{display:block;text-decoration:none;flex:none}
+      .nav-brand img{width:clamp(118px,11vw,172px);height:auto}
+      .nav-end{display:flex;align-items:center;gap:clamp(14px,1.8vw,24px);flex:none}
+      .pill{display:inline-block;background:var(--lime);color:var(--ink);border-radius:999px;
+            padding:13px 22px;text-decoration:none;font-size:var(--util);font-weight:700;
+            letter-spacing:0.14em;text-transform:uppercase;border:0;cursor:pointer;
+            font-family:Inter,sans-serif;white-space:nowrap}
+      .pill:hover{background:#fff}
+
+      /* ---------- hero ---------- */
+      .top{position:relative;z-index:1;padding:clamp(18px,2.1vw,32px) var(--pad) clamp(18px,2vw,30px)}
+      .top-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,0.66fr);
+                gap:clamp(28px,4vw,56px);align-items:start}
+      .top-copy{padding-top:clamp(8px,4vw,58px)}
+      .label{color:var(--lime);margin:0 0 clamp(10px,1.2vw,15px)}
+      .top h1{font-size:clamp(2.2rem,4.2vw,3.5rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
+      .top h1 em{font-style:normal;color:var(--lime)}
+      .top .lede{margin:clamp(14px,1.6vw,20px) 0 0;color:var(--muted);
+                 font-size:clamp(0.9375rem,1.05vw,1.0625rem);max-width:44ch}
+
+      /* ---------- the cluster ---------- */
+      .phones{position:relative;justify-self:end;width:min(100%,286px);
+              zoom:0.88;margin-right:clamp(0px,16vw,230px)}
+      .ghost{position:absolute;overflow:hidden;z-index:0;
+             border:5px solid #0E1C19;border-radius:22px;
+             box-shadow:0 18px 44px rgba(0,0,0,0.5);background:#07100E}
+      .ghost>img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.85)}
+      .ghost::after{content:"";position:absolute;inset:0;
+                    background:linear-gradient(180deg,rgba(4,11,10,0.18),rgba(4,11,10,0.62))}
+      .ghost.left{width:150px;height:300px;left:-104px;top:58px;transform:rotate(-7deg)}
+      .ghost.right{width:138px;height:276px;right:-116px;top:96px;transform:rotate(6deg)}
+
+      /* The play strip that sits along the bottom of a flanking frame. */
+      .gplay{position:absolute;left:9px;right:9px;bottom:10px;z-index:2;
+             display:flex;align-items:center;gap:7px}
+      .mini{width:21px;height:21px;border-radius:50%;background:var(--lime);flex:none;
+            display:flex;align-items:center;justify-content:center}
+      .mini svg{width:8px;height:8px;fill:var(--ink)}
+      .wf{flex:1;height:20px;min-width:0}
+
+      .phone{position:relative;z-index:1;width:100%;border:8px solid #10211D;border-radius:34px;
+             background:var(--ground);box-shadow:0 30px 70px rgba(0,0,0,0.55);overflow:hidden}
+      .screen{padding:11px 10px 13px}
+      .bezel{display:flex;justify-content:center;padding:5px 0 8px}
+      .bezel span{width:84px;height:5px;border-radius:3px;background:#1B2724}
+      .scrtitle{display:flex;align-items:center;justify-content:space-between;margin:0 2px 9px}
+      .scrtitle h2{font-size:0.9375rem;letter-spacing:-0.01em;margin:0}
+      .scrtitle svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.8;
+                    stroke-linecap:round}
+      .tabs{display:flex;gap:6px;margin:0 0 9px}
+      .tabs span{font-size:0.625rem;font-weight:600;padding:5px 9px;border-radius:999px;
+                 color:var(--dim);background:rgba(247,247,241,0.05)}
+      .tabs span.on{background:var(--lime);color:var(--ink)}
+
+      /* ---------- the studio screen ---------- */
+      .statrow{display:flex;gap:6px;margin:0 0 9px}
+      .stat{flex:1;min-width:0;background:var(--surface);border:1px solid var(--edge);
+            border-radius:10px;padding:8px 9px}
+      .stat .n{display:block;font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;
+               font-size:1rem;letter-spacing:-0.02em;color:var(--text);line-height:1.1}
+      .stat .k{display:block;font-size:0.5625rem;color:var(--dim);margin-top:3px;
+               letter-spacing:0.08em;text-transform:uppercase}
+      .panel{background:var(--surface);border:1px solid var(--edge);border-radius:10px;
+             padding:9px;margin:0 0 9px}
+      .panelhead{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 8px}
+      .panelhead h3{margin:0;font-size:0.75rem;letter-spacing:-0.01em;color:var(--text)}
+      .panelhead span{font-size:0.5625rem;color:var(--dim)}
+      .req{display:flex;gap:9px;background:var(--surface);border:1px solid var(--edge);
+           border-radius:10px;padding:9px;margin:0 0 6px}
+      .offers{display:flex;flex-wrap:wrap;gap:5px}
+      .offer{font-size:0.625rem;font-weight:600;padding:4px 8px;border-radius:999px;
+             color:var(--muted);background:rgba(247,247,241,0.05)}
+      .req .who{width:27px;height:27px;border-radius:50%;flex:none;background:rgba(230,255,77,0.1);
+                display:flex;align-items:center;justify-content:center}
+      .req .who svg{width:13px;height:13px;color:var(--lime)}
+      .reqbody{min-width:0;flex:1}
+      .reqtop{margin:0 0 5px;font-size:0.75rem;color:var(--text);display:flex;
+              align-items:center;gap:7px;flex-wrap:wrap}
+      .chip{font-size:0.625rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+            color:var(--lime);border:1px solid rgba(230,255,77,0.35);border-radius:999px;padding:2px 7px}
+      .reqplay{display:flex;align-items:center;gap:8px;margin:0 0 6px}
+      .reqsaid{margin:0;font-size:0.6875rem;line-height:1.38;color:var(--muted)}
+
+      /* ---------- three claims ---------- */
+      .claims{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+              gap:clamp(12px,1.4vw,20px);padding:0 var(--pad) clamp(30px,3.4vw,50px)}
+      .claim{display:flex;gap:clamp(13px,1.4vw,20px);align-items:center;
+             background:rgba(10,19,17,0.66);border:1px solid var(--edge);border-radius:14px;
+             padding:clamp(14px,1.4vw,20px)}
+      .claim .ico{width:46px;height:46px;border-radius:50%;border:1px solid rgba(230,255,77,0.4);
+                  display:flex;align-items:center;justify-content:center;flex:none}
+      .claim .ico svg{width:21px;height:21px;color:var(--lime)}
+      .claim .k{display:block;color:var(--dim);margin-bottom:6px}
+      .claim p{margin:0;color:var(--text);font-size:0.875rem;line-height:1.4}
+
+      /* ---------- how it works ---------- */
+      .how-wrap{border-top:1px solid var(--edge);background:var(--surface);
+                padding:clamp(48px,6vw,92px) var(--pad)}
+      .how-grid{display:grid;grid-template-columns:minmax(0,0.78fr) minmax(0,2fr);
+                gap:clamp(28px,4vw,64px);align-items:start}
+      .how-intro h2{font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.02;letter-spacing:-0.035em;margin:0}
+      .how-intro .label{margin-bottom:clamp(10px,1.2vw,15px)}
+      .how-intro p{margin:clamp(16px,1.8vw,24px) 0 clamp(22px,2.6vw,32px);color:var(--muted);font-size:0.9375rem}
+
+      /* Three steps with an arrow between them, so it reads as a sequence
+         rather than three unrelated cards. The arrows are grid items of
+         their own and go when the row does. */
+      .steps{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);
+             gap:clamp(10px,1.1vw,16px);align-items:start}
+      .seq{align-self:start;color:var(--dim);margin-top:clamp(40px,6.1vw,96px)}
+      .seq svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;
+               stroke-linecap:round;stroke-linejoin:round;display:block}
+      .step figure{margin:0 0 clamp(12px,1.3vw,17px);position:relative;border-radius:14px;
+                   overflow:hidden;background:var(--ground);border:1px solid var(--edge);
+                   aspect-ratio:4/3}
+      .step figure>img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block}
+      .stepno{display:inline-flex;align-items:center;justify-content:center;flex:none;
+              width:26px;height:26px;border-radius:50%;border:1px solid rgba(230,255,77,0.45);
+              color:var(--lime);font-size:0.75rem;font-weight:700}
+      .stephead{display:flex;align-items:center;gap:10px;margin:0 0 7px}
+      .stephead h3{font-size:0.9375rem;letter-spacing:-0.01em;margin:0}
+      .step p{margin:0;color:var(--muted);font-size:0.8125rem;line-height:1.45}
+
+      .early{border-top:1px solid var(--edge);background:var(--ground);
+             padding:clamp(72px,8vw,120px) var(--pad) clamp(52px,6vw,84px)}
+      .early-inner{display:flex;gap:clamp(20px,3vw,48px);align-items:center;flex-wrap:wrap;justify-content:space-between}
+      .early h2{font-size:clamp(1.3rem,2.2vw,1.9rem);line-height:1.1;letter-spacing:-0.03em;margin:0 0 7px}
+      .early p{margin:0;color:var(--muted);font-size:0.9375rem;max-width:44ch}
+      .early form{display:flex;gap:10px;flex-wrap:wrap;max-width:480px;flex:1 1 320px}
+      .early input{flex:1 1 200px;min-width:0;background:var(--surface);border:1px solid var(--edge);
+                   border-radius:999px;color:var(--text);font:inherit;font-size:0.9375rem;padding:14px 20px}
+      .early input::placeholder{color:var(--dim)}
+      .early input:focus{outline:none;border-color:var(--lime)}
+      .said{margin:12px 0 0;font-size:0.875rem;flex-basis:100%}
+      .said:empty{margin:0}
+
+      @media (max-width:1040px){
+        .top-grid{grid-template-columns:1fr;gap:34px}
+        .top-copy{padding-top:0}
+        .phones{justify-self:start;zoom:1;margin-right:0}
+        .ghost{display:none}
+        .claims{grid-template-columns:1fr}
+        .how-grid{grid-template-columns:1fr;gap:30px}
+        /* The arrows were the sequence. Stacked, the order is the sequence,
+           so they stand down rather than pointing at the floor. */
+        .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+        .seq{display:none}
+      }
+      @media (max-width:560px){
+        .steps{grid-template-columns:1fr}
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="fold">
+      <video class="backdrop" poster="/assets/bg_static.jpg" autoplay muted loop playsinline
+             preload="metadata" aria-hidden="true">
+        <source src="/assets/bg_animation.mp4" type="video/mp4">
+      </video>
+
+      <header class="nav">
+        <div class="shell nav-inner">
+          <a class="nav-brand" href="/">
+            <img src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
+          </a>
+          <div class="nav-end">
+            <a class="pill" href="#early">Get early access</a>
+          </div>
+        </div>
+      </header>
+
+      <section class="top">
+        <div class="shell top-grid">
+          <div class="top-copy">
+            <p class="label util">Create</p>
+            <h1>Your voice deserves<br>an <em>audience.</em></h1>
+            <p class="lede">Your own page on R&Ouml;ST. Say what you are up for
+            recording, get found by the people who hear you, and take requests.</p>
+          </div>
+
+          <div class="phones">
+            <span class="ghost left">
+              <img src="/assets/create_hero_left_man.jpg" alt="" width="506" height="1024" loading="lazy">
+              <span class="gplay"><span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 84 20" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#E6FF4D"/><rect x="3.23" y="6.89" width="2.26" height="6.22" rx="1.13" fill="#E6FF4D"/><rect x="6.46" y="6.08" width="2.26" height="7.83" rx="1.13" fill="#E6FF4D"/><rect x="9.69" y="5.95" width="2.26" height="8.11" rx="1.13" fill="#E6FF4D"/><rect x="12.92" y="6.59" width="2.26" height="6.83" rx="1.13" fill="#E6FF4D"/><rect x="16.15" y="3.37" width="2.26" height="13.26" rx="1.13" fill="#E6FF4D"/><rect x="19.38" y="2.77" width="2.26" height="14.46" rx="1.13" fill="#E6FF4D"/><rect x="22.62" y="4.01" width="2.26" height="11.98" rx="1.13" fill="#E6FF4D"/><rect x="25.85" y="3.77" width="2.26" height="12.45" rx="1.13" fill="#E6FF4D"/><rect x="29.08" y="5.21" width="2.26" height="9.57" rx="1.13" fill="#2F6F66"/><rect x="32.31" y="6.57" width="2.26" height="6.86" rx="1.13" fill="#2F6F66"/><rect x="35.54" y="4.14" width="2.26" height="11.72" rx="1.13" fill="#2F6F66"/><rect x="38.77" y="2.70" width="2.26" height="14.60" rx="1.13" fill="#2F6F66"/><rect x="42.00" y="6.05" width="2.26" height="7.89" rx="1.13" fill="#2F6F66"/><rect x="45.23" y="1.42" width="2.26" height="17.16" rx="1.13" fill="#2F6F66"/><rect x="48.46" y="5.12" width="2.26" height="9.77" rx="1.13" fill="#2F6F66"/><rect x="51.69" y="5.24" width="2.26" height="9.53" rx="1.13" fill="#2F6F66"/><rect x="54.92" y="6.53" width="2.26" height="6.93" rx="1.13" fill="#2F6F66"/><rect x="58.15" y="1.25" width="2.26" height="17.51" rx="1.13" fill="#2F6F66"/><rect x="61.38" y="3.14" width="2.26" height="13.72" rx="1.13" fill="#2F6F66"/><rect x="64.62" y="2.96" width="2.26" height="14.09" rx="1.13" fill="#2F6F66"/><rect x="67.85" y="4.78" width="2.26" height="10.44" rx="1.13" fill="#2F6F66"/><rect x="71.08" y="7.72" width="2.26" height="4.56" rx="1.13" fill="#2F6F66"/><rect x="74.31" y="7.11" width="2.26" height="5.79" rx="1.13" fill="#2F6F66"/><rect x="77.54" y="7.38" width="2.26" height="5.25" rx="1.13" fill="#2F6F66"/><rect x="80.77" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#2F6F66"/></svg></span>
+            </span>
+            <span class="ghost right">
+              <img src="/assets/create_hero_right_woman.jpg" alt="" width="509" height="1024" loading="lazy">
+              <span class="gplay"><span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 84 20" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="8.35" width="2.26" height="3.30" rx="1.13" fill="#E6FF4D"/><rect x="3.23" y="6.86" width="2.26" height="6.28" rx="1.13" fill="#E6FF4D"/><rect x="6.46" y="5.01" width="2.26" height="9.98" rx="1.13" fill="#E6FF4D"/><rect x="9.69" y="7.07" width="2.26" height="5.85" rx="1.13" fill="#E6FF4D"/><rect x="12.92" y="7.27" width="2.26" height="5.46" rx="1.13" fill="#E6FF4D"/><rect x="16.15" y="3.21" width="2.26" height="13.58" rx="1.13" fill="#2F6F66"/><rect x="19.38" y="5.32" width="2.26" height="9.36" rx="1.13" fill="#2F6F66"/><rect x="22.62" y="4.81" width="2.26" height="10.38" rx="1.13" fill="#2F6F66"/><rect x="25.85" y="1.93" width="2.26" height="16.15" rx="1.13" fill="#2F6F66"/><rect x="29.08" y="5.54" width="2.26" height="8.92" rx="1.13" fill="#2F6F66"/><rect x="32.31" y="0.82" width="2.26" height="18.35" rx="1.13" fill="#2F6F66"/><rect x="35.54" y="3.37" width="2.26" height="13.26" rx="1.13" fill="#2F6F66"/><rect x="38.77" y="6.04" width="2.26" height="7.92" rx="1.13" fill="#2F6F66"/><rect x="42.00" y="0.54" width="2.26" height="18.91" rx="1.13" fill="#2F6F66"/><rect x="45.23" y="2.84" width="2.26" height="14.32" rx="1.13" fill="#2F6F66"/><rect x="48.46" y="6.09" width="2.26" height="7.82" rx="1.13" fill="#2F6F66"/><rect x="51.69" y="1.49" width="2.26" height="17.02" rx="1.13" fill="#2F6F66"/><rect x="54.92" y="2.16" width="2.26" height="15.67" rx="1.13" fill="#2F6F66"/><rect x="58.15" y="2.71" width="2.26" height="14.57" rx="1.13" fill="#2F6F66"/><rect x="61.38" y="3.58" width="2.26" height="12.85" rx="1.13" fill="#2F6F66"/><rect x="64.62" y="2.37" width="2.26" height="15.26" rx="1.13" fill="#2F6F66"/><rect x="67.85" y="7.51" width="2.26" height="4.98" rx="1.13" fill="#2F6F66"/><rect x="71.08" y="3.97" width="2.26" height="12.05" rx="1.13" fill="#2F6F66"/><rect x="74.31" y="6.06" width="2.26" height="7.88" rx="1.13" fill="#2F6F66"/><rect x="77.54" y="8.00" width="2.26" height="4.01" rx="1.13" fill="#2F6F66"/><rect x="80.77" y="8.40" width="2.26" height="3.20" rx="1.13" fill="#2F6F66"/></svg></span>
+            </span>
+
+            <div class="phone">
+              <div class="bezel"><span></span></div>
+              <div class="screen">
+                <div class="scrtitle">
+                  <h2>Create</h2>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
+                </div>
+                <div class="tabs"><span class="on">Overview</span><span>Content</span><span>Requests</span></div>
+
+                <div class="statrow">
+                  <div class="stat"><span class="n">1,284</span><span class="k">Plays</span></div>
+                  <div class="stat"><span class="n">96</span><span class="k">Listeners</span></div>
+                  <div class="stat"><span class="n">7</span><span class="k">Requests</span></div>
+                </div>
+
+                <div class="panel">
+                  <div class="panelhead"><h3>What I&rsquo;ll record</h3><span>3 offers</span></div>
+                  <div class="offers">
+                    <span class="offer">Birthday messages</span>
+                    <span class="offer">Pep talks</span>
+                    <span class="offer">Voiceovers</span>
+                  </div>
+                </div>
+
+                <article class="req">
+                  <span class="who"><svg viewBox="0 0 512 512" aria-hidden="true"><rect x="48" y="96" width="416" height="320" rx="40" ry="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M112 160l144 112 144-112" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+                  <div class="reqbody">
+                    <p class="reqtop"><b>Noor</b> <span class="chip">Request</span></p>
+                    <div class="reqplay">
+                      <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 120 22" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="9.24" width="2.47" height="3.52" rx="1.24" fill="#2F6F66"/><rect x="3.53" y="9.24" width="2.47" height="3.52" rx="1.24" fill="#2F6F66"/><rect x="7.06" y="8.04" width="2.47" height="5.92" rx="1.24" fill="#2F6F66"/><rect x="10.59" y="6.35" width="2.47" height="9.30" rx="1.24" fill="#2F6F66"/><rect x="14.12" y="8.06" width="2.47" height="5.88" rx="1.24" fill="#2F6F66"/><rect x="17.65" y="7.87" width="2.47" height="6.26" rx="1.24" fill="#2F6F66"/><rect x="21.18" y="6.98" width="2.47" height="8.05" rx="1.24" fill="#2F6F66"/><rect x="24.71" y="3.76" width="2.47" height="14.49" rx="1.24" fill="#2F6F66"/><rect x="28.24" y="6.95" width="2.47" height="8.11" rx="1.24" fill="#2F6F66"/><rect x="31.76" y="3.08" width="2.47" height="15.83" rx="1.24" fill="#2F6F66"/><rect x="35.29" y="3.28" width="2.47" height="15.45" rx="1.24" fill="#2F6F66"/><rect x="38.82" y="6.52" width="2.47" height="8.96" rx="1.24" fill="#2F6F66"/><rect x="42.35" y="3.69" width="2.47" height="14.63" rx="1.24" fill="#2F6F66"/><rect x="45.88" y="4.15" width="2.47" height="13.70" rx="1.24" fill="#2F6F66"/><rect x="49.41" y="4.30" width="2.47" height="13.40" rx="1.24" fill="#2F6F66"/><rect x="52.94" y="0.08" width="2.47" height="21.83" rx="1.24" fill="#2F6F66"/><rect x="56.47" y="6.49" width="2.47" height="9.03" rx="1.24" fill="#2F6F66"/><rect x="60.00" y="7.01" width="2.47" height="7.99" rx="1.24" fill="#2F6F66"/><rect x="63.53" y="0.49" width="2.47" height="21.03" rx="1.24" fill="#2F6F66"/><rect x="67.06" y="4.37" width="2.47" height="13.26" rx="1.24" fill="#2F6F66"/><rect x="70.59" y="5.88" width="2.47" height="10.23" rx="1.24" fill="#2F6F66"/><rect x="74.12" y="5.09" width="2.47" height="11.83" rx="1.24" fill="#2F6F66"/><rect x="77.65" y="5.00" width="2.47" height="11.99" rx="1.24" fill="#2F6F66"/><rect x="81.18" y="1.39" width="2.47" height="19.21" rx="1.24" fill="#2F6F66"/><rect x="84.71" y="6.37" width="2.47" height="9.27" rx="1.24" fill="#2F6F66"/><rect x="88.24" y="6.54" width="2.47" height="8.93" rx="1.24" fill="#2F6F66"/><rect x="91.76" y="4.72" width="2.47" height="12.56" rx="1.24" fill="#2F6F66"/><rect x="95.29" y="5.33" width="2.47" height="11.34" rx="1.24" fill="#2F6F66"/><rect x="98.82" y="3.82" width="2.47" height="14.36" rx="1.24" fill="#2F6F66"/><rect x="102.35" y="5.02" width="2.47" height="11.96" rx="1.24" fill="#2F6F66"/><rect x="105.88" y="7.60" width="2.47" height="6.81" rx="1.24" fill="#2F6F66"/><rect x="109.41" y="8.64" width="2.47" height="4.72" rx="1.24" fill="#2F6F66"/><rect x="112.94" y="7.69" width="2.47" height="6.62" rx="1.24" fill="#2F6F66"/><rect x="116.47" y="8.99" width="2.47" height="4.03" rx="1.24" fill="#2F6F66"/></svg>
+                    </div>
+                    <p class="reqsaid">&ldquo;Could you record something for my sister&rsquo;s birthday?&rdquo;</p>
+                  </div>
+                </article>
+
+                <article class="req">
+                  <span class="who"><svg viewBox="0 0 512 512" aria-hidden="true"><rect x="48" y="96" width="416" height="320" rx="40" ry="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M112 160l144 112 144-112" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+                  <div class="reqbody">
+                    <p class="reqtop"><b>Ravi</b> <span class="chip">Request</span></p>
+                    <div class="reqplay">
+                      <span class="mini"><svg viewBox="0 0 12 12" aria-hidden="true"><polygon points="1,0 12,6 1,12"/></svg></span><svg class="wf" viewBox="0 0 120 22" preserveAspectRatio="none" aria-hidden="true"><rect x="0.00" y="9.24" width="2.47" height="3.52" rx="1.24" fill="#2F6F66"/><rect x="3.53" y="9.15" width="2.47" height="3.70" rx="1.24" fill="#2F6F66"/><rect x="7.06" y="8.76" width="2.47" height="4.48" rx="1.24" fill="#2F6F66"/><rect x="10.59" y="5.47" width="2.47" height="11.06" rx="1.24" fill="#2F6F66"/><rect x="14.12" y="6.15" width="2.47" height="9.70" rx="1.24" fill="#2F6F66"/><rect x="17.65" y="5.09" width="2.47" height="11.82" rx="1.24" fill="#2F6F66"/><rect x="21.18" y="5.30" width="2.47" height="11.40" rx="1.24" fill="#2F6F66"/><rect x="24.71" y="5.85" width="2.47" height="10.30" rx="1.24" fill="#2F6F66"/><rect x="28.24" y="3.49" width="2.47" height="15.01" rx="1.24" fill="#2F6F66"/><rect x="31.76" y="4.10" width="2.47" height="13.80" rx="1.24" fill="#2F6F66"/><rect x="35.29" y="2.51" width="2.47" height="16.98" rx="1.24" fill="#2F6F66"/><rect x="38.82" y="3.03" width="2.47" height="15.93" rx="1.24" fill="#2F6F66"/><rect x="42.35" y="1.62" width="2.47" height="18.76" rx="1.24" fill="#2F6F66"/><rect x="45.88" y="4.21" width="2.47" height="13.58" rx="1.24" fill="#2F6F66"/><rect x="49.41" y="6.11" width="2.47" height="9.77" rx="1.24" fill="#2F6F66"/><rect x="52.94" y="6.10" width="2.47" height="9.79" rx="1.24" fill="#2F6F66"/><rect x="56.47" y="1.98" width="2.47" height="18.03" rx="1.24" fill="#2F6F66"/><rect x="60.00" y="5.96" width="2.47" height="10.09" rx="1.24" fill="#2F6F66"/><rect x="63.53" y="2.51" width="2.47" height="16.97" rx="1.24" fill="#2F6F66"/><rect x="67.06" y="2.83" width="2.47" height="16.33" rx="1.24" fill="#2F6F66"/><rect x="70.59" y="6.85" width="2.47" height="8.30" rx="1.24" fill="#2F6F66"/><rect x="74.12" y="1.99" width="2.47" height="18.01" rx="1.24" fill="#2F6F66"/><rect x="77.65" y="7.21" width="2.47" height="7.59" rx="1.24" fill="#2F6F66"/><rect x="81.18" y="1.96" width="2.47" height="18.08" rx="1.24" fill="#2F6F66"/><rect x="84.71" y="2.46" width="2.47" height="17.08" rx="1.24" fill="#2F6F66"/><rect x="88.24" y="6.54" width="2.47" height="8.91" rx="1.24" fill="#2F6F66"/><rect x="91.76" y="3.93" width="2.47" height="14.13" rx="1.24" fill="#2F6F66"/><rect x="95.29" y="4.36" width="2.47" height="13.28" rx="1.24" fill="#2F6F66"/><rect x="98.82" y="7.81" width="2.47" height="6.38" rx="1.24" fill="#2F6F66"/><rect x="102.35" y="5.75" width="2.47" height="10.50" rx="1.24" fill="#2F6F66"/><rect x="105.88" y="8.48" width="2.47" height="5.04" rx="1.24" fill="#2F6F66"/><rect x="109.41" y="6.39" width="2.47" height="9.23" rx="1.24" fill="#2F6F66"/><rect x="112.94" y="8.05" width="2.47" height="5.91" rx="1.24" fill="#2F6F66"/><rect x="116.47" y="9.00" width="2.47" height="4.00" rx="1.24" fill="#2F6F66"/></svg>
+                    </div>
+                    <p class="reqsaid">&ldquo;Thirty seconds of you reading this out, in your voice.&rdquo;</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="shell claims">
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z" fill="none" stroke-miterlimit="10" stroke="currentColor" stroke-width="32"/></svg></span>
+          <span><span class="k util">Your own page</span><p>A page people can hear you on, and hire you from.</p></span>
+        </div>
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><rect x="48" y="96" width="416" height="320" rx="40" ry="40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M112 160l144 112 144-112" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">Take requests</span><p>Say what you are up for recording and let people ask.</p></span>
+        </div>
+        <div class="claim">
+          <span class="ico"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M259.92 262.91L216.4 149.77a9 9 0 00-16.8 0l-43.52 113.14a9 9 0 01-5.17 5.17L37.77 311.6a9 9 0 000 16.8l113.14 43.52a9 9 0 015.17 5.17l43.52 113.14a9 9 0 0016.8 0l43.52-113.14a9 9 0 015.17-5.17l113.14-43.52a9 9 0 000-16.8l-113.14-43.52a9 9 0 01-5.17-5.17zM108 68L88 16 68 68 16 88l52 20 20 52 20-52 52-20-52-20zM426.67 117.33L400 48l-26.67 69.33L304 144l69.33 26.67L400 240l26.67-69.33L496 144l-69.33-26.67z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></span>
+          <span><span class="k util">Free while we are new</span><p>Nothing charges anybody today.</p></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="how-wrap">
+      <div class="shell how-grid">
+        <div class="how-intro">
+          <p class="label util">How it works</p>
+          <h2>Make something.<br>Be found for it.</h2>
+          <p>Thirty seconds of you is enough for somebody to decide they want
+          to hear more. Create is where that turns into a page, an audience
+          and a request.</p>
+          <a class="pill" href="#early">Join the waiting list</a>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <figure>
+              <img src="/assets/create_step_record.jpg" alt="Somebody recording" width="764" height="508" loading="lazy">
+            </figure>
+            <div class="stephead"><span class="stepno">1</span><h3>Record what you are good at</h3></div>
+            <p>Whatever you make. Keep it short.</p>
+          </article>
+
+          <span class="seq" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+
+          <article class="step">
+            <figure>
+              <img src="/assets/create_step_found.jpg" alt="People listening" width="764" height="508" loading="lazy">
+            </figure>
+            <div class="stephead"><span class="stepno">2</span><h3>Get discovered</h3></div>
+            <p>People who hear you can find your page.</p>
+          </article>
+
+          <span class="seq" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></svg></span>
+
+          <article class="step">
+            <figure>
+              <img src="/assets/create_step_requests.jpg" alt="A request arriving" width="764" height="508" loading="lazy">
+            </figure>
+            <div class="stephead"><span class="stepno">3</span><h3>Take requests</h3></div>
+            <p>Say what you are up for and let people ask for it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="early" id="early">
+      <div class="shell early-inner">
+        <div>
+          <h2>Sign up to our waiting list.</h2>
+          <p>No newsletter, no countdown. One email when it is ready.</p>
+        </div>
+        <form id="form" novalidate>
+          <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="email" type="email" placeholder="you@email.com" autocomplete="email" required>
+          <button type="submit" class="pill">Get early access</button>
+          <p class="said" id="said" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="shell">
+        <div class="foot-grid">
+          <div class="foot-brand">
+            <img class="wordmark" src="/assets/wordmark.png" alt="R&Ouml;ST" width="420" height="111">
+            <p>Less scrolling. More listening.</p>
+            <p class="where util">18 and over.</p>
+          </div>
+
+          <div class="foot-col">
+            <h2>The app</h2>
+            <ul>
+              <li><a href="/discover">Discover</a></li>
+              <li><a href="/connect">Connect</a></li>
+              <li><a href="/create">Create</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Company</h2>
+            <ul>
+              <li><a href="/about">About</a></li>
+              <li><a href="/#early">Get early access</a></li>
+              <li><a href="/delete">Delete your account</a></li>
+              <li><a href="/admin">Admin</a></li>
+            </ul>
+          </div>
+
+          <div class="foot-col">
+            <h2>Legal</h2>
+            <ul>
+              <li><a href="/privacy">Privacy</a></li>
+              <li><a href="/terms">Terms</a></li>
+              <li><a href="/child-safety">CSAE Policy</a></li>
+              <li><a href="/community-guidelines">Community Guidelines</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="foot-base">
+          <span>&copy; R&Ouml;ST 2026</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.47.10/dist/umd/supabase.js"></script>
+    <script src="/assets/supabase.js"></script>
+    <script src="/assets/waitlist.js" defer></script>
+  </body>
+</html>
