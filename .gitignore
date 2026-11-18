@@ -1,3 +1,11 @@
 .DS_Store
 .vercel
 node_modules/
+
+# Secrets. Nothing on this site reads them: it is static HTML with no build
+# step, so anything here is a note to yourself and nothing more. The reason
+# the pattern is broad is that `git add -A` is how this repo gets committed,
+# and one of these reaching a public repo would be a secret published.
+.env
+.env.*
+!.env.example
