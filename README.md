@@ -143,6 +143,47 @@ Connect sends a blurhash and the real pixels never reach the device, because
 a blurred JPEG comes back out of one with a screenshot and a slider. These
 pages are a drawing of that screen rather than the screen.
 
+## Getting back into /admin
+
+Two gates, and each has its own way of shutting you out. Both recoveries
+are SQL in the Supabase dashboard, deliberately: neither can be done from
+the page itself, because a lock you can open from inside is not a lock.
+
+**Gate one, the sign in.** A normal Supabase account, and it has to be
+listed in `public.staff` with `revoked_at` null. Nothing a client can
+write grants that. To see who holds it:
+
+```sql
+select u.email, s.role, s.revoked_at
+from public.staff s join auth.users u on u.id = s.user_id;
+```
+
+To grant it, or to un-revoke somebody:
+
+```sql
+insert into public.staff (user_id, role)
+select id, 'admin' from auth.users where email = 'someone@example.com'
+on conflict (user_id) do update set revoked_at = null;
+```
+
+**Gate two, the phrase that opens the report queue.** Stored as a bcrypt
+hash and never returned, so it cannot be recovered by anybody, including
+whoever set it. Changing it needs the current one, which is the point.
+If it is gone, put the lock back to its first-time state:
+
+```sql
+update public.report_passphrase set is_placeholder = true where only_row;
+```
+
+Then set a new one on the page, which will no longer ask for the old. Ten
+characters minimum. The queue is shut to everybody between those two
+steps.
+
+**Why it is not a button.** Migration 160 took away a staff account's
+ability to overwrite the phrase on its own, because a second factor you
+can reset with the first factor alone is not a second factor. The way
+back in is database access, which is a third thing somebody has to hold.
+
 ## Policy versions
 
 The four published documents are dated **27 October 2026**, and

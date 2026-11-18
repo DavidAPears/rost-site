@@ -73,10 +73,25 @@ neither does anything:
 This is the largest growth lever in the product. Sharing a voice note
 today shares a sentence and no link at all.
 
-### 3. Store links
+### 3. Store links, and the account they depend on
 
 The footer and the home page have nowhere to send anybody. Once there
 is a listing on either store, the links go in.
+
+Decided since this list was written: the Play account will be
+**personal, in David Pears' name, declared non-trader**. $25 once, no
+company, and no address published because non-traders do not display
+one. Two consequences worth planning around:
+
+- **12 testers opted in continuously for 14 days** before any app
+  reaches production, per app, because that applies to personal
+  accounts created after 13 November 2023. It gates production only;
+  closed testing works from day one.
+- **The moment money moves through Create, the non-trader declaration
+  has to change.** Same decision as item 4.
+
+Apple is $99 a year against Google's $25 once, so Android first costs
+nothing to delay iOS.
 
 ---
 
@@ -178,6 +193,10 @@ same place as everything else.
 - The waitlist writes to the database. An anonymous caller can add an
   address and learn nothing, which was proven from inside the database
   rather than from the form saying thank you.
+- Getting back into `/admin` is written down. Both gates locked
+  everybody out once, and both recoveries are SQL that only works from
+  the Supabase dashboard. They were in a conversation and a gitignored
+  file, which is to say nowhere. They are in the README now.
 - `/about` is finished. The founder story is written and it is the last
   hold on any page outside privacy and terms: Endemol, eight years
   engineering, and why those two halves produce this app. 1,007 words
