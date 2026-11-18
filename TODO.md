@@ -8,25 +8,34 @@ broken. What follows is what stands between it and being finished.
 
 ---
 
-## The one thing that unblocks the most
+## Legal, what is left of it
 
-### 1. The legal entity name and registered address
+### 1. Privacy and terms still want a read by somebody qualified
 
-Eight gaps across three documents are the same gap:
+The entity gaps are gone. What remains is the part no amount of care
+here substitutes for: **12 holds on `/privacy` and 8 on `/terms`**,
+each one a question about the product rather than about the operator.
 
-| Document | Says |
-| -------- | ---- |
-| `/privacy` | `INSERT FULL LEGAL ENTITY NAME`, `COUNTRY / JURISDICTION`, `ADDRESS` ×2 |
-| `/terms` | `FULL LEGAL ENTITY NAME`, `LEGAL ENTITY` ×2, `REGISTERED ADDRESS` |
-| `/child-safety` | `INSERT LEGAL ENTITY NAME, IF REQUIRED` |
+They cluster:
 
-Until there is a company, these cannot be filled and the two documents
-that carry them cannot be published. **Both block store submission.**
+- **Processing questions.** Article 9 conditions for anything
+  special-category in Connect, what age assurance is actually deployed
+  and what it retains, what the recommendation and matching inputs are,
+  whether notification previews can leak Connect content to a lock
+  screen.
+- **Supplier questions.** Which providers really sit behind hosting,
+  audio, notifications, monitoring and analytics, so the list names
+  what is used rather than what might be.
+- **Product questions.** Whether in-app deletion and export paths match
+  what the policy claims, whether Connect separation holds in the app,
+  what the moderation process actually is.
 
-If you tell me the entity, the jurisdiction and the address, all eight
-go in one pass.
+Most are answerable from the code in an afternoon. A few are a
+solicitor's call. Both documents still carry **Draft, not yet approved
+for publication**, which is the honest state.
 
----
+`/child-safety` is now clear: no holds, no todos. Its draft banner can
+come off whenever you say so, and Play wants that document to exist.
 
 ## Blocked on a value only you can fetch
 
@@ -89,17 +98,18 @@ creators not being paid — but the terms line carries a `VERIFY` hold
 and whoever reviews it needs to know which story the marketing pages
 tell. Worth settling the two together rather than separately.
 
-### 6. The six tags on `/create` do not exist in the app
+### 6. The six tags on `/create` are designed but not built
 
-The profile card shows **Commercial, Narration, Characters, Podcasts,
-UGC, Explainer**. The app has one topic list, `src/lib/topics.ts`, and
-Create uses it: Storytelling, Comedy, Music, Poetry, Life, Culture,
-Learning, Advice, Calm, Sport, History, Planet, Freestyle.
+Was: the page advertises Commercial, Narration, Characters, Podcasts,
+UGC and Explainer, and the app has no such list.
 
-So the website is advertising categories the product does not have.
-Either the app grows a set of voice-work categories, or the page uses
-the list that exists. Same class of problem as the Discover topic
-chips, which were fixed by using real ones.
+Now: `docs/voice-discovery.md` in the mobile repo designs fifteen work
+categories and **all six of ours are in it verbatim**, alongside a
+separate vocabulary for what a voice sounds like. The website is ahead
+of the app rather than contradicting it.
+
+Still open because it is a document rather than code. When the schema
+lands, the page should use the real slugs.
 
 ### 7. The tagline is two different lines
 
@@ -170,9 +180,15 @@ same place as everything else.
 - The waitlist writes to the database. An anonymous caller can add an
   address and learn nothing, which was proven from inside the database
   rather than from the form saying thank you.
-- Policy dates are in step: the four documents say 27 October 2026 and
-  `src/lib/policies.ts` records `2026-10-27`. **If a document changes,
-  both change.**
+- The operator is named. David Pears, an individual based in England,
+  no company, no postal address published, contact@rost.fyi as the
+  contact point, England and Wales as governing law. Eight gaps across
+  three documents, closed in one pass.
+- Policy dates are in step. Privacy, terms and CSAE moved to 18
+  November 2026 when their words changed, and `src/lib/policies.ts`
+  plus its test moved with them. Community guidelines did not change so
+  it still says 27 October: **a date that moves when the words did not
+  is noise in the one record that has to be trustworthy.**
 - `contact@rost.fyi` and `safety@rost.fyi` both receive and send.
 - `/delete` is reachable without signing in and says what is kept,
   including that reports survive the account, which is deliberate in the
