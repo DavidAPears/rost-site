@@ -34,6 +34,17 @@ Most are answerable from the code in an afternoon. A few are a
 solicitor's call. Both documents still carry **Draft, not yet approved
 for publication**, which is the honest state.
 
+**One of them is sharper than it looks.** The privacy policy asks
+whether a UK representative, an EU representative or a data protection
+officer is required. Two facts make that a specific question rather
+than a generic one: RÖST is open to adults everywhere, so it processes
+EU residents' data from the off, and the operator works part of the
+time from a place he keeps in Stockholm. Establishment is in the UK and
+the documents say so, which is the right answer. Whether a regular
+working arrangement in an EU member state also counts as an
+establishment there is the kind of thing to put in front of whoever
+reviews this, rather than to decide from a code editor.
+
 `/child-safety` is now clear: no holds, no todos. Its draft banner can
 come off whenever you say so, and Play wants that document to exist.
 
