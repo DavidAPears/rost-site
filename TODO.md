@@ -69,22 +69,9 @@ is a listing on either store, the links go in.
 
 ---
 
-## Copy only you can write
-
-### 4. The founder story
-
-`/about` → **Who is behind it** is the one remaining hold on that page.
-It is usually the most read part of an about page and the part search
-engines have the least trouble ranking.
-
-Everything else on `/about` is now filled, including the contact
-addresses.
-
----
-
 ## Decisions, not work
 
-### 5. "Get paid" against what the terms say
+### 4. "Get paid" against what the terms say
 
 `/create` and `/about` now say creators get paid. `/terms` §Create
 currently says the opposite:
@@ -98,7 +85,7 @@ creators not being paid — but the terms line carries a `VERIFY` hold
 and whoever reviews it needs to know which story the marketing pages
 tell. Worth settling the two together rather than separately.
 
-### 6. The six tags on `/create` are designed but not built
+### 5. The six tags on `/create` are designed but not built
 
 Was: the page advertises Commercial, Narration, Characters, Podcasts,
 UGC and Explainer, and the app has no such list.
@@ -111,20 +98,20 @@ of the app rather than contradicting it.
 Still open because it is a document rather than code. When the schema
 lands, the page should use the real slugs.
 
-### 7. The tagline is two different lines
+### 6. The tagline is two different lines
 
 The title, the footer and the README say **"Less scrolling. More
 listening."** The home headline says **"More talking."** Both are good.
 Having both is the problem.
 
-### 8. `/admin` is linked from the footer of every public page
+### 7. `/admin` is linked from the footer of every public page
 
 That was deliberate, and the page is behind two gates. Worth one more
 look before launch: it tells anybody reading the footer that there is a
 desk and where it is. Removing the link costs nothing — you would still
 reach it by typing the path.
 
-### 9. ASMR, and whether R&Ouml;ST wants that audience
+### 8. ASMR, and whether R&Ouml;ST wants that audience
 
 A real and large audio search term, and the app has a `Calm` topic it
 would sit under. It is also a community with its own expectations and
@@ -136,7 +123,7 @@ moderation load and who the app attracts.
 
 ## Carried over from the app side
 
-### 10. Public playback at `/r/<code>`
+### 9. Public playback at `/r/<code>`
 
 A shared link should play one voice note and offer the app. Nothing in
 the database is readable by an anonymous visitor today, and the audio
@@ -149,7 +136,7 @@ minted somewhere privileged anyway.
 a second product to keep in step and it sidesteps every age-assurance
 control the app has.
 
-### 11. The storage purge sweep has never run against a real queue
+### 10. The storage purge sweep has never run against a real queue
 
 Deployed and scheduled weekly, Sunday 04:17 UTC. Deleting an account
 from `/delete` leaves the audio in the bucket until it runs. Worth one
@@ -159,12 +146,12 @@ real deletion and then:
 select count(*) from public.pending_storage_purges where purged_at is null;
 ```
 
-### 12. Play Console Data safety form
+### 11. Play Console Data safety form
 
 It has to point at `https://rost.fyi/delete`. The page existing is not
 the whole requirement.
 
-### 13. A Gmail filter on the `To:` address
+### 12. A Gmail filter on the `To:` address
 
 So mail to `safety@rost.fyi` labels itself rather than landing in the
 same place as everything else.
@@ -180,6 +167,10 @@ same place as everything else.
 - The waitlist writes to the database. An anonymous caller can add an
   address and learn nothing, which was proven from inside the database
   rather than from the form saying thank you.
+- `/about` is finished. The founder story is written and it is the last
+  hold on any page outside privacy and terms: Endemol, eight years
+  engineering, and why those two halves produce this app. 1,007 words
+  to 1,199.
 - The operator is named. David Pears, an individual based in England,
   no company, no postal address published, contact@rost.fyi as the
   contact point, England and Wales as governing law. Eight gaps across
